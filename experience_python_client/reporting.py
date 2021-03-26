@@ -2,12 +2,13 @@ import os
 import sys
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../")
-from experience_python_client.api_consume import Report
+from experience_python_client.api_consume import Report, Login
 from experience_python_client.constants import access_token
 
+authentication = Login()
 report = Report()
 
-login = report.login(username='', password='')
+login = authentication.login(username='', password='')
 current_user_details = report.current_user_details(access_token=access_token)
 activity_feed = report.activity_feed(access_token=access_token, id='1892', page='3')
 tier_details = report.tier_details(access_token=access_token, org_id=4, account_id=1892)

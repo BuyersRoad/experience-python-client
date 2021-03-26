@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 
@@ -6,9 +7,32 @@ import requests
 from ratelimit import sleep_and_retry, limits
 
 from experience_python_client.constants import base_url, login_base_url
-from experience_python_client.logger import log
 
-logger = log()
+logger = logging.getLogger(__name__)
+
+
+class Login:
+    def __init__(self):
+        self.response = None
+
+    @sleep_and_retry
+    @limits(calls=100, period=60)
+    def login(self, username, password):
+        """Gets Access Token"""
+        try:
+            url = login_base_url + '/v2/core/login'
+            payload = {
+                "user_email": username,
+                "password": password
+            }
+            login_response = requests.post(url, data=payload)
+            if self.response.status_code == 200:
+                logger.info("Logged in Successfully")
+                return login_response.json()
+            else:
+                logger.error("Exception raised while Consuming Login API", self.response.status_code)
+        except Exception as err:
+            logger.error("Exception raised due to" + str(err))
 
 
 class Report:
@@ -35,27 +59,8 @@ class Report:
 
     @sleep_and_retry
     @limits(calls=100, period=60)
-    def login(self, username, password):
-        """Gets Access Token"""
-        try:
-            url = login_base_url + '/v2/core/login'
-            payload = {
-                "user_email": username,
-                "password": password
-            }
-            login_response = requests.post(url, data=payload)
-            if self.response.status_code == 200:
-                logger.info("Logged in Successfully")
-                return login_response.json()
-            else:
-                logger.error("Exception raised while Consuming Login API", self.response.status_code)
-        except Exception as err:
-            logger.error("Exception raised due to" + str(err))
-
-    @sleep_and_retry
-    @limits(calls=100, period=60)
     def current_user_details(self, access_token):
-        """Get User Deatils like account_id, organization_id"""
+        """Get User Details like account_id, organization_id"""
         try:
             url = login_base_url + '/v2/core/current_user'
             print(url)

@@ -1,19 +1,8 @@
-# Report API - Python SDK
-In this feature we are wrapping all the Report api's and creating a python sdk.
+# experience-python-client
+We believe that experience is everything. Amazing experiences create customers for life, and poor ones destroy brands and businesses. That’s why Experience.com has built the most impactful Experience Management Platform (XMP) available anywhere, with features to drive operational and behavioral change, in real-time, during the moments that matter. XMP delivers impactful business outcomes including increased customer satisfaction, brand loyalty, online reputation and visibility, as well as improved employee engagement, and compliance - making every experience matter more.
 ## Versions
 * python 3.5 and above
-## Server Requirements
-* Clone this project in your local repository
-* Install all the requirements
-  * `pip install requests==2.25.1`
-  * `pip install ratelimit==2.2.1`
-    
-## To run the python script 
-   `python3 reporting.py`
-## To Run the server in Pycharm IDE
-* click on add configuration on the top of pycharm
-* And select the script path as `python3 reporting.py`
-* And make sure python3.5 and above  version is selected to run the script and click on apply.
-* Now click on run to execute the application.
+##API Documentation
+*Hierarchy
     
   
