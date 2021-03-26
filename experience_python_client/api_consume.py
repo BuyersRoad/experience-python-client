@@ -35,7 +35,7 @@ class Login:
             logger.error("Exception raised due to" + str(err))
 
 
-class Report:
+class Client:
     def __init__(self):
         self.response = None
 
