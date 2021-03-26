@@ -3,5 +3,5 @@ We believe that experience is everything. Amazing experiences create customers f
 ## Versions
 * python 3.5 and above
 ## API Documentation
-* Hierarchy
+* [Reporting](experience_python_client/doc/report.md)
   
