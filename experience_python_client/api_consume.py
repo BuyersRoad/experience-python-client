@@ -11,7 +11,8 @@ from experience_python_client.constants import base_url, login_base_url
 logger = logging.getLogger(__name__)
 
 
-class Client:
+class Authentication:
+
     def __init__(self):
         self.response = None
 
@@ -33,6 +34,11 @@ class Client:
                 logger.error("Exception raised while Consuming Login API", self.response.status_code)
         except Exception as err:
             logger.error("Exception raised due to" + str(err))
+
+
+class Report:
+    def __init__(self):
+        self.response = None
 
     @sleep_and_retry
     @limits(calls=100, period=60)
