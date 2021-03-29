@@ -3,6 +3,7 @@ We believe that experience is everything. Amazing experiences create customers f
 ## Versions
 * python 3.5 and above
 ## API Documentation
+* [Hierarchy](experience_python_client/doc/hierarchy.md)
 * [Reporting](experience_python_client/doc/report.md)
 ## Usage
 To call an endpoint you must create a `Client` object.
