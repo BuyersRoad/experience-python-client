@@ -4,13 +4,13 @@ We believe that experience is everything. Amazing experiences create customers f
 * python 3.5 and above
 ## API Documentation
 * [Reporting](experience_python_client/doc/report.md)
-##Usage
+## Usage
 To call an endpoint you must create a `Client` object.
 
-`client = Client(
-    access_token=access_token)`
-##Example
-Now let’s call your first Experience API. create a new file called `new.py`, and copy the following code into that file:
+`client = Client(access_token=access_token)`
+    
+## Example
+Now let’s call your first Experience API. create a new file called new.py, and copy the following code into that file:
 
 ```from experience_python_client.constants import access_token
 from experience_python_client.reporting import Client
@@ -25,5 +25,5 @@ if result.is_success():
 elif result.is_error():
     print('Error calling Report.activity_feed')
     errors = result.errors
-    print(errors)```
+    print(errors)
   
