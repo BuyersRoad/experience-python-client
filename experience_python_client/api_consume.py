@@ -175,3 +175,176 @@ class Client:
         logger.info("Initialising API Call")
         self.call_api(url, kwargs)
         return self.response.json()
+
+
+class Hierarchy:
+
+    def __init__(self):
+        self.response = None
+
+    def call_get_api(self, url, params):
+        try:
+            url = login_base_url + url
+            header = {
+                "Authorization": params['access_token']
+            }
+            payload = {name: params[name] for name in params if params[name] is not None}
+            self.response = requests.get(url, headers=header, params=payload)
+            print(url, payload)
+            if self.response.status_code == 200:
+                logger.info("API -" + url + "Consumed Successfully")
+                return self.response
+            else:
+                logger.error(str(self.response.json()))
+        except Exception as err:
+            logger.error("Exception raised due to" + str(err))
+
+    def call_post_api(self, url, params):
+        try:
+            url = login_base_url + url
+            header = {
+                "Authorization": params['access_token']
+            }
+            self.response = requests.post(url, headers=header, data=list(params.keys())[-1])
+            if self.response.status_code == 200:
+                logger.info("API consumed Successfully")
+                return self.response.json()
+            else:
+                logger.error(str(self.response.json()))
+        except Exception as err:
+            logger.error("Exception raised due to" + str(err))
+
+    def call_update_api(self, url, params):
+        try:
+            url = login_base_url + url
+            header = {
+                "Authorization": params['access_token']
+            }
+            self.response = requests.put(url, headers=header, params=params['id'], data=list(params.keys())[-1])
+            if self.response.status_code == 200:
+                logger.info("API -" + url + "Consumed Successfully")
+                return self.response.json()
+            else:
+                logger.error(str(self.response.json()))
+        except Exception as err:
+            logger.error("Exception raised due to" + str(err))
+
+    def create_account(self, **kwargs):
+        """Creates a new account in the organization."""
+        url = '/v2/core/accounts'
+        logger.info("Initialising API Call")
+        self.call_post_api(url, kwargs)
+        return self.response
+
+    def get_account(self, **kwargs):
+        url = '/v2/core/accounts'
+        logger.info("Initialising API Call")
+        self.call_get_api(url, kwargs)
+        return self.response.json()
+
+    def update_account(self, **kwargs):
+        url = '/v2/core/accounts'
+        logger.info("Initialising API Call")
+        self.call_update_api(url, kwargs)
+        return self.response
+
+    def get_account_settings(self, **kwargs):
+        id = kwargs['id']
+        url = f'/v2/core/accounts/{id}/settings'
+        logger.info("Initialising API Call")
+        self.call_get_api(url, kwargs)
+        return self.response.json()
+
+    def update_account_settings(self, **kwargs):
+        id = kwargs['id']
+        url = f'/v2/core/accounts/{id}/settings'
+        logger.info("Initialising API Call")
+        self.call_update_api(url, kwargs)
+        return self.response.json()
+
+    def get_hierarchy_summary(self, **kwargs):
+        account_id = kwargs['account_id']
+        url = f'/v2/core/accounts/{account_id}/hierarchy_summary'
+        logger.info("Initialising API Call")
+        self.call_get_api(url, kwargs)
+        return self.response.json()
+
+    def create_tiers(self, **kwargs):
+        url = '/v2/core/tiers'
+        logger.info("Initialising API Call")
+        self.call_post_api(url, kwargs)
+        return self.response.json()
+
+    def activate_tiers(self, **kwargs):
+        id = kwargs['id']
+        url = f'/v2/core/tiers/{id}/activate'
+        logger.info("Initialising API Call")
+        try:
+            url = login_base_url + url
+            header = {
+                "Authorization": kwargs['access_token']
+            }
+            self.response = requests.put(url, headers=header, params=kwargs['id'])
+            if self.response.status_code == 200:
+                logger.info("API -" + url + "Consumed Successfully")
+                return self.response.json()
+            else:
+                logger.error(str(self.response.json()))
+        except Exception as err:
+            logger.error("Exception raised due to" + str(err))
+
+    def update_tiers(self, **kwargs):
+        id = kwargs['id']
+        url = f'/v2/core/tiers/{id}'
+        logger.info("Initialising API Call")
+        self.call_update_api(url, kwargs)
+        return self.response.json()
+
+    def move_tiers(self, **kwargs):
+        id = kwargs['id']
+        url = f'/v2/core/tiers/{id}/move'
+        logger.info("Initialising API Call")
+        self.call_update_api(url, kwargs)
+        return self.response.json()
+
+    def get_tiers(self, **kwargs):
+        id = kwargs['id']
+        url = f'/v2/core/tiers/{id}'
+        logger.info("Initialising API Call")
+        self.call_get_api(url, kwargs)
+        return self.response.json()
+
+    def delete_tiers(self, **kwargs):
+        id = kwargs['id']
+        url = f'/v2/core/tiers/{id}'
+        logger.info("Initialising API Call")
+        try:
+            url = login_base_url + url
+            header = {
+                "Authorization": kwargs['access_token']
+            }
+            payload = {name: kwargs[name] for name in kwargs if kwargs[name] is not None}
+            self.response = requests.delete(url, headers=header, params=payload)
+            print(url, payload)
+            if self.response.status_code == 200:
+                logger.info("API -" + url + "Consumed Successfully")
+                return self.response.json()
+            else:
+                logger.error(str(self.response.json()))
+                return self.response.json()
+        except Exception as err:
+            logger.error("Exception raised due to" + str(err))
+
+    def get_tier_settings(self, **kwargs):
+        id = kwargs['id']
+        url = f'/v2/core/tiers/{id}/settings'
+        logger.info("Initialising API Call")
+        self.call_get_api(url, kwargs)
+        return self.response.json()
+
+    def update_tier_settings(self, **kwargs):
+        id = kwargs['id']
+        url = f'/v2/core/tiers/{id}/settings'
+        logger.info("Initialising API Call")
+        self.call_update_api(url, kwargs)
+        return self.response.json()

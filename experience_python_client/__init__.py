@@ -1,2 +1,2 @@
-from experience_python_client.api_consume import Report
+from experience_python_client.api_consume import Hierarchy
 
