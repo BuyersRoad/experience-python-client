@@ -28,7 +28,7 @@ class Authentication:
             "password": password
         }
         login_response = requests.post(url, data=payload)
-        access_token = ApiResponse(self.response)
+        access_token = ApiResponse(login_response)
         return access_token
 
 
@@ -52,20 +52,14 @@ class Report:
     @limits(calls=100, period=60)
     def current_user_details(self, access_token):
         """Get User Details like account_id, organization_id"""
-        try:
-            url = login_base_url + '/v2/core/current_user'
-            print(url)
-            headers = {
-                "Authorization": access_token
-            }
-            response = requests.post(url, headers=headers)
-            if response.status_code == 200:
-                logger.info("Got User Details Successfully")
-                return response.json()
-            else:
-                logger.error("Exception raised while Consuming User API", response.status_code)
-        except Exception as err:
-            logger.error("Exception raised due to" + str(err))
+        url = login_base_url + '/v2/core/current_user'
+        print(url)
+        headers = {
+            "Authorization": access_token
+        }
+        response = requests.post(url, headers=headers)
+        result = ApiResponse(response)
+        return result
 
     def activity_feed(self, **kwargs):
         """ Gets the history of activities performed by different users in a single account"""
@@ -78,99 +72,99 @@ class Report:
         """Fetch the tier hierarchy for a given account and organization"""
         url = "/fetch/tier/details"
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def agent_ranking_report(self, **kwargs):
         """Generates the agent ranking report for a given campaign for a given month/year"""
         url = "/generate/agent/ranking/report"
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def hierarchy_details_report(self, **kwargs):
         """Generates the hierarchy user details and hierarchy tier details report for a given account"""
         url = "/generate/hierarchy/details/report"
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def incomplete_survey_report(self, **kwargs):
         """Generates the incomplete surveys report for a given campaign"""
         url = "/generate/incomplete/surveys/report"
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def nps_report(self, **kwargs):
         """Generate the nps report for a given account"""
         url = "/generate/nps/report"
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def publish_history_report(self, **kwargs):
         """Generates the publish history report for a given account/tier for the current point of time"""
         url = "/generate/publish/history/report"
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def reviews_management_report(self, **kwargs):
         """Generates the reviews management  report for a given account/tier for a given date range"""
         url = "/generate/publish/history/report"
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def survey_results_report(self, **kwargs):
         """Generates the survey results report for a given campaign"""
         url = '/generate/survey/results/report'
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def survey_statistics_report(self, **kwargs):
         """ Generates the survey statistics report for a given account for a given range period"""
         url = '/generate/survey/statistics/report'
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def ranking_report_tier(self, **kwargs):
         """Generates the survey statistics report for a given account for a given range period"""
         url = 'generate/tier/ranking/report'
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def user_details_report(self, **kwargs):
         """Generates the user details report for a given account"""
         url = '/generate/user/details/report'
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def verified_users_report(self, **kwargs):
         """Generates the verified users report for a given account/tier for the current point of time"""
         url = '/generate/verified/users/report'
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def agent_details(self, **kwargs):
         """ Fetch the agent details for a given account and organization"""
         url = '/fetch/agent/details'
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
     def campaign_details(self, **kwargs):
         """Fetch the agent details for a given account and organization"""
         url = '/fetch/campaign/details'
         logger.info("Initialising API Call")
-        self.call_api(url, kwargs)
-        return self.response.json()
+        result = self.call_api(url, kwargs)
+        return result
 
 
 class Hierarchy:
@@ -212,86 +206,80 @@ class Hierarchy:
         """Creates a new account in the organization."""
         url = '/v2/core/accounts'
         logger.info("Initialising API Call")
-        self.call_post_api(url, kwargs)
-        return self.response
+        result = self.call_post_api(url, kwargs)
+        return result
 
     def get_account(self, **kwargs):
         url = '/v2/core/accounts'
         logger.info("Initialising API Call")
-        self.call_get_api(url, kwargs)
-        return self.response.json()
+        result = self.call_get_api(url, kwargs)
+        return result
 
     def update_account(self, **kwargs):
         url = '/v2/core/accounts'
         logger.info("Initialising API Call")
-        self.call_update_api(url, kwargs)
-        return self.response
+        result = self.call_update_api(url, kwargs)
+        return result
 
     def get_account_settings(self, **kwargs):
         account_id = kwargs['id']
         url = f'/v2/core/accounts/{account_id}/settings'
         logger.info("Initialising API Call")
-        self.call_get_api(url, kwargs)
-        return self.response.json()
+        result = self.call_get_api(url, kwargs)
+        return result
 
     def update_account_settings(self, **kwargs):
         account_id = kwargs['id']
         url = f'/v2/core/accounts/{account_id}/settings'
         logger.info("Initialising API Call")
-        self.call_update_api(url, kwargs)
-        return self.response.json()
+        result = self.call_update_api(url, kwargs)
+        return result
 
     def get_hierarchy_summary(self, **kwargs):
         account_id = kwargs['account_id']
         url = f'/v2/core/accounts/{account_id}/hierarchy_summary'
         logger.info("Initialising API Call")
-        self.call_get_api(url, kwargs)
-        return self.response.json()
+        result = self.call_get_api(url, kwargs)
+        return result
 
     def create_tiers(self, **kwargs):
         url = '/v2/core/tiers'
         logger.info("Initialising API Call")
-        self.call_post_api(url, kwargs)
-        return self.response.json()
+        result = self.call_post_api(url, kwargs)
+        return result
 
     def activate_tiers(self, **kwargs):
         tier_id = kwargs['id']
         url = f'/v2/core/tiers/{tier_id}/activate'
         logger.info("Initialising API Call")
-        try:
-            url = login_base_url + url
-            header = {
-                "Authorization": kwargs['access_token']
-            }
-            self.response = requests.put(url, headers=header, params=kwargs['id'])
-            if self.response.status_code == 200:
-                logger.info("API -" + url + "Consumed Successfully")
-                return self.response.json()
-            else:
-                logger.error(str(self.response.json()))
-        except Exception as err:
-            logger.error("Exception raised due to" + str(err))
+        url = login_base_url + url
+        header = {
+            "Authorization": kwargs['access_token']
+        }
+        self.response = requests.put(url, headers=header, params=kwargs['id'])
+        result = ApiResponse(self.response)
+        return result
 
     def update_tiers(self, **kwargs):
         tier_id = kwargs['id']
         url = f'/v2/core/tiers/{tier_id}'
         logger.info("Initialising API Call")
-        self.call_update_api(url, kwargs)
-        return self.response.json()
+        result = self.call_update_api(url, kwargs)
+        return result
 
     def move_tiers(self, **kwargs):
         tier_id = kwargs['id']
         url = f'/v2/core/tiers/{tier_id}/move'
         logger.info("Initialising API Call")
-        self.call_update_api(url, kwargs)
-        return self.response.json()
+        result = self.call_update_api(url, kwargs)
+        return result
 
     def get_tiers(self, **kwargs):
         tier_id = kwargs['id']
         url = f'/v2/core/tiers/{tier_id}'
         logger.info("Initialising API Call")
-        self.call_get_api(url, kwargs)
-        return self.response.json()
+        result = self.call_get_api(url, kwargs)
+        return result
 
     def delete_tiers(self, **kwargs):
         id = kwargs['id']
@@ -310,12 +298,12 @@ class Hierarchy:
         id = kwargs['id']
         url = f'/v2/core/tiers/{id}/settings'
         logger.info("Initialising API Call")
-        self.call_get_api(url, kwargs)
-        return self.response.json()
+        result = self.call_get_api(url, kwargs)
+        return result
 
     def update_tier_settings(self, **kwargs):
         id = kwargs['id']
         url = f'/v2/core/tiers/{id}/settings'
         logger.info("Initialising API Call")
-        self.call_update_api(url, kwargs)
-        return self.response.json()
+        result = self.call_update_api(url, kwargs)
+        return result
