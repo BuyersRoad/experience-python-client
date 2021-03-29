@@ -12,25 +12,18 @@ To call an endpoint you must create a `Client` object.
 ##Example
 Now let’s call your first Experience API. create a new file called `new.py`, and copy the following code into that file:
 
-`from experience_python_client.constants import access_token`
-`from experience_python_client.reporting import Client`
+```from experience_python_client.constants import access_token
+from experience_python_client.reporting import Client
 
-`# Create an instance of the API Client`
-`# and initialize it with the credentials`
+client = Client(access_token=access_token)
+report = client.report()
+result = report.activity_feed(access_token=access_token, id='1892', page='3')
 
-`client = Client(
-    access_token=access_token)`
-
-`# Get an instance of the Experience Python Client API you want call`
-`new = client.report()`
-`result = new.activity_feed(access_token=access_token, id='1892', page='3')`
-`# Call the success method to see if the call succeeded`
-`if result.is_success():
-    # The body property is a list of locations
-    print(result)`
-`# Call the error method to see if the call failed`
-`elif result.is_error():
-    print('Error calling LocationsApi.listlocations')
+if result.is_success():
+    print(result)
+ 
+elif result.is_error():
+    print('Error calling Report.activity_feed')
     errors = result.errors
-    print(errors)`
+    print(errors)```
   
