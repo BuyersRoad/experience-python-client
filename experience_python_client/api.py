@@ -27,13 +27,14 @@ class Authentication:
             "user_email": username,
             "password": password
         }
-        login_response = requests.post(url, data=payload)
-        access_token = ApiResponse(login_response)
+        self.response = requests.post(url, data=payload)
+        access_token = ApiResponse(self.response)
         return access_token
 
 
 class Report:
-    def __init__(self):
+    def __init__(self, access_token):
+        self.access_token = access_token
         self.response = None
 
     @sleep_and_retry
@@ -41,7 +42,7 @@ class Report:
     def call_api(self, url, param):
         url = base_url + url
         header = {
-            "Authorization": param['access_token']
+            "Authorization": self.access_token
         }
         payload = {name: param[name] for name in param if param[name] is not None}
         self.response = requests.get(url, headers=header, params=payload)
@@ -169,13 +170,14 @@ class Report:
 
 class Hierarchy:
 
-    def __init__(self):
+    def __init__(self, access_token):
+        self.access_token = access_token
         self.response = None
 
     def call_get_api(self, url, params):
         url = login_base_url + url
         header = {
-            "Authorization": params['access_token']
+            "Authorization": self.access_token
         }
         payload = {name: params[name] for name in params if params[name] is not None}
         self.response = requests.get(url, headers=header, params=payload)
@@ -185,7 +187,7 @@ class Hierarchy:
     def call_post_api(self, url, params):
         url = login_base_url + url
         header = {
-            "Authorization": params['access_token']
+            "Authorization": self.access_token
         }
         self.response = requests.post(url, headers=header, data=list(params.keys())[-1])
         result = ApiResponse(self.response)
@@ -194,7 +196,7 @@ class Hierarchy:
     def call_update_api(self, url, params):
         url = login_base_url + url
         header = {
-            "Authorization": params['access_token']
+            "Authorization": self.access_token
         }
         self.response = requests.put(url, headers=header, params=params['id'], data=list(params.keys())[-1])
         result = ApiResponse(self.response)
