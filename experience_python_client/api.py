@@ -39,14 +39,14 @@ class Report:
     @sleep_and_retry
     @limits(calls=100, period=60)
     def call_api(self, url, param):
-            url = base_url + url
-            header = {
-                "Authorization": param['access_token']
-            }
-            payload = {name: param[name] for name in param if param[name] is not None}
-            self.response = requests.get(url, headers=header, params=payload)
-            result = ApiResponse(self.response)
-            return result
+        url = base_url + url
+        header = {
+            "Authorization": param['access_token']
+        }
+        payload = {name: param[name] for name in param if param[name] is not None}
+        self.response = requests.get(url, headers=header, params=payload)
+        result = ApiResponse(self.response)
+        return result
 
     @sleep_and_retry
     @limits(calls=100, period=60)
@@ -182,7 +182,6 @@ class Hierarchy:
         result = ApiResponse(self.response)
         return result
 
-
     def call_post_api(self, url, params):
         url = login_base_url + url
         header = {
@@ -200,7 +199,6 @@ class Hierarchy:
         self.response = requests.put(url, headers=header, params=params['id'], data=list(params.keys())[-1])
         result = ApiResponse(self.response)
         return result
-
 
     def create_account(self, **kwargs):
         """Creates a new account in the organization."""
@@ -282,8 +280,8 @@ class Hierarchy:
         return result
 
     def delete_tiers(self, **kwargs):
-        id = kwargs['id']
-        url = f'/v2/core/tiers/{id}'
+        tier_id = kwargs['id']
+        url = f'/v2/core/tiers/{tier_id}'
         logger.info("Initialising API Call")
         url = login_base_url + url
         header = {
@@ -295,15 +293,29 @@ class Hierarchy:
         return result
 
     def get_tier_settings(self, **kwargs):
-        id = kwargs['id']
-        url = f'/v2/core/tiers/{id}/settings'
+        tier_id = kwargs['id']
+        url = f'/v2/core/tiers/{tier_id}/settings'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
         return result
 
     def update_tier_settings(self, **kwargs):
-        id = kwargs['id']
-        url = f'/v2/core/tiers/{id}/settings'
+        tier_id = kwargs['id']
+        url = f'/v2/core/tiers/{tier_id}/settings'
         logger.info("Initialising API Call")
         result = self.call_update_api(url, kwargs)
+        return result
+
+    def get_all_users(self, **kwargs):
+        org_id = kwargs['org_id']
+        url = f'v2/core/organization/{org_id}/tier_users'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
+    def get_all_account_manager(self, **kwargs):
+        account_id = kwargs['account_id']
+        url = f'v2/core/accounts/{account_id}/get_account_managers'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
         return result
