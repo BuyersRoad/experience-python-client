@@ -108,8 +108,8 @@ Json Response
 `client = Client(access_token=access_token)`\
 `hierarchy = client.Hierarchy()`\
 `create_tiers = hierarchy.create_tiers(access_token=access_token, tier='')`
-##Activate tiers
-It is used to activate the tier
+## Activate tiers
+It is used to activate the tier\
 `activate_tiers = hierarchy.activate_tiers(access_token=access_token, id='')`
 ### Class Name
 `Hierarchy`
@@ -123,7 +123,7 @@ It is used to activate the tier
 `client = Client(access_token=access_token)`\
 `hierarchy = client.Hierarchy()`\
 `activate_tiers = hierarchy.activate_tiers(access_token=access_token, id='')`
-##Update tiers
+## Update tiers
 It is used to update the tier\
 `update_tiers = hierarchy.update_tiers(access_token=access_token, id='', tier={"name": "string", "label": "string",
                                                                                   "description": "string"})`
@@ -142,7 +142,7 @@ It is used to update the tier\
 `hierarchy = client.Hierarchy()`\
 `update_tiers = hierarchy.update_tiers(access_token=access_token, id='', tier={"name": "string", "label": "string",
                                                                                   "description": "string"})`
-##Move tiers
+## Move tiers
 It is used to move the tier\
 `move_tiers = hierarchy.move_tiers(access_token=access_token, body='')`
 ### Class Name
@@ -157,7 +157,7 @@ It is used to move the tier\
 `client = Client(access_token=access_token)`\
 `hierarchy = client.Hierarchy()`\
 `move_tiers = hierarchy.move_tiers(access_token=access_token, body='')`
-##Get tiers
+## Get tiers
 It is used to get the tier\
 `get_tiers = hierarchy.get_tiers(access_token=access_token, id='')`
 ### Class Name
@@ -172,7 +172,7 @@ It is used to get the tier\
 `client = Client(access_token=access_token)`\
 `hierarchy = client.Hierarchy()`\
 `get_tiers = hierarchy.get_tiers(access_token=access_token, id='')`
-##Delete tiers
+## Delete tiers
 It is used to get the delete the tiers\
 `delete_tiers = hierarchy.delete_tiers(access_token=access_token, id='')`
 ### Class Name
@@ -187,7 +187,7 @@ It is used to get the delete the tiers\
 `client = Client(access_token=access_token)`\
 `hierarchy = client.Hierarchy()`\
 `delete_tiers = hierarchy.delete_tiers(access_token=access_token, id='')`
-##Get tier settings
+## Get tier settings
 It is used to get the get tier settings\
 `get_tier_settings = hierarchy.get_tier_settings(access_token=access_token, id='')`
 ### Class Name
@@ -202,7 +202,7 @@ It is used to get the get tier settings\
 `client = Client(access_token=access_token)`\
 `hierarchy = client.Hierarchy()`\
 `get_tier_settings = hierarchy.get_tier_settings(access_token=access_token, id='')`
-##Update tier settings
+## Update tier settings
 It is used to Update the tier settings\
 `update_tier_settings = hierarchy.update_tier_settings(access_token=access_token, id='', tier_settings='')`
 ### Class Name
