@@ -319,3 +319,10 @@ class Hierarchy:
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
         return result
+
+    def get_users(self, **kwargs):
+        user_id = kwargs['user_id']
+        url = f'/v2/core/users/{user_id}/get_user'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
