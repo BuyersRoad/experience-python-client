@@ -308,14 +308,14 @@ class Hierarchy:
 
     def get_all_users(self, **kwargs):
         org_id = kwargs['org_id']
-        url = f'v2/core/organization/{org_id}/tier_users'
+        url = f'/v2/core/organization/{org_id}/tier_users'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
         return result
 
     def get_all_account_manager(self, **kwargs):
         account_id = kwargs['account_id']
-        url = f'v2/core/accounts/{account_id}/get_account_managers'
+        url = f'/v2/core/accounts/{account_id}/get_account_managers'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
         return result
