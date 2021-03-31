@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import sys
@@ -54,7 +55,6 @@ class Report:
     def current_user_details(self, access_token):
         """Get User Details like account_id, organization_id"""
         url = login_base_url + '/v2/core/current_user'
-        print(url)
         headers = {
             "Authorization": access_token
         }
@@ -173,7 +173,28 @@ class Hierarchy:
     def __init__(self, access_token):
         self.access_token = access_token
         self.response = None
+        self.user_details = self.current_user_details(access_token)
 
+    @sleep_and_retry
+    @limits(calls=100, period=60)
+    def current_user_details(self, access_token):
+        """Get User Details like account_id, organization_id"""
+        url = login_base_url + '/v2/core/current_user'
+        headers = {
+            "Authorization": access_token
+        }
+        response = requests.post(url, headers=headers)
+        result = json.loads(response.text)
+        data = {
+            'user_id': result.get('id'),
+            'account_id': 10088,
+            'organization_id': result.get('organization_id'),
+            #'account_details': result.get('account_details')[0]['blueprint_id']
+        }
+        return data
+
+    @sleep_and_retry
+    @limits(calls=100, period=60)
     def call_get_api(self, url, params):
         url = login_base_url + url
         header = {
@@ -184,15 +205,19 @@ class Hierarchy:
         result = ApiResponse(self.response)
         return result
 
+    @sleep_and_retry
+    @limits(calls=100, period=60)
     def call_post_api(self, url, params):
         url = login_base_url + url
         header = {
             "Authorization": self.access_token
         }
-        self.response = requests.post(url, headers=header, data=list(params.keys())[-1])
+        self.response = requests.post(url, headers=header, data=list(params.values()))
         result = ApiResponse(self.response)
         return result
 
+    @sleep_and_retry
+    @limits(calls=100, period=60)
     def call_update_api(self, url, params):
         url = login_base_url + url
         header = {
@@ -236,7 +261,7 @@ class Hierarchy:
         return result
 
     def get_hierarchy_summary(self, **kwargs):
-        account_id = kwargs['account_id']
+        account_id = self.user_details.get('account_id')
         url = f'/v2/core/accounts/{account_id}/hierarchy_summary'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
@@ -248,6 +273,8 @@ class Hierarchy:
         result = self.call_post_api(url, kwargs)
         return result
 
+    @sleep_and_retry
+    @limits(calls=100, period=60)
     def activate_tiers(self, **kwargs):
         tier_id = kwargs['id']
         url = f'/v2/core/tiers/{tier_id}/activate'
@@ -281,6 +308,8 @@ class Hierarchy:
         result = self.call_get_api(url, kwargs)
         return result
 
+    @sleep_and_retry
+    @limits(calls=100, period=60)
     def delete_tiers(self, **kwargs):
         tier_id = kwargs['id']
         url = f'/v2/core/tiers/{tier_id}'
@@ -327,4 +356,31 @@ class Hierarchy:
         url = f'/v2/core/users/{user_id}/get_user'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
+        return result
+
+    def create_users(self, **kwargs):
+        url = '/v2/core/users'
+        logger.info("Initialising API Call")
+        result = self.call_post_api(url, kwargs)
+        return result
+
+    def update_users(self, **kwargs):
+        user_id = kwargs['user_id']
+        url = f'/v2/core/users/{user_id}'
+        logger.info("Initialising API Call")
+        result = self.call_update_api(url, kwargs)
+        return result
+
+    def get_users_settings(self, **kwargs):
+        user_id = kwargs['user_id']
+        url = f'/v2/core/users/{user_id}/get_user'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
+    def update_users_settings(self, **kwargs):
+        user_id = kwargs['user_id']
+        url = f'/v2/core/users/{user_id}'
+        logger.info("Initialising API Call")
+        result = self.call_update_api(url, kwargs)
         return result
