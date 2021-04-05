@@ -1,14 +1,14 @@
+import itertools
 import json
 import logging
 import os
 import sys
-
-from experience_python_client.http.api_response import ApiResponse
-
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../")
 import requests
+
 from ratelimit import sleep_and_retry, limits
 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../")
+from experience_python_client.http.api_response import ApiResponse
 from experience_python_client.constants import base_url, login_base_url
 
 logger = logging.getLogger(__name__)
@@ -173,25 +173,6 @@ class Hierarchy:
     def __init__(self, access_token):
         self.access_token = access_token
         self.response = None
-        self.user_details = self.current_user_details(access_token)
-
-    @sleep_and_retry
-    @limits(calls=100, period=60)
-    def current_user_details(self, access_token):
-        """Get User Details like account_id, organization_id"""
-        url = login_base_url + '/v2/core/current_user'
-        headers = {
-            "Authorization": access_token
-        }
-        response = requests.post(url, headers=headers)
-        result = json.loads(response.text)
-        data = {
-            'user_id': result.get('id'),
-            'account_id': 10088,
-            'organization_id': result.get('organization_id'),
-            #'account_details': result.get('account_details')[0]['blueprint_id']
-        }
-        return data
 
     @sleep_and_retry
     @limits(calls=100, period=60)
@@ -207,23 +188,23 @@ class Hierarchy:
 
     @sleep_and_retry
     @limits(calls=100, period=60)
-    def call_post_api(self, url, params):
+    def call_post_api(self, url, data):
         url = login_base_url + url
         header = {
             "Authorization": self.access_token
         }
-        self.response = requests.post(url, headers=header, data=list(params.values()))
+        self.response = requests.post(url, headers=header, json=data)
         result = ApiResponse(self.response)
         return result
 
     @sleep_and_retry
     @limits(calls=100, period=60)
-    def call_update_api(self, url, params):
+    def call_update_api(self, url, data):
         url = login_base_url + url
         header = {
             "Authorization": self.access_token
         }
-        self.response = requests.put(url, headers=header, params=params['id'], data=list(params.keys())[-1])
+        self.response = requests.put(url, headers=header, json=data)
         result = ApiResponse(self.response)
         return result
 
@@ -231,19 +212,25 @@ class Hierarchy:
         """Creates a new account in the organization."""
         url = '/v2/core/accounts'
         logger.info("Initialising API Call")
-        result = self.call_post_api(url, kwargs)
+        payload = {'account': {name: kwargs[name] for name in kwargs if kwargs[name] is not None}}
+        result = self.call_post_api(url, payload)
         return result
 
     def get_account(self, **kwargs):
-        url = '/v2/core/accounts'
+        account_id = kwargs['id']
+        url = f'/v2/core/accounts/{account_id}'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
         return result
 
     def update_account(self, **kwargs):
-        url = '/v2/core/accounts'
+        account_id = kwargs['id']
+        url = f'/v2/core/accounts/{account_id}'
         logger.info("Initialising API Call")
-        result = self.call_update_api(url, kwargs)
+        payload = {'account': {name: kwargs[name] for name in kwargs if kwargs[name] is not None and
+                   kwargs[name] != kwargs['id']}}
+        payload['account'].update({"status": 0, "is_registration_complete": True})
+        result = self.call_update_api(url, payload)
         return result
 
     def get_account_settings(self, **kwargs):
@@ -261,7 +248,7 @@ class Hierarchy:
         return result
 
     def get_hierarchy_summary(self, **kwargs):
-        account_id = self.user_details.get('account_id')
+        account_id = kwargs['account_id']
         url = f'/v2/core/accounts/{account_id}/hierarchy_summary'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
@@ -276,7 +263,7 @@ class Hierarchy:
     @sleep_and_retry
     @limits(calls=100, period=60)
     def activate_tiers(self, **kwargs):
-        tier_id = kwargs['id']
+        tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}/activate'
         logger.info("Initialising API Call")
         url = login_base_url + url
@@ -288,21 +275,23 @@ class Hierarchy:
         return result
 
     def update_tiers(self, **kwargs):
-        tier_id = kwargs['id']
+        tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}'
         logger.info("Initialising API Call")
-        result = self.call_update_api(url, kwargs)
+        payload = {name: kwargs[name] for name in kwargs if kwargs[name] is not None}
+        result = self.call_update_api(url, payload)
         return result
 
     def move_tiers(self, **kwargs):
-        tier_id = kwargs['id']
+        tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}/move'
         logger.info("Initialising API Call")
-        result = self.call_update_api(url, kwargs)
+        payload = {name: kwargs[name] for name in kwargs if kwargs[name] is not None}
+        result = self.call_update_api(url, payload)
         return result
 
     def get_tiers(self, **kwargs):
-        tier_id = kwargs['id']
+        tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
@@ -311,20 +300,19 @@ class Hierarchy:
     @sleep_and_retry
     @limits(calls=100, period=60)
     def delete_tiers(self, **kwargs):
-        tier_id = kwargs['id']
+        tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}'
         logger.info("Initialising API Call")
         url = login_base_url + url
         header = {
             "Authorization": kwargs['access_token']
         }
-        payload = {name: kwargs[name] for name in kwargs if kwargs[name] is not None}
-        self.response = requests.delete(url, headers=header, params=payload)
+        self.response = requests.delete(url, headers=header)
         result = ApiResponse(self.response)
         return result
 
     def get_tier_settings(self, **kwargs):
-        tier_id = kwargs['id']
+        tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}/settings'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
@@ -341,7 +329,9 @@ class Hierarchy:
         org_id = kwargs['org_id']
         url = f'/v2/core/organization/{org_id}/tier_users'
         logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
+        payload = {name: kwargs[name] for name in kwargs if kwargs[name] is not None and
+                   kwargs[name] != kwargs['org_id']}
+        result = self.call_get_api(url, payload)
         return result
 
     def get_all_account_manager(self, **kwargs):
@@ -384,3 +374,66 @@ class Hierarchy:
         logger.info("Initialising API Call")
         result = self.call_update_api(url, kwargs)
         return result
+
+    def get_current_user_tiers(self, **kwargs):
+        account_id = kwargs['account_id']
+        url = f'/v2/core/users/accounts/{account_id}/get_current_user_tiers'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
+
+class Fields:
+
+    def __init__(self, access_token):
+        self.access_token = access_token
+        self.response = None
+
+    def call_get_api(self, url, params):
+        url = login_base_url + url
+        header = {
+            "Authorization": self.access_token
+        }
+        payload = {name: params[name] for name in params if params[name] is not None}
+        self.response = requests.get(url, headers=header, params=payload)
+        result = ApiResponse(self.response)
+        return result
+
+    def call_post_api(self, url, params):
+        url = login_base_url + url
+        header = {
+            "Authorization": self.access_token
+        }
+        self.response = requests.post(url, headers=header, data=list(params.keys())[-1])
+        result = ApiResponse(self.response)
+        return result
+
+    def get_business_category(self, **kwargs):
+        url = "/v2/core/verticals"
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
+    def get_blueprint_id(self, **kwargs):
+        url = '/v2/admin/blueprints'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
+    @sleep_and_retry
+    @limits(calls=100, period=60)
+    def get_all_account_id(self):
+        """Get all the accounts from the organization"""
+        url = login_base_url + '/v2/core/accounts'
+        header = {
+            "Authorization": self.access_token
+        }
+        logger.info("Initialising API Call")
+        self.response = requests.get(url, headers=header)
+        data = json.loads(self.response.text)
+        account_id = []
+        for account in data.get('data'):
+            result = dict(itertools.islice(account.items(), 5))
+            account_id.append(result)
+        return account_id
+
