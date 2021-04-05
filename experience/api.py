@@ -8,8 +8,8 @@ import requests
 from ratelimit import sleep_and_retry, limits
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../")
-from experience_python_client.http.api_response import ApiResponse
-from experience_python_client.constants import base_url, login_base_url
+from experience.http.api_response import ApiResponse
+from experience.constants import base_url, login_base_url
 
 logger = logging.getLogger(__name__)
 
