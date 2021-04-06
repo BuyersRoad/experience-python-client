@@ -1,3 +1,4 @@
+import copy
 import itertools
 import json
 import logging
@@ -208,6 +209,29 @@ class Hierarchy:
         result = ApiResponse(self.response)
         return result
 
+    def request_params(self, params):
+        user = ["email", "first_name", "last_name", "account_id"]
+        user_setting_data = {"agent_sms_notify_threshold": 3.5,
+                             "enable_agent_autopost": True,
+                             "enable_reply_to_review": False,
+                             "reply_to_review_threshold": None,
+                             "sm_max_post_per_day": 3,
+                             "sm_min_duration_btw_posts": 120}
+        payload = {'user': {name: params[name] for name in params if params[name] is not None and name in user}}
+        payload['user'].update({"alias_email": [], "send_email": True})
+        payload['user']['user_role_association'] = []
+        payload['user']['user_roles'] = []
+        payload['user']['user_role_association'].extend([name for name in params['user_role']])
+        if filter(lambda user_role: user_role['role'] == 'Tier Manager', params['user_role']):
+            payload['user']['user_roles'].append(4)
+        if filter(lambda user_role: user_role['role'] == 'Agent', params['user_role']):
+            payload['user']['user_roles'].append(5)
+        if 'user_setting' in params:
+            payload['user']['user_setting'] = {name: params[name] for name in params if params[name] is not None}
+        else:
+            payload['user']['user_setting'] = user_setting_data
+        return payload
+
     def create_account(self, **kwargs):
         """Creates a new account in the organization."""
         url = '/v2/core/accounts'
@@ -244,7 +268,8 @@ class Hierarchy:
         account_id = kwargs['id']
         url = f'/v2/core/accounts/{account_id}/settings'
         logger.info("Initialising API Call")
-        result = self.call_update_api(url, kwargs)
+        payload = {"account_settings": kwargs['account_setting']}
+        result = self.call_update_api(url, payload)
         return result
 
     def get_hierarchy_summary(self, **kwargs):
@@ -257,7 +282,7 @@ class Hierarchy:
     def create_tiers(self, **kwargs):
         url = '/v2/core/tiers'
         logger.info("Initialising API Call")
-        result = self.call_post_api(url, kwargs)
+        result = self.call_post_api(url, kwargs['tier'])
         return result
 
     @sleep_and_retry
@@ -322,7 +347,8 @@ class Hierarchy:
         tier_id = kwargs['id']
         url = f'/v2/core/tiers/{tier_id}/settings'
         logger.info("Initialising API Call")
-        result = self.call_update_api(url, kwargs)
+        payload = {"tier_settings": kwargs['tier_setting']}
+        result = self.call_update_api(url, payload)
         return result
 
     def get_all_users(self, **kwargs):
@@ -351,12 +377,21 @@ class Hierarchy:
     def create_users(self, **kwargs):
         url = '/v2/core/users'
         logger.info("Initialising API Call")
-        result = self.call_post_api(url, kwargs)
+        payload = self.request_params(kwargs)
+        result = self.call_post_api(url, payload)
         return result
 
     def update_users(self, **kwargs):
         user_id = kwargs['user_id']
         url = f'/v2/core/users/{user_id}'
+        logger.info("Initialising API Call")
+        payload = self.request_params(kwargs)
+        result = self.call_update_api(url, payload)
+        return result
+
+    def deactivate_user(self, **kwargs):
+        user_id = kwargs['user_id']
+        url = f'/v2/core/user_deactivate?user_id[]={user_id}'
         logger.info("Initialising API Call")
         result = self.call_update_api(url, kwargs)
         return result
@@ -365,7 +400,8 @@ class Hierarchy:
         user_id = kwargs['user_id']
         url = f'/v2/core/users/{user_id}/get_user'
         logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
+        payload = {"user": {"user_setting": kwargs['user_setting']}}
+        result = self.call_get_api(url, payload)
         return result
 
     def update_users_settings(self, **kwargs):
@@ -373,13 +409,6 @@ class Hierarchy:
         url = f'/v2/core/users/{user_id}'
         logger.info("Initialising API Call")
         result = self.call_update_api(url, kwargs)
-        return result
-
-    def get_current_user_tiers(self, **kwargs):
-        account_id = kwargs['account_id']
-        url = f'/v2/core/users/accounts/{account_id}/get_current_user_tiers'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
         return result
 
 
@@ -436,4 +465,46 @@ class Fields:
             result = dict(itertools.islice(account.items(), 5))
             account_id.append(result)
         return account_id
+
+    def get_current_user_tiers(self, **kwargs):
+        account_id = kwargs['account_id']
+        url = f'/v2/core/users/accounts/{account_id}/get_current_user_tiers'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
+    def get_tier(self, **kwargs):
+        account_id = kwargs['account_id']
+        url = f'/v2/core/accounts/{account_id}'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
+    def get_tier_assignment(self, **kwargs):
+        account_id = kwargs['account_id']
+        url = f'/v2/core/users/accounts/{account_id}/get_current_user_tiers'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
+    def get_role_assignment(self, **kwargs):
+        account_id = kwargs['account_id']
+        url = f'/v2/core/users/accounts/{account_id}/get_current_user_tiers'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
+    def get_parent_tier(self, **kwargs):
+        org_id = kwargs['org_id']
+        url = f'/v2/core/organization/{org_id}/hierarchy'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
+    def get_tier_type(self, **kwargs):
+        org_id = kwargs['org_id']
+        url = f'/v2/core/organization/{org_id}/hierarchy'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
 
