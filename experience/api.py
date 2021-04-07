@@ -355,8 +355,7 @@ class Hierarchy:
         org_id = kwargs['org_id']
         url = f'/v2/core/organization/{org_id}/tier_users'
         logger.info("Initialising API Call")
-        payload = kwargs['account_id']
-        result = self.call_get_api(url, payload)
+        result = self.call_get_api(url, kwargs)
         return result
 
     def get_all_account_manager(self, **kwargs):
@@ -441,6 +440,18 @@ class Fields:
         url = "/v2/core/verticals"
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
+        return result
+
+    @sleep_and_retry
+    @limits(calls=100, period=60)
+    def current_user_details(self, access_token):
+        """Get User Details like account_id, organization_id"""
+        url = login_base_url + '/v2/core/current_user'
+        headers = {
+            "Authorization": access_token
+        }
+        response = requests.post(url, headers=headers)
+        result = ApiResponse(response)
         return result
 
     def get_blueprint_id(self, **kwargs):
