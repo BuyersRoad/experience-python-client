@@ -10,7 +10,7 @@ from ratelimit import sleep_and_retry, limits
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../")
 from experience.http.api_response import ApiResponse
-from experience.constants import base_url, login_base_url
+from experience.constants import base_url
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class Authentication:
     @limits(calls=100, period=60)
     def login(self, username, password):
         """Gets Access Token"""
-        url = login_base_url + '/v2/core/login'
+        url = base_url + '/v2/core/login'
         payload = {
             "user_email": username,
             "password": password
@@ -55,7 +55,7 @@ class Report:
     @limits(calls=100, period=60)
     def current_user_details(self, access_token):
         """Get User Details like account_id, organization_id"""
-        url = login_base_url + '/v2/core/current_user'
+        url = base_url + '/v2/core/current_user'
         headers = {
             "Authorization": access_token
         }
@@ -178,7 +178,7 @@ class Hierarchy:
     @sleep_and_retry
     @limits(calls=100, period=60)
     def call_get_api(self, url, params):
-        url = login_base_url + url
+        url = base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -190,7 +190,7 @@ class Hierarchy:
     @sleep_and_retry
     @limits(calls=100, period=60)
     def call_post_api(self, url, data):
-        url = login_base_url + url
+        url = base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -201,7 +201,7 @@ class Hierarchy:
     @sleep_and_retry
     @limits(calls=100, period=60)
     def call_update_api(self, url, data):
-        url = login_base_url + url
+        url = base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -292,7 +292,7 @@ class Hierarchy:
         tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}/activate'
         logger.info("Initialising API Call")
-        url = login_base_url + url
+        url = base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -329,7 +329,7 @@ class Hierarchy:
         tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}'
         logger.info("Initialising API Call")
-        url = login_base_url + url
+        url = base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -388,7 +388,7 @@ class Hierarchy:
         result = self.call_update_api(url, payload)
         return result
 
-    def deactivate_user(self, **kwargs):
+    def delete_user(self, **kwargs):
         user_id = kwargs['user_id']
         url = f'/v2/core/user_deactivate?user_id[]={user_id}'
         logger.info("Initialising API Call")
@@ -399,8 +399,7 @@ class Hierarchy:
         user_id = kwargs['user_id']
         url = f'/v2/core/users/{user_id}/get_user'
         logger.info("Initialising API Call")
-        payload = {"user": {"user_setting": kwargs['user_setting']}}
-        result = self.call_get_api(url, payload)
+        result = self.call_get_api(url, kwargs)
         return result
 
     def update_users_settings(self, **kwargs):
@@ -419,7 +418,7 @@ class Fields:
         self.response = None
 
     def call_get_api(self, url, params):
-        url = login_base_url + url
+        url = base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -429,7 +428,7 @@ class Fields:
         return result
 
     def call_post_api(self, url, params):
-        url = login_base_url + url
+        url = base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -447,7 +446,7 @@ class Fields:
     @limits(calls=100, period=60)
     def current_user_details(self):
         """Get User Details like account_id, organization_id"""
-        url = login_base_url + '/v2/core/current_user'
+        url = base_url + '/v2/core/current_user'
         headers = {
             "Authorization": self.access_token
         }
@@ -471,7 +470,7 @@ class Fields:
     @limits(calls=100, period=60)
     def get_all_account_id(self):
         """Get all the accounts from the organization"""
-        url = login_base_url + '/v2/core/accounts'
+        url = base_url + '/v2/core/accounts'
         header = {
             "Authorization": self.access_token
         }
