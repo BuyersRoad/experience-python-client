@@ -449,6 +449,12 @@ class Fields:
         result = self.call_get_api(url, kwargs)
         return result
 
+    def get_organizations(self, **kwargs):
+        url = '/v2/core/organizations/get_organizations'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
+
     @sleep_and_retry
     @limits(calls=100, period=60)
     def get_all_account_id(self):
