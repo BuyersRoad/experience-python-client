@@ -221,15 +221,16 @@ class Hierarchy:
         payload['user'].update({"alias_email": [], "send_email": True})
         payload['user']['user_role_association'] = []
         payload['user']['user_roles'] = []
-        payload['user']['user_role_association'].extend([name for name in params['user_role']])
-        if filter(lambda user_role: user_role['role'] == 'Tier Manager', params['user_role']):
-            payload['user']['user_roles'].append(4)
-        if filter(lambda user_role: user_role['role'] == 'Agent', params['user_role']):
-            payload['user']['user_roles'].append(5)
-        if 'user_setting' in params:
-            payload['user']['user_setting'] = {name: params[name] for name in params if params[name] is not None}
-        else:
-            payload['user']['user_setting'] = user_setting_data
+        if 'user_role' in params:
+            payload['user']['user_role_association'].extend([name for name in params['user_role']])
+            if filter(lambda user_role: user_role['role'] == 'Tier Manager', params['user_role']):
+                payload['user']['user_roles'].append(4)
+            if filter(lambda user_role: user_role['role'] == 'Agent', params['user_role']):
+                payload['user']['user_roles'].append(5)
+            if 'user_setting' in params:
+                payload['user']['user_setting'] = {name: params[name] for name in params if params[name] is not None}
+            else:
+                payload['user']['user_setting'] = user_setting_data
         return payload
 
     def create_account(self, **kwargs):
