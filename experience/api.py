@@ -484,9 +484,9 @@ class Fields:
         result = self.call_get_api(url, kwargs)
         return result
 
-    def get_tier(self, **kwargs):
+    def get_tier_id(self, **kwargs):
         account_id = kwargs['account_id']
-        url = f'/v2/core/accounts/{account_id}'
+        url = f'/v2/core/tiers/{account_id}/hierarchy'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
         return result
