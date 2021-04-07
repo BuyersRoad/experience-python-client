@@ -445,11 +445,11 @@ class Fields:
 
     @sleep_and_retry
     @limits(calls=100, period=60)
-    def current_user_details(self, access_token):
+    def current_user_details(self):
         """Get User Details like account_id, organization_id"""
         url = login_base_url + '/v2/core/current_user'
         headers = {
-            "Authorization": access_token
+            "Authorization": self.access_token
         }
         response = requests.post(url, headers=headers)
         result = ApiResponse(response)
