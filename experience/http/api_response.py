@@ -27,4 +27,4 @@ class ApiResponse:
         return 400 <= self.status_code < 600
 
     def __repr__(self):
-        return '<ApiResponse [%s]>' % (self.text)
+        return 'ApiResponse %s' % (self.text)

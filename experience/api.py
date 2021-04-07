@@ -469,7 +469,6 @@ class Fields:
             return result
         else:
             result = ApiResponse(self.response)
-            print(result)
             return result
 
     def get_current_user_tiers(self, **kwargs):
