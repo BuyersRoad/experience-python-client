@@ -241,7 +241,7 @@ class Hierarchy:
         return result
 
     def get_account(self, **kwargs):
-        account_id = kwargs['id']
+        account_id = kwargs['account_id']
         url = f'/v2/core/accounts/{account_id}'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
