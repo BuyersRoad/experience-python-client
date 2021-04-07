@@ -293,7 +293,7 @@ class Hierarchy:
         logger.info("Initialising API Call")
         url = login_base_url + url
         header = {
-            "Authorization": kwargs['access_token']
+            "Authorization": self.access_token
         }
         self.response = requests.put(url, headers=header, params=kwargs['id'])
         result = ApiResponse(self.response)
@@ -330,7 +330,7 @@ class Hierarchy:
         logger.info("Initialising API Call")
         url = login_base_url + url
         header = {
-            "Authorization": kwargs['access_token']
+            "Authorization": self.access_token
         }
         self.response = requests.delete(url, headers=header)
         result = ApiResponse(self.response)
@@ -355,8 +355,7 @@ class Hierarchy:
         org_id = kwargs['org_id']
         url = f'/v2/core/organization/{org_id}/tier_users'
         logger.info("Initialising API Call")
-        payload = {name: kwargs[name] for name in kwargs if kwargs[name] is not None and
-                   kwargs[name] != kwargs['org_id']}
+        payload = kwargs['account_id']
         result = self.call_get_api(url, payload)
         return result
 
@@ -408,7 +407,8 @@ class Hierarchy:
         user_id = kwargs['user_id']
         url = f'/v2/core/users/{user_id}'
         logger.info("Initialising API Call")
-        result = self.call_update_api(url, kwargs)
+        payload = {'user': {'user_setting': kwargs['user_setting']}}
+        result = self.call_update_api(url, payload)
         return result
 
 
@@ -461,10 +461,16 @@ class Fields:
         self.response = requests.get(url, headers=header)
         data = json.loads(self.response.text)
         account_id = []
-        for account in data.get('data'):
-            result = dict(itertools.islice(account.items(), 5))
-            account_id.append(result)
-        return account_id
+        if data.get('data') is not None:
+            for account in data.get('data'):
+                result = dict(itertools.islice(account.items(), 5))
+                account_id.append(result)
+            result = ApiResponse(account_id)
+            return result
+        else:
+            result = ApiResponse(self.response)
+            print(result)
+            return result
 
     def get_current_user_tiers(self, **kwargs):
         account_id = kwargs['account_id']
