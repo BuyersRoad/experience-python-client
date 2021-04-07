@@ -465,7 +465,7 @@ class Fields:
             for account in data.get('data'):
                 result = dict(itertools.islice(account.items(), 5))
                 account_id.append(result)
-            result = ApiResponse(account_id)
+            result = ApiResponse(self.response)
             return result
         else:
             result = ApiResponse(self.response)
