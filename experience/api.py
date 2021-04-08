@@ -312,7 +312,7 @@ class Hierarchy:
         tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}/move'
         logger.info("Initialising API Call")
-        payload = {name: kwargs[name] for name in kwargs if kwargs[name] is not None}
+        payload = kwargs['body']
         result = self.call_update_api(url, payload)
         return result
 
