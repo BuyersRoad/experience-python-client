@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 class Authentication:
 
-    def __init__(self):
+    def __init__(self, ):
         self.response = None
 
     @sleep_and_retry
