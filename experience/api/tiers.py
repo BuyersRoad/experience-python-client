@@ -139,11 +139,4 @@ class TiersAPI:
         result = self.call_api(url, kwargs)
         return result
 
-    def get_current_user_tiers(self, **kwargs):
-        #  TODO - check where this needs to be placed
 
-        account_id = kwargs['account_id']
-        url = f'/v2/core/users/accounts/{account_id}/get_current_user_tiers'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result

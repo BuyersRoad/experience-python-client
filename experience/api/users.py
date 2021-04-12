@@ -122,3 +122,10 @@ class UsersAPI:
         payload = {'user': {'user_setting': kwargs['user_setting']}}
         result = self.call_update_api(url, payload)
         return result
+
+    def get_current_user_tiers(self, **kwargs):
+        account_id = kwargs['account_id']
+        url = f'/v2/core/users/accounts/{account_id}/get_current_user_tiers'
+        logger.info("Initialising API Call")
+        result = self.call_get_api(url, kwargs)
+        return result
