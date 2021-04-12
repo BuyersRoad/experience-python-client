@@ -9,11 +9,11 @@ class AuthenticationAPI:
     def __init__(self, ):
         self.response = None
 
-    def login(self, username, password):
+    def login(self, user_email, password):
         """Gets Access Token"""
         url = base_url + '/v2/core/login'
         payload = {
-            "user_email": username,
+            "user_email": user_email,
             "password": password
         }
         self.response = requests.post(url, data=payload)
