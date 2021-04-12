@@ -80,4 +80,3 @@ class AccountsAPI:
         payload = {"account_settings": kwargs['account_setting']}
         result = self.call_update_api(url, payload)
         return result
-
