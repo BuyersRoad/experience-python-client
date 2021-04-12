@@ -6,8 +6,8 @@ from experience.http.api_response import ApiResponse
 
 class AuthenticationAPI:
 
-    def __init__(self, ):
-        self.response = None
+    def __init__(self):
+        self.access_token = None
 
     def login(self, user_email, password):
         """Gets Access Token"""
@@ -16,9 +16,8 @@ class AuthenticationAPI:
             "user_email": user_email,
             "password": password
         }
-        self.response = requests.post(url, data=payload)
-        access_token = ApiResponse(self.response)
-        return access_token
+        self.access_token = requests.post(url, data=payload)
+        return self.access_token.text
 
     def current_user_details(self, access_token):
         """Get User Details like account_id, organization_id"""
