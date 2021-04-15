@@ -50,12 +50,6 @@ class CoreAPI:
         result = self.call_get_api(url, kwargs)
         return result
 
-    def get_organizations(self, **kwargs):
-        url = '/v2/core/organizations/get_organizations'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
-
     def get_all_account_id_and_name(self):
         """Get all the accounts from the organization"""
         url = base_url + '/v2/core/accounts'
