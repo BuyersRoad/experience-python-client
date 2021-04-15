@@ -1,3 +1,4 @@
+import json
 import logging
 import requests
 
@@ -28,7 +29,9 @@ class UsersAPI:
         header = {
             "Authorization": self.access_token
         }
+        print(data)
         response = requests.post(url, headers=header, json=data)
+        print(response.request.body)
         result = ApiResponse(response)
         return result
 
@@ -46,7 +49,7 @@ class UsersAPI:
         user_setting_data = {"agent_sms_notify_threshold": 3.5,
                              "enable_agent_autopost": True,
                              "enable_reply_to_review": False,
-                             "reply_to_review_threshold": None,
+                             "reply_to_review_threshold": 0,
                              "sm_max_post_per_day": 3,
                              "sm_min_duration_btw_posts": 120}
         payload = {'user': {name: params[name] for name in params if params[name] is not None and name in user}}
@@ -55,10 +58,9 @@ class UsersAPI:
         payload['user']['user_roles'] = []
         if 'user_role' in params:
             payload['user']['user_role_association'].extend([name for name in params['user_role']])
-            if filter(lambda user_role: user_role['role'] == 'Tier Manager', params['user_role']):
-                payload['user']['user_roles'].append(4)
-            if filter(lambda user_role: user_role['role'] == 'Agent', params['user_role']):
-                payload['user']['user_roles'].append(5)
+            user_roles = [user_roles['role'] for user_roles in params['user_role']]
+            for roles in user_roles:
+                payload['user']['user_roles'].append(roles)
             if 'user_setting' in params:
                 payload['user']['user_setting'] = {name: params[name] for name in params if params[name] is not None}
             else:
