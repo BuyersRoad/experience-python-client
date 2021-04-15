@@ -75,12 +75,6 @@ class TiersAPI:
         result = self.call_update_api(url, payload)
         return result
 
-    def list_tiers(self, **kwargs):
-        url = f'/v2/core/tiers'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
-
     def get_tier(self, **kwargs):
         tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}'
@@ -132,11 +126,5 @@ class TiersAPI:
         result = ApiResponse(response)
         return result
 
-    def tier_details(self, **kwargs):
-        """Fetch the tier hierarchy for a given account and organization"""
-        url = "/fetch/tier/details"
-        logger.info("Initialising API Call")
-        result = self.call_api(url, kwargs)
-        return result
 
 
