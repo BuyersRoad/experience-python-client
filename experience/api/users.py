@@ -101,7 +101,7 @@ class UsersAPI:
         result = self.call_update_api(url, payload)
         return result
 
-    def delete_user(self, **kwargs):
+    def deactivate_user(self, **kwargs):
         user_id = kwargs['user_id']
         url = f'/v2/core/user_deactivate?user_id[]={user_id}'
         logger.info("Initialising API Call")
