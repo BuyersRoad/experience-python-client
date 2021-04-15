@@ -2,7 +2,6 @@ import logging
 
 import requests
 
-from experience.constants import base_url
 from experience.http.api_response import ApiResponse
 
 logger = logging.getLogger(__name__)
