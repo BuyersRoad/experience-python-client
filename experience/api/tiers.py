@@ -54,7 +54,7 @@ class TiersAPI:
         header = {
             "Authorization": self.access_token
         }
-        response = requests.put(url, headers=header, params=kwargs['id'])
+        response = requests.put(url, headers=header)
         result = ApiResponse(response)
         return result
 
