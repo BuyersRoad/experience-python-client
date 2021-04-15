@@ -10,11 +10,12 @@ logger = logging.getLogger(__name__)
 
 class HierarchyAPI:
 
-    def __init__(self, access_token):
+    def __init__(self, access_token, base_url):
         self.access_token = access_token
+        self.base_url = base_url
 
     def call_get_api(self, url, params):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -24,7 +25,7 @@ class HierarchyAPI:
         return result
 
     def call_post_api(self, url, data):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -33,7 +34,7 @@ class HierarchyAPI:
         return result
 
     def call_update_api(self, url, data):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }

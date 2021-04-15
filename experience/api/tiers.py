@@ -10,11 +10,12 @@ logger = logging.getLogger(__name__)
 
 class TiersAPI:
 
-    def __init__(self, access_token):
+    def __init__(self, access_token, base_url):
         self.access_token = access_token
+        self.base_url = base_url
 
     def call_get_api(self, url, params):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -24,7 +25,7 @@ class TiersAPI:
         return result
 
     def call_post_api(self, url, data):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -33,7 +34,7 @@ class TiersAPI:
         return result
 
     def call_update_api(self, url, data):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -51,7 +52,7 @@ class TiersAPI:
         tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}/activate'
         logger.info("Initialising API Call")
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -86,7 +87,7 @@ class TiersAPI:
         tier_id = kwargs['tier_id']
         url = f'/v2/core/tiers/{tier_id}'
         logger.info("Initialising API Call")
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -117,7 +118,7 @@ class TiersAPI:
         return result
 
     def call_api(self, url, param):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }

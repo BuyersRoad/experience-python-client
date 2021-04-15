@@ -2,7 +2,6 @@ import logging
 
 import requests
 
-from experience.constants import base_url
 from experience.http.api_response import ApiResponse
 
 logger = logging.getLogger(__name__)
@@ -10,11 +9,13 @@ logger = logging.getLogger(__name__)
 
 class UsersAPI:
 
-    def __init__(self, access_token):
+    def __init__(self, access_token, base_url):
         self.access_token = access_token
+        self.base_url = base_url
+        self.response = None
 
     def call_get_api(self, url, params):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -24,7 +25,7 @@ class UsersAPI:
         return result
 
     def call_post_api(self, url, data):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -33,7 +34,7 @@ class UsersAPI:
         return result
 
     def call_update_api(self, url, data):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }

@@ -30,25 +30,25 @@ class Client:
         self.base_url = environments[kwargs['environment']].get('default')
 
     def accounts(self):
-        return AccountsAPI(self.access_token)
+        return AccountsAPI(self.access_token, self.base_url)
 
     def authentication(self):
-        return AuthenticationAPI()
+        return AuthenticationAPI(self.base_url)
 
     def campaign(self):
-        return CampaignAPI(self.access_token)
+        return CampaignAPI(self.access_token, self.base_url)
 
     def core(self):
-        return CoreAPI(self.access_token)
+        return CoreAPI(self.access_token, self.base_url)
 
     def hierarchy(self):
-        return HierarchyAPI(self.access_token)
+        return HierarchyAPI(self.access_token, self.base_url)
 
     def reports(self):
-        return ReportsAPI(self.access_token)
+        return ReportsAPI(self.access_token, self.base_url)
 
     def tiers(self):
-        return TiersAPI(self.access_token)
+        return TiersAPI(self.access_token, self.base_url)
 
     def user(self):
-        return UsersAPI(self.access_token)
+        return UsersAPI(self.access_token, self.base_url)

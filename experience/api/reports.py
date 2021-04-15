@@ -2,19 +2,20 @@ import logging
 
 import requests
 
-from experience.constants import base_url
 from experience.http.api_response import ApiResponse
 
 logger = logging.getLogger(__name__)
 
 
 class ReportsAPI:
-    def __init__(self, access_token):
+
+    def __init__(self, access_token, base_url):
         self.access_token = access_token
+        self.base_url = base_url
         self.response = None
 
     def call_api(self, url, param):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }

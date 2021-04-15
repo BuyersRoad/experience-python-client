@@ -15,12 +15,13 @@ logger = logging.getLogger(__name__)
 
 class CoreAPI:
 
-    def __init__(self, access_token):
+    def __init__(self, access_token, base_url):
         self.access_token = access_token
+        self.base_url = base_url
         self.response = None
 
     def call_get_api(self, url, params):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -30,7 +31,7 @@ class CoreAPI:
         return result
 
     def call_post_api(self, url, params):
-        url = base_url + url
+        url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
@@ -52,7 +53,7 @@ class CoreAPI:
 
     def get_all_account_id_and_name(self):
         """Get all the accounts from the organization"""
-        url = base_url + '/v2/core/accounts'
+        url = self.base_url + '/v2/core/accounts'
         header = {
             "Authorization": self.access_token
         }

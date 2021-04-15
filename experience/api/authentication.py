@@ -1,17 +1,17 @@
 import requests
 
-from experience.constants import base_url
 from experience.http.api_response import ApiResponse
 
 
 class AuthenticationAPI:
 
-    def __init__(self):
+    def __init__(self, base_url):
         self.access_token = None
+        self.base_url = base_url
 
     def login(self, user_email, password):
         """Gets Access Token"""
-        url = base_url + '/v2/core/login'
+        url = self.base_url + '/v2/core/login'
         payload = {
             "user_email": user_email,
             "password": password
@@ -21,7 +21,7 @@ class AuthenticationAPI:
 
     def current_user_details(self, access_token):
         """Get User Details like account_id, organization_id"""
-        url = base_url + '/v2/core/current_user'
+        url = self.base_url + '/v2/core/current_user'
         headers = {
             "Authorization": access_token
         }
