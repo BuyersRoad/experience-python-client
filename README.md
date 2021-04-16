@@ -5,6 +5,10 @@ We believe that experience is everything. Amazing experiences create customers f
 ## API Documentation
 * [Hierarchy](experience_python_client/doc/hierarchy.md)
 * [Reporting](experience_python_client/doc/report.md)
+## Building
+`python setup.py bdist_wheel`
+## Installing
+`pip install dist/experience_python_client-0.1.0-py3-none-any.whl`
 ## Usage
 To call an endpoint you must create a `Client` object.
 
