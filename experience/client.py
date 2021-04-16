@@ -27,7 +27,8 @@ class Client:
             self.password = kwargs['password']
             # call login method to get access_token
             access_token = AuthenticationAPI(self.access_token, self.base_url).login(self.user_email, self.password)
-            self.access_token = json.loads(access_token)['auth_token']
+            if "error" not in access_token:
+                self.access_token = json.loads(access_token)['auth_token']
 
     def accounts(self):
         return AccountsAPI(self.access_token, self.base_url)
