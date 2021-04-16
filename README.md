@@ -20,15 +20,13 @@ Now let’s call your first Experience API. create a new file called new.py, and
 ```from experience_python_client.constants import access_token
 from experience_python_client.reporting import Client
 
-client = Client(access_token=access_token)
-report = client.report()
-result = report.activity_feed(access_token=access_token, id='1892', page='3')
+# Invoking the Client class by passing access token or (user_email ,password) and environment
+client = Client(user_email="adheena@socialsurvey.com", password="Chandran@123", environment='sandbox')
+tier_api = client.tiers()
+core_api = client.core()
 
-if result.is_success():
-    print(result)
- 
-elif result.is_error():
-    print('Error calling Report.activity_feed')
-    errors = result.errors
-    print(errors)
+# To get all account id with name
+account_id = core_api.get_all_account_id_and_name()
+# To print account id
+result_status(account_id)
   
