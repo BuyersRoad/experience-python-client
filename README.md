@@ -12,7 +12,7 @@ We believe that experience is everything. Amazing experiences create customers f
 ## Usage
 To call an endpoint you must create a `Client` object.
 
-`client = Client(access_token=access_token)`
+`client = Client(access_token=access_token, environment='')`
     
 ## Example
 Now let’s call your first Experience API. create a new file called new.py, and copy the following code into that file:
@@ -21,7 +21,7 @@ Now let’s call your first Experience API. create a new file called new.py, and
 from experience_python_client.reporting import Client
 
 # Invoking the Client class by passing access token or (user_email ,password) and environment
-client = Client(user_email="adheena@socialsurvey.com", password="Chandran@123", environment='sandbox')
+client = Client(user_email="xxx@gmail.com", password="xxx@123", environment='sandbox')
 tier_api = client.tiers()
 core_api = client.core()
 
