@@ -1,5 +1,4 @@
 import logging
-
 import requests
 
 from experience.http.api_response import ApiResponse

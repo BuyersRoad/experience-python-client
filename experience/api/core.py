@@ -1,12 +1,8 @@
 import itertools
 import json
 import logging
-import os
-import sys
-
 import requests
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../")
 from experience.http.api_response import ApiResponse
 
 logger = logging.getLogger(__name__)

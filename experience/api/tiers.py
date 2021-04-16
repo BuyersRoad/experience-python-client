@@ -124,6 +124,3 @@ class TiersAPI:
         response = requests.get(url, headers=header, params=payload)
         result = ApiResponse(response)
         return result
-
-
-

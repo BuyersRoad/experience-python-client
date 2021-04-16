@@ -1,4 +1,3 @@
-import json
 import logging
 import requests
 
@@ -44,7 +43,8 @@ class UsersAPI:
         result = ApiResponse(response)
         return result
 
-    def request_params(self, params):
+    @staticmethod
+    def request_params(params):
         user = ["email", "first_name", "last_name", "account_id"]
         user_setting_data = {"agent_sms_notify_threshold": 3.5,
                              "enable_agent_autopost": True,
@@ -99,7 +99,7 @@ class UsersAPI:
         user_id = kwargs['user_id']
         url = f'/v2/core/users/{user_id}'
         logger.info("Initialising API Call")
-        payload = {"user":{kwargs['tier']}}
+        payload = {"user": {kwargs['tier']}}
         result = self.call_update_api(url, payload)
         return result
 
