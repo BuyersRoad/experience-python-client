@@ -96,10 +96,11 @@ class UsersAPI:
         return result
 
     def update_users(self, **kwargs):
+        tier = kwargs['tier']
         user_id = kwargs['user_id']
         url = f'/v2/core/users/{user_id}'
         logger.info("Initialising API Call")
-        payload = {"user": {kwargs['tier']}}
+        payload = {"user": tier}
         result = self.call_update_api(url, payload)
         return result
 
