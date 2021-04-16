@@ -5,5 +5,8 @@ environments = {
     },
     'sandbox': {
         'default': 'https://api.sandbox.experience.com'
+    },
+    'devtest': {
+        'default': 'https://api.devtest.experience.com'
     }
 }
