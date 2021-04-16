@@ -25,7 +25,6 @@ class AuthenticationAPI:
         header = {
             "Authorization": self.access_token
         }
-        print(header)
         response = requests.post(url, headers=header)
         result = ApiResponse(response)
         return result

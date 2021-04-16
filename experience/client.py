@@ -13,19 +13,20 @@ from experience.configuration import environments
 class Client:
 
     def __init__(self, **kwargs):
-        #If access_token already exists
+        self.access_token = None
+        # If access_token already exists
         if 'access_token' in kwargs:
             self.access_token = kwargs['access_token']
 
         # Get Domain name
         self.base_url = environments[kwargs['environment']].get('default')
 
-        #If user_email and password exists
+        # If user_email and password exists
         if 'user_email' and 'password' in kwargs:
             self.user_email = kwargs['user_email']
             self.password = kwargs['password']
-            #call login method to get access_token
-            access_token = AuthenticationAPI(self.base_url).login(self.user_email, self.password)
+            # call login method to get access_token
+            access_token = AuthenticationAPI(self.access_token, self.base_url).login(self.user_email, self.password)
             self.access_token = json.loads(access_token)['auth_token']
 
     def accounts(self):
