@@ -30,9 +30,7 @@ class UsersAPI:
         header = {
             "Authorization": self.access_token
         }
-        print(data)
         response = requests.post(url, headers=header, json=data)
-        print(response.request.body)
         result = ApiResponse(response)
         return result
 
