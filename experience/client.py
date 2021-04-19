@@ -51,4 +51,4 @@ class Client:
         return TiersAPI(self.access_token, self.base_url)
 
     def user(self):
-        return UsersAPI(self.access_token, self.base_url)
+        return UsersAPI(self.access_token, self.base_url, self.user_details)

@@ -1,3 +1,4 @@
+import json
 import logging
 import requests
 
@@ -8,9 +9,10 @@ logger = logging.getLogger(__name__)
 
 class UsersAPI:
 
-    def __init__(self, access_token, base_url):
+    def __init__(self, access_token, base_url, user_details):
         self.access_token = access_token
         self.base_url = base_url
+        self.user_details = user_details
         self.response = None
 
     def call_get_api(self, url, params):
@@ -68,8 +70,10 @@ class UsersAPI:
         return payload
 
     def get_all_users(self, **kwargs):
-        org_id = kwargs['org_id']
-        url = f'/v2/core/organization/{org_id}/tier_users'
+        user_details = str(self.user_details).split('ApiResponse', 1)[1]
+        org_id = json.loads(user_details)
+        organization_id = org_id['organization_id']
+        url = f'/v2/core/organization/{organization_id}/tier_users'
         logger.info("Initialising API Call")
         result = self.call_get_api(url, kwargs)
         return result
