@@ -15,13 +15,12 @@ class CoreAPI:
         self.base_url = base_url
         self.response = None
 
-    def call_get_api(self, url, params):
+    def call_get_api(self, url):
         url = self.base_url + url
         header = {
             "Authorization": self.access_token
         }
-        payload = {name: params[name] for name in params if params[name] is not None}
-        self.response = requests.get(url, headers=header, params=payload)
+        self.response = requests.get(url, headers=header)
         result = ApiResponse(self.response)
         return result
 
@@ -34,16 +33,16 @@ class CoreAPI:
         result = ApiResponse(self.response)
         return result
 
-    def get_business_category(self, **kwargs):
+    def get_business_category(self):
         url = "/v2/core/verticals"
         logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
+        result = self.call_get_api(url)
         return result
 
-    def get_blueprint_id(self, **kwargs):
+    def get_blueprint_id(self):
         url = '/v2/admin/blueprints'
         logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
+        result = self.call_get_api(url)
         return result
 
     def get_all_account_id_and_name(self):

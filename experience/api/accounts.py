@@ -1,3 +1,4 @@
+import json
 import logging
 import requests
 
@@ -44,7 +45,11 @@ class AccountsAPI:
         """Creates a new account in the organization."""
         url = '/v2/core/accounts'
         logger.info("Initialising API Call")
-        payload = {'account': {name: kwargs[name] for name in kwargs if kwargs[name] is not None}}
+        payload = {'account': {name: kwargs[name] for name in kwargs if kwargs[name] is not None and
+                               kwargs[name] != kwargs['user_details'] }}
+        user_details = str(kwargs['user_details']).split('ApiResponse', 1)[1]
+        org_id = json.loads(user_details)
+        payload['account'].update({'organization_id': org_id['organization_id']})
         result = self.call_post_api(url, payload)
         return result
 
