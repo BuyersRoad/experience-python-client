@@ -29,9 +29,11 @@ class Client:
             access_token = AuthenticationAPI(self.access_token, self.base_url).login(self.user_email, self.password)
             if "error" not in access_token:
                 self.access_token = json.loads(access_token)['auth_token']
+        #To Get current user details by calling current_user_details method
+        self.user_details = AuthenticationAPI(self.access_token, self.base_url).current_user_details()
 
     def accounts(self):
-        return AccountsAPI(self.access_token, self.base_url)
+        return AccountsAPI(self.access_token, self.base_url, self.user_details)
 
     def authentication(self):
         return AuthenticationAPI(self.access_token, self.base_url)

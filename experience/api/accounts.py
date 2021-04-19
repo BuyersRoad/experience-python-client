@@ -9,9 +9,10 @@ logger = logging.getLogger(__name__)
 
 class AccountsAPI:
 
-    def __init__(self, access_token, base_url):
+    def __init__(self, access_token, base_url, user_details):
         self.access_token = access_token
         self.base_url = base_url
+        self.user_details = user_details
 
     def call_get_api(self, url, params):
         url = self.base_url + url
@@ -45,9 +46,8 @@ class AccountsAPI:
         """Creates a new account in the organization."""
         url = '/v2/core/accounts'
         logger.info("Initialising API Call")
-        payload = {'account': {name: kwargs[name] for name in kwargs if kwargs[name] is not None and
-                               kwargs[name] != kwargs['user_details'] }}
-        user_details = str(kwargs['user_details']).split('ApiResponse', 1)[1]
+        payload = {'account': {name: kwargs[name] for name in kwargs if kwargs[name] is not None}}
+        user_details = str(self.user_details).split('ApiResponse', 1)[1]
         org_id = json.loads(user_details)
         payload['account'].update({'organization_id': org_id['organization_id']})
         result = self.call_post_api(url, payload)
