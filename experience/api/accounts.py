@@ -8,8 +8,29 @@ logger = logging.getLogger(__name__)
 
 
 class AccountsAPI:
-
+    """
+    A class to represent a Accounts API.
+    Attributes
+    ----------
+    access_token : str
+        access_token of a user
+    base_url : str
+        Base url of the API
+    user_details : dict
+        user details of the user
+    """
     def __init__(self, access_token, base_url, user_details):
+        """
+        Constructs all the necessary attributes for the AccountsAPI object
+        Parameters
+        ----------
+        access_token : str
+            access_token of a user
+        base_url : str
+            Base url of the API
+        user_details : dict
+            user details of the user
+        """
         self.access_token = access_token
         self.base_url = base_url
         self.user_details = user_details
@@ -43,7 +64,20 @@ class AccountsAPI:
         return result
 
     def create_account(self, **kwargs):
-        """Creates a new account in the organization."""
+        """
+        Makes a POST request to the create_account API
+        Creates a new account in the organization.
+        Other Parameters
+        ----------
+        vertical_id : integer, mandatory
+            ID of the business category
+        blueprint_id : integer, mandatory
+            ID of the blueprint
+        name : string, mandatory
+        Returns
+        -------
+        account creation response
+        """
         url = '/v2/core/accounts'
         logger.info("Initialising API Call")
         payload = {'account': {name: kwargs[name] for name in kwargs if kwargs[name] is not None}}
@@ -54,6 +88,17 @@ class AccountsAPI:
         return result
 
     def get_account(self, **kwargs):
+        """
+        Makes a GET request to the get_account API
+        Returns an account based on a single ID
+        Parameters
+        ----------
+        account_id : integer, mandatory
+            ID of account
+        Returns
+        -------
+        account response
+        """
         account_id = kwargs['account_id']
         url = f'/v2/core/accounts/{account_id}'
         logger.info("Initialising API Call")
@@ -61,6 +106,24 @@ class AccountsAPI:
         return result
 
     def update_account(self, **kwargs):
+        """
+        Makes a PUT request to the update_account API
+        Update an account in the organization.
+        Parameters
+        ----------
+        id : integer, mandatory
+            ID of account
+        Other Parameters
+        ----------------
+        vertical_id : integer, mandatory
+            ID of the business category
+        blueprint_id : integer, mandatory
+            ID of the blueprint
+        name : string, mandatory
+        Returns
+        -------
+        account update response
+        """
         account_id = kwargs['id']
         url = f'/v2/core/accounts/{account_id}'
         logger.info("Initialising API Call")
@@ -71,6 +134,17 @@ class AccountsAPI:
         return result
 
     def get_account_settings(self, **kwargs):
+        """
+        Makes a GET request to the account_settings API
+        Returns account settings.
+        Parameters
+        ----------
+        account_id : integer, mandatory
+            ID of account
+        Returns
+        -------
+        Account response
+        """
         account_id = kwargs['account_id']
         url = f'/v2/core/accounts/{account_id}/settings'
         logger.info("Initialising API Call")
@@ -78,6 +152,20 @@ class AccountsAPI:
         return result
 
     def update_account_settings(self, **kwargs):
+        """
+         Makes a PUT request to the account_settings API
+         Update a account in the organization.
+         Parameters
+         ----------
+         account_id : integer, mandatory
+             ID of account
+         Other Parameter
+         ----------
+         settings : dict, mandatory
+         Returns
+         -------
+         account update response
+        """
         account_id = kwargs['id']
         url = f'/v2/core/accounts/{account_id}/settings'
         logger.info("Initialising API Call")
