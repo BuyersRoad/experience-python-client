@@ -8,8 +8,29 @@ logger = logging.getLogger(__name__)
 
 
 class UsersAPI:
-
+    """
+    A class to represent a Users API.
+    Attributes
+    ----------
+    access_token : str
+        access_token of a user
+    base_url : str
+        Base url of the API
+    user_details : dict
+        Details of the user
+    """
     def __init__(self, access_token, base_url, user_details):
+        """
+        Constructs all the necessary attributes for the UsersAPI object
+        Parameters
+        ----------
+        access_token : str
+            access_token of a user
+        base_url : str
+            Base url of the API
+        user_details : dict
+            Details of the user
+        """
         self.access_token = access_token
         self.base_url = base_url
         self.user_details = user_details
@@ -68,6 +89,13 @@ class UsersAPI:
         return payload
 
     def get_all_users(self, **kwargs):
+        """
+        Makes a GET request to the get_all_users API
+        To get all the users of a given organization
+        Returns
+        -------
+        All present users
+        """
         user_details = str(self.user_details).split('ApiResponse', 1)[1]
         org_id = json.loads(user_details)
         organization_id = org_id['organization_id']
@@ -77,6 +105,17 @@ class UsersAPI:
         return result
 
     def get_all_account_manager(self, **kwargs):
+        """
+        Makes a GET request to the all_account_manager API
+        To get all the account manager of a given organization
+        Parameters
+        -------
+        account_id : integer, mandatory
+            ID of account
+        Returns
+        -------
+        All account managers
+        """
         account_id = kwargs['account_id']
         url = f'/v2/core/accounts/{account_id}/get_account_managers'
         logger.info("Initialising API Call")
@@ -84,6 +123,17 @@ class UsersAPI:
         return result
 
     def get_users(self, **kwargs):
+        """
+        Makes a GET request to the get_users API
+        To returns a user and user settings based on the given ID.
+        Parameters
+        -------
+        account_id : integer, mandatory
+            ID of account
+        Returns
+        -------
+        Get user success response
+        """
         user_id = kwargs['user_id']
         url = f'/v2/core/users/{user_id}/get_user'
         logger.info("Initialising API Call")
@@ -91,6 +141,23 @@ class UsersAPI:
         return result
 
     def create_users(self, **kwargs):
+        """
+        Makes a POST request to the create_users API
+        To create user.
+        Parameters
+        -------
+        account_id : integer, mandatory
+            ID of account
+        email : string, mandatory
+        first_name : string, mandatory
+        last_name : string, mandatory
+        Other Parameters
+        -------
+        user_role : dict, mandatory
+        Returns
+        -------
+        User create response.
+        """
         url = '/v2/core/users'
         logger.info("Initialising API Call")
         payload = self.request_params(kwargs)
@@ -98,6 +165,20 @@ class UsersAPI:
         return result
 
     def update_users(self, **kwargs):
+        """
+        Makes a PUT request to the update_users API
+        To update a user and user settings based on the given ID
+        Parameters
+        -------
+        user_id : integer, mandatory
+            ID of the User
+        Other Parameters
+        -------
+        tier : dict, mandatory
+        Returns
+        -------
+        User update response.
+        """
         tier = kwargs['tier']
         user_id = kwargs['user_id']
         url = f'/v2/core/users/{user_id}'
@@ -107,6 +188,17 @@ class UsersAPI:
         return result
 
     def deactivate_user(self, **kwargs):
+        """
+        Makes a PUT request to the deactivate_user API
+        To deactivate a user based on the given user ID.
+        Parameters
+        -------
+        user_id : integer, mandatory
+            ID of the User
+        Returns
+        -------
+        User is deactivated response.
+        """
         user_id = kwargs['user_id']
         url = f'/v2/core/user_deactivate?user_id[]={user_id}'
         logger.info("Initialising API Call")
@@ -114,6 +206,17 @@ class UsersAPI:
         return result
 
     def get_users_settings(self, **kwargs):
+        """
+        Makes a GET request to the users_settings API
+        To get user settings based on the given user ID.
+        Parameters
+        -------
+        user_id : integer, mandatory
+            ID of the User
+        Returns
+        -------
+        User settings response.
+        """
         user_id = kwargs['user_id']
         url = f'/v2/core/users/{user_id}/get_user'
         logger.info("Initialising API Call")
@@ -121,6 +224,20 @@ class UsersAPI:
         return result
 
     def update_users_settings(self, **kwargs):
+        """
+        Makes a PUT request to the users_settings API
+        To update user settings based on the given user ID.
+        Parameters
+        -------
+        user_id : integer, mandatory
+            ID of the User
+        Other Parameters
+        -------
+        user_setting : dict, mandatory
+        Returns
+        -------
+        Updated user settings response.
+        """
         user_id = kwargs['user_id']
         url = f'/v2/core/users/{user_id}'
         logger.info("Initialising API Call")
@@ -129,6 +246,17 @@ class UsersAPI:
         return result
 
     def get_current_user_tiers(self, **kwargs):
+        """
+        Makes a GET request to the current_user_tiers API
+        To get all the users under a tier.
+        Parameters
+        -------
+        account_id : integer, mandatory
+            ID of the Account
+        Returns
+        -------
+        Users under a tier response.
+        """
         account_id = kwargs['account_id']
         url = f'/v2/core/users/accounts/{account_id}/get_current_user_tiers'
         logger.info("Initialising API Call")

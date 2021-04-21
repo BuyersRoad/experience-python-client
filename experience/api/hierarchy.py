@@ -8,8 +8,25 @@ logger = logging.getLogger(__name__)
 
 
 class HierarchyAPI:
-
+    """
+    A class to represent a Hierarchy API.
+    Attributes
+    ----------
+    access_token : str
+        access_token of a user
+    base_url : str
+        Base url of the API
+    """
     def __init__(self, access_token, base_url):
+        """
+        Constructs all the necessary attributes for the HierarchyAPI object
+        Parameters
+        ----------
+        access_token : str
+            access_token of a user
+        base_url : str
+            Base url of the API
+        """
         self.access_token = access_token
         self.base_url = base_url
 
@@ -42,6 +59,17 @@ class HierarchyAPI:
         return result
 
     def get_hierarchy_summary(self, **kwargs):
+        """
+        Makes a GET request to the hierarchy_summary API
+        To get the hierarchy summary of given account
+        Parameters
+        ----------
+        account_id : integer, mandatory
+            ID of the account
+        Returns
+        -------
+        Hierarchy Summary
+        """
         account_id = kwargs['account_id']
         url = f'/v2/core/accounts/{account_id}/hierarchy_summary'
         logger.info("Initialising API Call")
@@ -49,6 +77,17 @@ class HierarchyAPI:
         return result
 
     def list_hierarchy(self, **kwargs):
+        """
+        Makes a GET request to the list_hierarchy API
+        To get the hierarchy list of a given organization
+        Parameters
+        ----------
+        org_id : integer, mandatory
+            ID of the organization
+        Returns
+        -------
+        Hierarchy list
+        """
         org_id = kwargs['org_id']
         url = f'/v2/core/organization/{org_id}/hierarchy'
         logger.info("Initialising API Call")

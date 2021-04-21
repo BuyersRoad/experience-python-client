@@ -9,8 +9,25 @@ logger = logging.getLogger(__name__)
 
 
 class CoreAPI:
-
+    """
+    A class to represent a Core API.
+    Attributes
+    ----------
+    access_token : str
+        access_token of a user
+    base_url : str
+        Base url of the API
+    """
     def __init__(self, access_token, base_url):
+        """
+        Constructs all the necessary attributes for the CoreAPI object
+        Parameters
+        ----------
+        access_token : str
+            access_token of a user
+        base_url : str
+            Base url of the API
+        """
         self.access_token = access_token
         self.base_url = base_url
         self.response = None
@@ -34,19 +51,37 @@ class CoreAPI:
         return result
 
     def get_business_category(self):
+        """
+        Makes a GET request to the Business Category API
+        Returns
+        -------
+        Vertical ID
+        """
         url = "/v2/core/verticals"
         logger.info("Initialising API Call")
         result = self.call_get_api(url)
         return result
 
     def get_blueprint_id(self):
+        """
+        Makes a GET request to the Blueprint API
+        Returns
+        -------
+        Blueprint ID
+        """
         url = '/v2/admin/blueprints'
         logger.info("Initialising API Call")
         result = self.call_get_api(url)
         return result
 
     def get_all_account_id_and_name(self):
-        """Get all the accounts from the organization"""
+        """
+        Makes a GET request to the Account ID and Name API
+        Gets all the accounts from the organization
+        Returns
+        -------
+        All account id with name
+        """
         url = self.base_url + '/v2/core/accounts'
         header = {
             "Authorization": self.access_token
