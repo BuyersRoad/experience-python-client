@@ -1,3 +1,4 @@
+error_response = {"error": "Missing Params"}
 
 environments = {
     'production': {

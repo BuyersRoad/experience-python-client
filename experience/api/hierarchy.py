@@ -1,8 +1,8 @@
 import logging
-
 import requests
 
 from experience.http.api_response import ApiResponse
+from experience.configuration import error_response
 
 logger = logging.getLogger(__name__)
 
@@ -74,11 +74,13 @@ class HierarchyAPI:
         -------
         Hierarchy Summary
         """
-        account_id = kwargs['account_id']
-        url = f'/v2/core/accounts/{account_id}/hierarchy_summary'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'account_id' in kwargs:
+            account_id = kwargs['account_id']
+            url = f'/v2/core/accounts/{account_id}/hierarchy_summary'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
 
     def list_hierarchy(self, **kwargs):
         """
@@ -94,8 +96,10 @@ class HierarchyAPI:
         -------
         Hierarchy list
         """
-        org_id = kwargs['org_id']
-        url = f'/v2/core/organization/{org_id}/hierarchy'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'org_id' in kwargs:
+            org_id = kwargs['org_id']
+            url = f'/v2/core/organization/{org_id}/hierarchy'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response

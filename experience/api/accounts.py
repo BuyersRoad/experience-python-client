@@ -3,6 +3,7 @@ import logging
 import requests
 
 from experience.http.api_response import ApiResponse
+from experience.configuration import error_response
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +78,7 @@ class AccountsAPI:
         blueprint_id : integer, mandatory
             ID of the blueprint
         name : string, mandatory
-
+            Name of the Account
         Returns
         -------
         account creation response
@@ -105,11 +106,13 @@ class AccountsAPI:
         -------
         account response
         """
-        account_id = kwargs['account_id']
-        url = f'/v2/core/accounts/{account_id}'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'account_id' in kwargs:
+            account_id = kwargs['account_id']
+            url = f'/v2/core/accounts/{account_id}'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
 
     def update_account(self, **kwargs):
         """
@@ -117,29 +120,30 @@ class AccountsAPI:
         Update an account in the organization.
 
         Other Parameters
-        ----------
+        ----------------
         id : integer, mandatory
             ID of account
-        Other Parameters
-        ----------------
-        vertical_id : integer, mandatory
+        vertical_id : integer, optional
             ID of the business category
-        blueprint_id : integer, mandatory
+        blueprint_id : integer, optional
             ID of the blueprint
-        name : string, mandatory
+        name : string, optional
+            Name of the Account
 
         Returns
         -------
         account update response
         """
-        account_id = kwargs['id']
-        url = f'/v2/core/accounts/{account_id}'
-        logger.info("Initialising API Call")
-        payload = {'account': {name: kwargs[name] for name in kwargs if kwargs[name] is not None and
-                               kwargs[name] != kwargs['id']}}
-        payload['account'].update({"status": 0, "is_registration_complete": True})
-        result = self.call_update_api(url, payload)
-        return result
+        if 'id' in kwargs:
+            account_id = kwargs['id']
+            url = f'/v2/core/accounts/{account_id}'
+            logger.info("Initialising API Call")
+            payload = {'account': {name: kwargs[name] for name in kwargs if kwargs[name] is not None and
+                                   kwargs[name] != kwargs['id']}}
+            payload['account'].update({"status": 0, "is_registration_complete": True})
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response
 
     def get_account_settings(self, **kwargs):
         """
@@ -155,30 +159,35 @@ class AccountsAPI:
         -------
         Account response
         """
-        account_id = kwargs['account_id']
-        url = f'/v2/core/accounts/{account_id}/settings'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'account_id' in kwargs:
+            account_id = kwargs['account_id']
+            url = f'/v2/core/accounts/{account_id}/settings'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
 
     def update_account_settings(self, **kwargs):
         """
         Makes a PUT request to the account_settings API
         Update a account in the organization.
 
-        Other Parameters
+        Other Parameter
         ----------
         account_id : integer, mandatory
             ID of account
-        settings : dict, mandatory
+        account_setting : dict, mandatory
+            account settings
 
         Returns
         -------
         account update response
         """
-        account_id = kwargs['id']
-        url = f'/v2/core/accounts/{account_id}/settings'
-        logger.info("Initialising API Call")
-        payload = {"account_settings": kwargs['account_setting']}
-        result = self.call_update_api(url, payload)
-        return result
+        if 'id' in kwargs:
+            account_id = kwargs['id']
+            url = f'/v2/core/accounts/{account_id}/settings'
+            logger.info("Initialising API Call")
+            payload = {"account_settings": kwargs['account_setting']}
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response

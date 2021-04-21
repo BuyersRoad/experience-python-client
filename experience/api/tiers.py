@@ -1,6 +1,7 @@
 import logging
 import requests
 
+from experience.configuration import error_response
 from experience.http.api_response import ApiResponse
 
 logger = logging.getLogger(__name__)
@@ -72,18 +73,24 @@ class TiersAPI:
         tier_category_id : integer, mandatory
             ID of the tier category
         parent : integer, mandatory
+            ID of the parent
         name : string, mandatory
+            Name of the tier
         label : string, mandatory
+            Label name
         description : string, mandatory
+            Description of the tier
 
         Returns
         -------
         Tier creation response
         """
-        url = '/v2/core/tiers'
-        logger.info("Initialising API Call")
-        result = self.call_post_api(url, kwargs['tier'])
-        return result
+        if 'tier' in kwargs:
+            url = '/v2/core/tiers'
+            logger.info("Initialising API Call")
+            result = self.call_post_api(url, kwargs['tier'])
+            return result
+        return error_response
 
     def activate_tier(self, **kwargs):
         """
@@ -99,16 +106,18 @@ class TiersAPI:
         -------
         Tier activate response
         """
-        tier_id = kwargs['tier_id']
-        url = f'/v2/core/tiers/{tier_id}/activate'
-        logger.info("Initialising API Call")
-        url = self.base_url + url
-        header = {
-            "Authorization": self.access_token
-        }
-        response = requests.put(url, headers=header)
-        result = ApiResponse(response)
-        return result
+        if 'tier_id' in kwargs:
+            tier_id = kwargs['tier_id']
+            url = f'/v2/core/tiers/{tier_id}/activate'
+            logger.info("Initialising API Call")
+            url = self.base_url + url
+            header = {
+                "Authorization": self.access_token
+            }
+            response = requests.put(url, headers=header)
+            result = ApiResponse(response)
+            return result
+        return error_response
 
     def update_tier(self, **kwargs):
         """
@@ -119,20 +128,25 @@ class TiersAPI:
         ----------
         tier_id : integer, mandatory
            ID of the tier
-        name : string, mandatory
-        label : string, mandatory
-        description : string, mandatory
+        name : string, optional
+            Name of the tier
+        label : string, optional
+            Label name
+        description : string, optional
+            Description of the tier
 
         Returns
         -------
         Tier update response
         """
-        tier_id = kwargs['tier_id']
-        url = f'/v2/core/tiers/{tier_id}'
-        logger.info("Initialising API Call")
-        payload = {name: kwargs[name] for name in kwargs if kwargs[name] is not None}
-        result = self.call_update_api(url, payload)
-        return result
+        if 'tier_id' in kwargs:
+            tier_id = kwargs['tier_id']
+            url = f'/v2/core/tiers/{tier_id}'
+            logger.info("Initialising API Call")
+            payload = {name: kwargs[name] for name in kwargs if kwargs[name] is not None}
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response
 
     def move_tier(self, **kwargs):
         """
@@ -142,27 +156,31 @@ class TiersAPI:
         Other Parameters
         ----------
         tier_id : integer, mandatory
-           ID of the tier
+            ID of the tier
         destination_parent_tier_id : integer, mandatory
+            Destination parent id
         destination_order : integer, mandatory
+            Destination order id
 
         Returns
         -------
         Tier move response
         """
-        tier_id = kwargs['tier_id']
-        url = f'/v2/core/tiers/{tier_id}/move'
-        logger.info("Initialising API Call")
-        payload = kwargs['body']
-        result = self.call_update_api(url, payload)
-        return result
+        if 'tier_id' in kwargs:
+            tier_id = kwargs['tier_id']
+            url = f'/v2/core/tiers/{tier_id}/move'
+            logger.info("Initialising API Call")
+            payload = kwargs['body']
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response
 
     def get_tier(self, **kwargs):
         """
         Makes a GET request to the get_tier API
         To returns a tier based on the given ID.
 
-        OtherParameters
+        Other Parameters
         ----------
         tier_id : integer, mandatory
            ID of the tier
@@ -171,11 +189,13 @@ class TiersAPI:
         -------
         Tier success response
         """
-        tier_id = kwargs['tier_id']
-        url = f'/v2/core/tiers/{tier_id}'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'tier_id' in kwargs:
+            tier_id = kwargs['tier_id']
+            url = f'/v2/core/tiers/{tier_id}'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
 
     def delete_tier(self, **kwargs):
         """
@@ -191,16 +211,18 @@ class TiersAPI:
         -------
         Tier delete response
         """
-        tier_id = kwargs['tier_id']
-        url = f'/v2/core/tiers/{tier_id}'
-        logger.info("Initialising API Call")
-        url = self.base_url + url
-        header = {
-            "Authorization": self.access_token
-        }
-        response = requests.delete(url, headers=header)
-        result = ApiResponse(response)
-        return result
+        if 'tier_id' in kwargs:
+            tier_id = kwargs['tier_id']
+            url = f'/v2/core/tiers/{tier_id}'
+            logger.info("Initialising API Call")
+            url = self.base_url + url
+            header = {
+                "Authorization": self.access_token
+            }
+            response = requests.delete(url, headers=header)
+            result = ApiResponse(response)
+            return result
+        return error_response
 
     def get_tier_settings(self, **kwargs):
         """
@@ -216,11 +238,13 @@ class TiersAPI:
         -------
         Tier settings response
         """
-        tier_id = kwargs['tier_id']
-        url = f'/v2/core/tiers/{tier_id}/settings'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'tier_id' in kwargs:
+            tier_id = kwargs['tier_id']
+            url = f'/v2/core/tiers/{tier_id}/settings'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
 
     def update_tier_settings(self, **kwargs):
         """
@@ -232,17 +256,20 @@ class TiersAPI:
         tier_id : integer, mandatory
            ID of the tier
         tier_setting : dict, mandatory
+            Tier setting
 
         Returns
         -------
         Tier settings response
         """
-        tier_id = kwargs['id']
-        url = f'/v2/core/tiers/{tier_id}/settings'
-        logger.info("Initialising API Call")
-        payload = {"tier_settings": kwargs['tier_setting']}
-        result = self.call_update_api(url, payload)
-        return result
+        if 'id' in kwargs:
+            tier_id = kwargs['id']
+            url = f'/v2/core/tiers/{tier_id}/settings'
+            logger.info("Initialising API Call")
+            payload = {"tier_settings": kwargs['tier_setting']}
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response
 
     def get_hierarchy_by_account(self, **kwargs):
         """
@@ -258,11 +285,13 @@ class TiersAPI:
         -------
         Hierarchy by account response
         """
-        account_id = kwargs['account_id']
-        url = f'/v2/core/tiers/{account_id}/hierarchy'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'account_id' in kwargs:
+            account_id = kwargs['account_id']
+            url = f'/v2/core/tiers/{account_id}/hierarchy'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
 
     def call_api(self, url, param):
         url = self.base_url + url

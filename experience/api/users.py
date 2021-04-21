@@ -2,6 +2,7 @@ import json
 import logging
 import requests
 
+from experience.configuration import error_response
 from experience.http.api_response import ApiResponse
 
 logger = logging.getLogger(__name__)
@@ -101,11 +102,13 @@ class UsersAPI:
         """
         user_details = str(self.user_details).split('ApiResponse', 1)[1]
         org_id = json.loads(user_details)
-        organization_id = org_id['organization_id']
-        url = f'/v2/core/organization/{organization_id}/tier_users'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if org_id['organization_id']:
+            organization_id = org_id['organization_id']
+            url = f'/v2/core/organization/{organization_id}/tier_users'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
 
     def get_all_account_manager(self, **kwargs):
         """
@@ -121,11 +124,13 @@ class UsersAPI:
         -------
         All account managers
         """
-        account_id = kwargs['account_id']
-        url = f'/v2/core/accounts/{account_id}/get_account_managers'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'account_id' in kwargs:
+            account_id = kwargs['account_id']
+            url = f'/v2/core/accounts/{account_id}/get_account_managers'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
 
     def get_users(self, **kwargs):
         """
@@ -141,11 +146,13 @@ class UsersAPI:
         -------
         Get user success response
         """
-        user_id = kwargs['user_id']
-        url = f'/v2/core/users/{user_id}/get_user'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'user_id' in kwargs:
+            user_id = kwargs['user_id']
+            url = f'/v2/core/users/{user_id}/get_user'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
 
     def create_users(self, **kwargs):
         """
@@ -157,12 +164,13 @@ class UsersAPI:
         account_id : integer, mandatory
             ID of account
         email : string, mandatory
+            Email Id of a user
         first_name : string, mandatory
+            First name of a user
         last_name : string, mandatory
-
-        Other Parameters
-        -------
+            Last name of a user
         user_role : dict, mandatory
+            Tier and role Assignment
 
         Returns
         -------
@@ -183,22 +191,21 @@ class UsersAPI:
         -------
         user_id : integer, mandatory
             ID of the User
-
-        Other Parameters
-        -------
         tier : dict, mandatory
 
         Returns
         -------
         User update response.
         """
-        tier = kwargs['tier']
-        user_id = kwargs['user_id']
-        url = f'/v2/core/users/{user_id}'
-        logger.info("Initialising API Call")
-        payload = {"user": tier}
-        result = self.call_update_api(url, payload)
-        return result
+        if 'tier' in kwargs:
+            tier = kwargs['tier']
+            user_id = kwargs['user_id']
+            url = f'/v2/core/users/{user_id}'
+            logger.info("Initialising API Call")
+            payload = {"user": tier}
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response
 
     def deactivate_user(self, **kwargs):
         """
@@ -214,11 +221,13 @@ class UsersAPI:
         -------
         User is deactivated response.
         """
-        user_id = kwargs['user_id']
-        url = f'/v2/core/user_deactivate?user_id[]={user_id}'
-        logger.info("Initialising API Call")
-        result = self.call_update_api(url, kwargs)
-        return result
+        if 'user_id' in kwargs:
+            user_id = kwargs['user_id']
+            url = f'/v2/core/user_deactivate?user_id[]={user_id}'
+            logger.info("Initialising API Call")
+            result = self.call_update_api(url, kwargs)
+            return result
+        return error_response
 
     def get_users_settings(self, **kwargs):
         """
@@ -234,11 +243,13 @@ class UsersAPI:
         -------
         User settings response.
         """
-        user_id = kwargs['user_id']
-        url = f'/v2/core/users/{user_id}/get_user'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'user_id' in kwargs:
+            user_id = kwargs['user_id']
+            url = f'/v2/core/users/{user_id}/get_user'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
 
     def update_users_settings(self, **kwargs):
         """
@@ -250,17 +261,19 @@ class UsersAPI:
         user_id : integer, mandatory
             ID of the User
         user_setting : dict, mandatory
-
+            User settings
         Returns
         -------
         Updated user settings response.
         """
-        user_id = kwargs['user_id']
-        url = f'/v2/core/users/{user_id}'
-        logger.info("Initialising API Call")
-        payload = {'user': kwargs['user_setting']}
-        result = self.call_update_api(url, payload)
-        return result
+        if 'user_id' in kwargs:
+            user_id = kwargs['user_id']
+            url = f'/v2/core/users/{user_id}'
+            logger.info("Initialising API Call")
+            payload = {'user': kwargs['user_setting']}
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response
 
     def get_current_user_tiers(self, **kwargs):
         """
@@ -276,8 +289,10 @@ class UsersAPI:
         -------
         Users under a tier response.
         """
-        account_id = kwargs['account_id']
-        url = f'/v2/core/users/accounts/{account_id}/get_current_user_tiers'
-        logger.info("Initialising API Call")
-        result = self.call_get_api(url, kwargs)
-        return result
+        if 'account_id' in kwargs:
+            account_id = kwargs['account_id']
+            url = f'/v2/core/users/accounts/{account_id}/get_current_user_tiers'
+            logger.info("Initialising API Call")
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response

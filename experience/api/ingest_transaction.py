@@ -2,6 +2,7 @@ import logging
 import requests
 
 from experience.http.api_response import ApiResponse
+from experience.configuration import error_response
 
 logger = logging.getLogger(__name__)
 
@@ -55,8 +56,10 @@ class IngestTransactionAPI:
         -------
         Response for the ingested transaction
         """
-        payload = kwargs['data']
-        url = '/ipro/ingest_transaction'
-        logger.info("Initialising API Call")
-        result = self.call_post_api(url, payload)
-        return result
+        if 'data' in kwargs:
+            payload = kwargs['data']
+            url = '/ipro/ingest_transaction'
+            logger.info("Initialising API Call")
+            result = self.call_post_api(url, payload)
+            return result
+        return error_response
