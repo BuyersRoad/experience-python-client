@@ -65,7 +65,7 @@ class TiersAPI:
         Makes a POST request to the create_tier API
         To create a new tier.
 
-        Parameters
+        Other Parameters
         ----------
         account_id : integer, mandatory
             ID of the account
@@ -90,7 +90,7 @@ class TiersAPI:
         Makes a PUT request to the activate_tier API
         To activate given tier and its associates
 
-        Parameters
+        Other Parameters
         ----------
         tier_id : integer, mandatory
             ID of the tier
@@ -115,13 +115,10 @@ class TiersAPI:
         Makes a PUT request to the update_tier API
         To update a tier based on the given ID.
 
-        Parameters
+        Other Parameters
         ----------
         tier_id : integer, mandatory
            ID of the tier
-
-        Other Parameters
-        ----------
         name : string, mandatory
         label : string, mandatory
         description : string, mandatory
@@ -142,13 +139,10 @@ class TiersAPI:
         Makes a PUT request to the move_tier API
         To move tier from one parent to other.
 
-        Parameters
+        Other Parameters
         ----------
         tier_id : integer, mandatory
            ID of the tier
-
-        Other Parameters
-        ----------
         destination_parent_tier_id : integer, mandatory
         destination_order : integer, mandatory
 
@@ -168,7 +162,7 @@ class TiersAPI:
         Makes a GET request to the get_tier API
         To returns a tier based on the given ID.
 
-        Parameters
+        OtherParameters
         ----------
         tier_id : integer, mandatory
            ID of the tier
@@ -188,7 +182,7 @@ class TiersAPI:
         Makes a DELETE request to the delete_tier API
         To destroy a tier based on the given ID
 
-        Parameters
+        Other Parameters
         ----------
         tier_id : integer, mandatory
             ID of the tier
@@ -213,7 +207,7 @@ class TiersAPI:
         Makes a GET request to the get_tier_settings API
         Get the settings of a particular tier
 
-        Parameters
+        Other Parameters
         ----------
         tier_id : integer, mandatory
            ID of the tier
@@ -233,13 +227,10 @@ class TiersAPI:
         Makes a PUT request to the update_tier_settings API
         Update the settings of a particular tier
 
-        Parameters
+        Other Parameters
         ----------
         tier_id : integer, mandatory
            ID of the tier
-
-        Other Parameters
-        ----------
         tier_setting : dict, mandatory
 
         Returns
@@ -258,7 +249,7 @@ class TiersAPI:
         Makes a GET request to the hierarchy_by_account API
         To get hierarchy from account_id.
 
-        Parameters
+        Other Parameters
         ----------
         account_id : integer, mandatory
            ID of the account

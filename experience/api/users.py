@@ -112,7 +112,7 @@ class UsersAPI:
         Makes a GET request to the all_account_manager API
         To get all the account manager of a given organization
 
-        Parameters
+        Other Parameters
         -------
         account_id : integer, mandatory
             ID of account
@@ -132,7 +132,7 @@ class UsersAPI:
         Makes a GET request to the get_users API
         To returns a user and user settings based on the given ID.
 
-        Parameters
+        Other Parameters
         -------
         account_id : integer, mandatory
             ID of account
@@ -152,7 +152,7 @@ class UsersAPI:
         Makes a POST request to the create_users API
         To create user.
 
-        Parameters
+        Other Parameters
         -------
         account_id : integer, mandatory
             ID of account
@@ -179,7 +179,7 @@ class UsersAPI:
         Makes a PUT request to the update_users API
         To update a user and user settings based on the given ID
 
-        Parameters
+        Other Parameters
         -------
         user_id : integer, mandatory
             ID of the User
@@ -205,7 +205,7 @@ class UsersAPI:
         Makes a PUT request to the deactivate_user API
         To deactivate a user based on the given user ID.
 
-        Parameters
+        Other Parameters
         -------
         user_id : integer, mandatory
             ID of the User
@@ -225,7 +225,7 @@ class UsersAPI:
         Makes a GET request to the users_settings API
         To get user settings based on the given user ID.
 
-        Parameters
+        Other Parameters
         -------
         user_id : integer, mandatory
             ID of the User
@@ -245,13 +245,10 @@ class UsersAPI:
         Makes a PUT request to the users_settings API
         To update user settings based on the given user ID.
 
-        Parameters
+        Other Parameters
         -------
         user_id : integer, mandatory
             ID of the User
-
-        Other Parameters
-        -------
         user_setting : dict, mandatory
 
         Returns
@@ -270,7 +267,7 @@ class UsersAPI:
         Makes a GET request to the current_user_tiers API
         To get all the users under a tier.
 
-        Parameters
+        Other Parameters
         -------
         account_id : integer, mandatory
             ID of the Account

@@ -96,7 +96,7 @@ class AccountsAPI:
         Makes a GET request to the get_account API
         Returns an account based on a single ID
 
-        Parameters
+        Other Parameters
         ----------
         account_id : integer, mandatory
             ID of account
@@ -116,7 +116,7 @@ class AccountsAPI:
         Makes a PUT request to the update_account API
         Update an account in the organization.
 
-        Parameters
+        Other Parameters
         ----------
         id : integer, mandatory
             ID of account
@@ -146,7 +146,7 @@ class AccountsAPI:
         Makes a GET request to the account_settings API
         Returns account settings.
 
-        Parameters
+        Other Parameters
         ----------
         account_id : integer, mandatory
             ID of account
@@ -166,13 +166,10 @@ class AccountsAPI:
         Makes a PUT request to the account_settings API
         Update a account in the organization.
 
-        Parameters
+        Other Parameters
         ----------
         account_id : integer, mandatory
             ID of account
-
-        Other Parameter
-        ----------
         settings : dict, mandatory
 
         Returns

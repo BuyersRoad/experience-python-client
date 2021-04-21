@@ -65,7 +65,7 @@ class HierarchyAPI:
         Makes a GET request to the hierarchy_summary API
         To get the hierarchy summary of given account
 
-        Parameters
+        Other Parameters
         ----------
         account_id : integer, mandatory
             ID of the account
@@ -85,7 +85,7 @@ class HierarchyAPI:
         Makes a GET request to the list_hierarchy API
         To get the hierarchy list of a given organization
 
-        Parameters
+        Other Parameters
         ----------
         org_id : integer, mandatory
             ID of the organization
