@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 class AccountsAPI:
     """
     A class to represent a Accounts API.
+
     Attributes
     ----------
     access_token : str
@@ -22,6 +23,7 @@ class AccountsAPI:
     def __init__(self, access_token, base_url, user_details):
         """
         Constructs all the necessary attributes for the AccountsAPI object
+
         Parameters
         ----------
         access_token : str
@@ -67,6 +69,7 @@ class AccountsAPI:
         """
         Makes a POST request to the create_account API
         Creates a new account in the organization.
+
         Other Parameters
         ----------
         vertical_id : integer, mandatory
@@ -74,6 +77,7 @@ class AccountsAPI:
         blueprint_id : integer, mandatory
             ID of the blueprint
         name : string, mandatory
+
         Returns
         -------
         account creation response
@@ -91,10 +95,12 @@ class AccountsAPI:
         """
         Makes a GET request to the get_account API
         Returns an account based on a single ID
+
         Parameters
         ----------
         account_id : integer, mandatory
             ID of account
+
         Returns
         -------
         account response
@@ -109,6 +115,7 @@ class AccountsAPI:
         """
         Makes a PUT request to the update_account API
         Update an account in the organization.
+
         Parameters
         ----------
         id : integer, mandatory
@@ -120,6 +127,7 @@ class AccountsAPI:
         blueprint_id : integer, mandatory
             ID of the blueprint
         name : string, mandatory
+
         Returns
         -------
         account update response
@@ -137,10 +145,12 @@ class AccountsAPI:
         """
         Makes a GET request to the account_settings API
         Returns account settings.
+
         Parameters
         ----------
         account_id : integer, mandatory
             ID of account
+
         Returns
         -------
         Account response
@@ -155,13 +165,16 @@ class AccountsAPI:
         """
         Makes a PUT request to the account_settings API
         Update a account in the organization.
+
         Parameters
         ----------
         account_id : integer, mandatory
             ID of account
+
         Other Parameter
         ----------
         settings : dict, mandatory
+
         Returns
         -------
         account update response

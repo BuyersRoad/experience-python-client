@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 class HierarchyAPI:
     """
     A class to represent a Hierarchy API.
+
     Attributes
     ----------
     access_token : str
@@ -20,6 +21,7 @@ class HierarchyAPI:
     def __init__(self, access_token, base_url):
         """
         Constructs all the necessary attributes for the HierarchyAPI object
+
         Parameters
         ----------
         access_token : str
@@ -62,10 +64,12 @@ class HierarchyAPI:
         """
         Makes a GET request to the hierarchy_summary API
         To get the hierarchy summary of given account
+
         Parameters
         ----------
         account_id : integer, mandatory
             ID of the account
+
         Returns
         -------
         Hierarchy Summary
@@ -80,10 +84,12 @@ class HierarchyAPI:
         """
         Makes a GET request to the list_hierarchy API
         To get the hierarchy list of a given organization
+
         Parameters
         ----------
         org_id : integer, mandatory
             ID of the organization
+
         Returns
         -------
         Hierarchy list
