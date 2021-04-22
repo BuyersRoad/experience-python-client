@@ -59,7 +59,7 @@ class AuthenticationAPI:
 
         Returns
         -------
-        User Details like account_id, organization_id
+        Current user details response
         """
         url = self.base_url + '/v2/core/current_user'
         header = {
