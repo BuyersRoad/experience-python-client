@@ -44,12 +44,12 @@
  First, create a `Client` object:
 
      >>> from experience.client import Client
-     ... client = Client(access_token='access_token', environment='domain')
+     ... client = Client(access_token='access_token', domain='domain name')
 
  (or)
 
      >>> from experience.client import Client
-     ... client = Client(user_email='email@gmail.com', password='password', environment='domain')
+     ... client = Client(user_email='email@gmail.com', password='password', domain='domain name')
 
  Domains
  ----------------------------
