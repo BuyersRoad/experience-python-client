@@ -3,8 +3,7 @@ We believe that experience is everything. Amazing experiences create customers f
 ## Versions
 * python 3.5 and above
 ## API Documentation
-* [Hierarchy](experience_python_client/doc/hierarchy.md)
-* [Reporting](experience_python_client/doc/report.md)
+* [Documentation](docs/api/index.html)
 ## Building
 `python setup.py bdist_wheel`
 ## Installing

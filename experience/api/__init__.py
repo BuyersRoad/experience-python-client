@@ -53,14 +53,14 @@
 
  Domains
  ----------------------------
- By default `experience_python_client` will make request to:
+ `experience_python_client` will make request to:
 
 
      https://{subdomain}.{domain}/{endpoint}
- In some cases you may want to override this behaviour (like for local testing or if you have a custom domain )
- You can do this by setting the environment variables:
- * Sandbox
- * Prod
+ You have to pass domain while Invoking `Client` Class , subdomain and endpoint will fetch automatically
+ Domain
+    * Sandbox
+    * Prod
 
 
      https://{subdomain}.{sandbox}/{endpoint}
