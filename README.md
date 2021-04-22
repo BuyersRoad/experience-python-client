@@ -3,7 +3,7 @@ We believe that experience is everything. Amazing experiences create customers f
 ## Versions
 * python 3.5 and above
 ## API Documentation
-* [Documentation](http://localhost:63342/experience-python-client/docs/api/index.html?_ijt=f8dh1n522cbe5ds0nagrobuilg)
+* [Documentation](https://github.com/BuyersRoad/experience-python-client/blob/SSV2-1926-experience-python-sdk/docs/api/index.html)
 ## Building
 `python setup.py bdist_wheel`
 ## Installing

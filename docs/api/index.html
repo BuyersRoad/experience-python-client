@@ -54,22 +54,23 @@ call are evaluated lazily.The wrapper supports both reading and writing from the
 <h2 id="usage">Usage</h2>
 <p>First, create a <code>Client</code> object:</p>
 <pre><code>&gt;&gt;&gt; from experience.client import Client
-... client = Client(access_token='access_token', environment='domain')
+... client = Client(access_token='access_token', domain='domain name')
 </code></pre>
 <p>(or)</p>
 <pre><code>&gt;&gt;&gt; from experience.client import Client
-... client = Client(user_email='email@gmail.com', password='password', environment='domain')
+... client = Client(user_email='email@gmail.com', password='password', domain='domain name')
 </code></pre>
 <h2 id="domains">Domains</h2>
-<p>By default <code>experience_python_client</code> will make request to:</p>
-<pre><code>&lt;https://{subdomain}.{domain}/{endpoint}&gt;
-</code></pre>
-<p>In some cases you may want to override this behaviour (like for local testing or if you have a custom domain )
-You can do this by setting the environment variables:
-* Sandbox
-* Prod</p>
-<pre><code>&lt;https://{subdomain}.{sandbox}/{endpoint}&gt;
-</code></pre>
+<ul>
+<li>Sandbox</li>
+<li>
+<p>Prod
+<code>experience_python_client</code> will make request to:</p>
+<p><a href="https://{subdomain}.{domain}/{endpoint}">https://{subdomain}.{domain}/{endpoint}</a>
+You have to pass <code>domain</code> while Invoking <code>Client</code> Class , <code>subdomain</code> and <code>endpoint</code> will fetch automatically</p>
+<p><a href="https://{subdomain}.{sandbox}/{endpoint}">https://{subdomain}.{sandbox}/{endpoint}</a></p>
+</li>
+</ul>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -119,23 +120,22 @@ You can do this by setting the environment variables:
  First, create a `Client` object:
 
      &gt;&gt;&gt; from experience.client import Client
-     ... client = Client(access_token=&#39;access_token&#39;, environment=&#39;domain&#39;)
+     ... client = Client(access_token=&#39;access_token&#39;, domain=&#39;domain name&#39;)
 
  (or)
 
      &gt;&gt;&gt; from experience.client import Client
-     ... client = Client(user_email=&#39;email@gmail.com&#39;, password=&#39;password&#39;, environment=&#39;domain&#39;)
+     ... client = Client(user_email=&#39;email@gmail.com&#39;, password=&#39;password&#39;, domain=&#39;domain name&#39;)
 
  Domains
  ----------------------------
- By default `experience_python_client` will make request to:
+    * Sandbox
+    * Prod
+ `experience_python_client` will make request to:
 
 
      https://{subdomain}.{domain}/{endpoint}
- In some cases you may want to override this behaviour (like for local testing or if you have a custom domain )
- You can do this by setting the environment variables:
- * Sandbox
- * Prod
+ You have to pass `domain` while Invoking `Client` Class , `subdomain` and `endpoint` will fetch automatically
 
 
      https://{subdomain}.{sandbox}/{endpoint}

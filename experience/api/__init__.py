@@ -53,14 +53,13 @@
 
  Domains
  ----------------------------
+    * Sandbox
+    * Prod
  `experience_python_client` will make request to:
 
 
      https://{subdomain}.{domain}/{endpoint}
- You have to pass domain while Invoking `Client` Class , subdomain and endpoint will fetch automatically
- Domain
-    * Sandbox
-    * Prod
+ You have to pass `domain` while Invoking `Client` Class , `subdomain` and `endpoint` will fetch automatically
 
 
      https://{subdomain}.{sandbox}/{endpoint}
