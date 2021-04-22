@@ -24,7 +24,7 @@ class Client:
             # Get Domain name
             self.base_url = environments[kwargs['environment']].get('default')
 
-        #To form base url with subdomain and domain name
+        # To form base url with subdomain and domain name
         if 'domain' in kwargs:
             self.domain = kwargs['domain']
 
@@ -37,7 +37,7 @@ class Client:
             if "error" not in access_token:
                 self.access_token = json.loads(access_token)['auth_token']
 
-        #To Get current user details by calling current_user_details method
+        # To Get current user details by calling current_user_details method
         self.base_url = 'https://api.' + self.domain + '.experience.com'
         self.user_details = AuthenticationAPI(self.access_token, self.base_url).current_user_details()
 
