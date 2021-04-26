@@ -339,7 +339,41 @@ To get the hierarchy summary of given account</p>
 <dl>
 <dt><code>Hierarchy Summary</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and environment
+client = Client(access_token='', domain='sandbox')
+hierarchy_api = client.hierarchy()
+core_api = client.core()
+
+# Call get_all_account_id_and_name to get all account id with name
+account_id = core_api.get_all_account_id_and_name()
+# To print account id
+print_api_response(account_id)
+
+# Call the get_hierarchy_summary method to get the hierarchy summary by passing required params
+result = hierarchy_api.get_hierarchy_summary(account_id='')
+# To print hierarchy summary response
+print_api_response(result)</code></pre>
+</div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -366,6 +400,7 @@ To get the hierarchy summary of given account</p>
         return result
     return error_response</code></pre>
 </details>
+
 </dd>
 <dt id="api.hierarchy.HierarchyAPI.list_hierarchy"><code class="name flex">
 <span>def <span class="ident">list_hierarchy</span></span>(<span>self, **kwargs)</span>
@@ -409,6 +444,7 @@ To get the hierarchy list of a given organization</p>
         return result
     return error_response</code></pre>
 </details>
+
 </dd>
 </dl>
 </dd>
