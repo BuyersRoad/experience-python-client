@@ -771,6 +771,57 @@ To create user.</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>User create response.</p></div>
+     <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+user_api = client.user()
+core_api = client.core()
+
+# Call get_all_account_id_and_name method to get all account_id with name under an organization
+account_id = core_api.get_all_account_id_and_name()
+# To Print all account_id and name
+print_api_response(account_id)
+
+# Call get_current_user_tiers method to get all the tiers
+get_current_user_tiers = user_api.get_current_user_tiers(account_id=10088)
+# To Print all the tiers
+print_api_response(get_current_user_tiers)
+# user role
+user_role = [{
+    "resource": "Tier",
+    "id": [253],
+    "role": 4
+},
+    {
+        "resource": "Tier",
+        "id": [253],
+        "role": 5
+    }
+]
+# Call the create_users method to create new user by passing required params
+result = user_api.create_users(email="sharan@gmail.com", first_name="sara", last_name="T", account_id=10088,
+                               user_role=user_role)
+# To print create_user method response
+print_api_response(result)
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -817,6 +868,41 @@ To deactivate a user based on the given user ID.</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>User is deactivated response.</p></div>
+    <h3 id="returns">Example Usage</h3>
+    <pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+user_api = client.user()
+authentication = client.authentication()
+
+# Call the current_user_details to get current user details
+current_user_details = authentication.current_user_details()
+# To Print current user details
+print_api_response(current_user_details)
+
+# Call the deactivate_user method by passing user_id
+result = user_api.deactivate_user(user_id=353)
+# To Print user deactivation response
+print_api_response(result)
+</code></pre>
+
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -859,6 +945,40 @@ To get all the account manager of a given organization</p>
 <dl>
 <dt><code>All account managers</code></dt>
 <dd>&nbsp;</dd>
+<h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+user_api = client.user()
+core_api = client.core()
+
+# Call get_all_account_id_and_name method to get all account_id with name under an organization
+account_id = core_api.get_all_account_id_and_name()
+# To Print all account_id and name
+print_api_response(account_id)
+
+# Call get_all_account_manager method to get all the Account Manager under an Account
+account_manager = user_api.get_all_account_manager(account_id=10088)
+# To Print all the Account Manager under an Account
+print_api_response(account_manager)
+</code></pre>
 </dl></div>
 <details class="source">
 <summary>
@@ -897,6 +1017,34 @@ To get all the users of a given organization</p>
 <dl>
 <dt><code>All present users</code></dt>
 <dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+user_api = client.user()
+
+# Call get_all_users method to get all the users under an organization
+result = user_api.get_all_users()
+# To Print all the users under an organization
+print_api_response(result)
+</code></pre>
 </dl></div>
 <details class="source">
 <summary>
@@ -935,6 +1083,41 @@ To get all the users under a tier.</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>Users under a tier response.</p></div>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">
+from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+user_api = client.user()
+core_api = client.core()
+
+# Call get_all_account_id_and_name method to get all account_id with name under an organization
+account_id = core_api.get_all_account_id_and_name()
+# To Print all account_id and name
+print_api_response(account_id)
+
+# Call get_current_user_tiers method to get all the users under a tier
+get_current_user_tiers = user_api.get_current_user_tiers(account_id=10088)
+# To Print all the users under a tier
+print_api_response(get_current_user_tiers)
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -977,6 +1160,40 @@ To returns a user and user settings based on the given ID.</p>
 <dl>
 <dt><code>Get user success response</code></dt>
 <dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+user = client.user()
+authentication = client.authentication()
+
+# Call current_user_details method to get current user details
+user_details = authentication.current_user_details()
+# To Print current user details
+print_api_response(user_details)
+
+# Call get_users method to get a user and user settings based on the given user_id.
+result = user.get_users(user_id=353)
+# To Print a user and user settings based on the given user_id.
+print_api_response(result)
+</code></pre>
 </dl></div>
 <details class="source">
 <summary>
@@ -1018,6 +1235,41 @@ To get user settings based on the given user ID.</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>User settings response.</p></div>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+user_api = client.user()
+authentication = client.authentication()
+
+
+# Call current_user_details method to get current user details
+user_details = authentication.current_user_details()
+# To Print current user details
+print_api_response(user_details)
+
+# Call get_users method to get a user and user settings based on the given user_id.
+result = user_api.get_users_settings(user_id=353)
+# To Print a user and user settings based on the given user_id.
+print_api_response(result)
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1060,6 +1312,78 @@ To update a user and user settings based on the given ID</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>User update response.</p></div>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+user_api = client.user()
+core_api = client.core()
+tier_api = client.tiers()
+authentication = client.authentication()
+
+# Call current_user_details method to get current user details
+user_details = authentication.current_user_details()
+# To Print current user details
+print_api_response(user_details)
+
+# Call get_all_account_id_and_name method to get all account_id with name under an organization
+account_id = core_api.get_all_account_id_and_name()
+# To Print all account_id and name
+print_api_response(account_id)
+
+# Call get_hierarchy_by_account method to get tier details under an Account
+get_hierarchy_by_account = tier_api.get_hierarchy_by_account(account_id=10088)
+# To Print the get_hierarchy_by_account method response
+print_api_response(get_hierarchy_by_account)
+
+# User information and user setting to update
+tier = {
+    "first_name": "sara",
+    "last_name": "T",
+    "send_email": True,
+    "user_role_association": [
+      {
+        "resource": "string",
+        "id": [
+          253
+        ],
+        "role": 4
+      }
+    ],
+    "user_setting": [
+      {
+        "agent_email_notify_threshold": 0,
+        "agent_sms_notify_threshold": 0,
+        "enable_reply_to_review": True,
+        "reply_to_review_threshold": True,
+        "sm_auto_post_min_threshold": True,
+        "sm_max_post_per_day": 0,
+        "sm_min_duration_btw_posts": 0
+      }
+    ]
+  }
+# Call update_users method to update an user by account_id and user_id
+result = user_api.update_users(user_id=353, tier=tier)
+# To Print update_user method response
+print_api_response(result)
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1105,6 +1429,66 @@ To update user settings based on the given user ID.</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <p>Updated user settings response.</p></div>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', environment='sandbox')
+user_api = client.user()
+core_api = client.core()
+tier_api = client.tiers()
+authentication = client.authentication()
+
+# Call current_user_details method to get current user details
+user_details = authentication.current_user_details()
+# To Print current user details
+print_api_response(user_details)
+
+# Call get_all_account_id_and_name method to get all account_id with name under an organization
+account_id = core_api.get_all_account_id_and_name()
+# To Print all account_id and name
+print_api_response(account_id)
+
+# Call get_hierarchy_by_account method to get tier details under an Account
+get_hierarchy_by_account = tier_api.get_hierarchy_by_account(account_id=10088)
+# To Print the get_hierarchy_by_account method response
+print_api_response(get_hierarchy_by_account)
+
+# User setting to update
+user_setting = {
+    "user_setting": [
+      {
+        "agent_email_notify_threshold": 0,
+        "agent_sms_notify_threshold": 0,
+        "enable_reply_to_review": True,
+        "reply_to_review_threshold": True,
+        "sm_auto_post_min_threshold": True,
+        "sm_max_post_per_day": 0,
+        "sm_min_duration_btw_posts": 0
+      }
+    ]
+}
+# Call update_users_settings method to update an user by user_id
+result = user_api.update_users_settings(user_id=353, user_setting=user_setting)
+# To Print the update_users_settings method response
+print_api_response(result)
+</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
