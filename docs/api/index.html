@@ -63,14 +63,12 @@ call are evaluated lazily.The wrapper supports both reading and writing from the
 <h2 id="domains">Domains</h2>
 <ul>
 <li>Sandbox</li>
-<li>
-<p>Prod
-<code>experience_python_client</code> will make request to:</p>
-<p><a href="https://{subdomain}.{domain}/{endpoint}">https://{subdomain}.{domain}/{endpoint}</a>
-You have to pass <code>domain</code> while Invoking <code>Client</code> Class , <code>subdomain</code> and <code>endpoint</code> will fetch automatically</p>
-<p><a href="https://{subdomain}.{sandbox}/{endpoint}">https://{subdomain}.{sandbox}/{endpoint}</a></p>
-</li>
+    <li>Prod</li>
 </ul>
+<p><code>experience_python_client</code> will make request to:</p>
+<p><pre>    <a href="https://{subdomain}.{domain}/{endpoint}">https://{subdomain}.{domain}/{endpoint}</a></pre>
+You have to pass <code>domain</code> while Invoking <code>Client</code> Class , <code>subdomain</code> and <code>endpoint</code> will fetch automatically</p>
+<p><pre>    <a href="https://{subdomain}.{sandbox}/{endpoint}">https://{subdomain}.{sandbox}/{endpoint}</a></pre></p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -88,7 +86,7 @@ You have to pass <code>domain</code> while Invoking <code>Client</code> Class , 
  Experience Python SDK
  ----------------------------
  `experience` is a Python wrapper for the Developer Portal API. The goal of the project is to make it possible to write
- clean,fast, Pythonic code when interacting with Developer Portal API programmatically. The wrapper tries to keep API
+ clean, fast, Pythonic code when interacting with Developer Portal API programmatically. The wrapper tries to keep API
  calls to a minimum. Wherever it makes sense objects are cached, and attributes of objects that would trigger an API
  call are evaluated lazily.The wrapper supports both reading and writing from the API.
 
@@ -166,10 +164,6 @@ You have to pass <code>domain</code> while Invoking <code>Client</code> Class , 
 <dd>
 <div class="desc"></div>
 </dd>
-<dt><code class="name"><a title="api.reports" href="reports.html">api.reports</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt><code class="name"><a title="api.tiers" href="tiers.html">api.tiers</a></code></dt>
 <dd>
 <div class="desc"></div>
@@ -208,7 +202,6 @@ You have to pass <code>domain</code> while Invoking <code>Client</code> Class , 
 <li><code><a title="api.core" href="core.html">api.core</a></code></li>
 <li><code><a title="api.hierarchy" href="hierarchy.html">api.hierarchy</a></code></li>
 <li><code><a title="api.ingest_transaction" href="ingest_transaction.html">api.ingest_transaction</a></code></li>
-<li><code><a title="api.reports" href="reports.html">api.reports</a></code></li>
 <li><code><a title="api.tiers" href="tiers.html">api.tiers</a></code></li>
 <li><code><a title="api.users" href="users.html">api.users</a></code></li>
 </ul>
