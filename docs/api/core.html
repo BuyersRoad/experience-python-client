@@ -315,7 +315,36 @@ Gets all the accounts from the organization</p>
 <dl>
 <dt><code>All account id with name</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+user_api = client.user()
+core_api = client.core()
+
+# Call get_all_account_id_and_name method to get all account_id with name under an organization
+account_id = core_api.get_all_account_id_and_name()
+# To Print all account_id and name
+print_api_response(account_id)</code></pre>
+</div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -357,7 +386,36 @@ Gets all the accounts from the organization</p>
 <dl>
 <dt><code>Blueprint ID</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_blueprint_id method to get blueprint_id
+blueprint_id = core_api.get_blueprint_id()
+# To print blueprint id
+print_api_response(blueprint_id)</code></pre>
+</div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -385,7 +443,36 @@ Gets all the accounts from the organization</p>
 <dl>
 <dt><code>Vertical ID</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_business_category method to get vertical_id
+vertical_id = core_api.get_business_category()
+# To print vertical id
+print_api_response(vertical_id)</code></pre>
+</div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
