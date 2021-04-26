@@ -221,6 +221,61 @@ You can insert those in the body as key-value pairs.</p>
 <dl>
 <dt><code>Response for the ingested transaction</code></dt>
 <dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+ingest_transaction = client.ingest_transaction()
+
+# The object that contains the servicer information
+ingest_data = {
+  "serviceProviderInfo": {
+    "serviceProviderName": "string",
+    "serviceProviderEmail": "string"
+  },
+  "transactionInfo": {
+    "transactionRef": "string",
+    "transactionDate": "string",
+    "transactionCity": "string",
+    "transactionState": "string",
+    "transactionType": "string",
+    "customer1FirstName": "string",
+    "customer1LastName": "string",
+    "customer1Email": "string",
+    "customer2FirstName": "string",
+    "customer2LastName": "string",
+    "customer2Email": "string",
+    "buyerAgentFirstName": "string",
+    "buyerAgentLastName": "string",
+    "buyerAgentEmail": "string",
+    "sellerAgentFirstName": "string",
+    "sellerAgentLastName": "string",
+    "sellerAgentEmail": "string"
+  }
+}
+
+# Call get_all_account_id_and_name method to get all account_id with name under an organization
+ingest_transaction = ingest_transaction.ingested_transaction(data=ingest_data)
+# To Print all account_id and name
+print_api_response(ingest_transaction)
+</code></pre>
 </dl></div>
 <details class="source">
 <summary>

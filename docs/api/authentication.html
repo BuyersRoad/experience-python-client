@@ -96,6 +96,7 @@ class AuthenticationAPI:
         response = requests.post(url, headers=header)
         result = ApiResponse(response)
         return result</code></pre>
+
 </details>
 </section>
 <section>
@@ -210,6 +211,34 @@ Returns current user details using Access token</p>
 <dl>
 <dt><code>Current user details response</code></dt>
 <dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+    <pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and environment
+client = Client(access_token='', domain='sandbox')
+authentication = client.authentication()
+
+# Call current_user_details method to get current user details
+current_user_details = authentication.current_user_details()
+# To Print current user details
+print_api_response(current_user_details)
+</code></pre>
 </dl></div>
 <details class="source">
 <summary>
@@ -250,6 +279,33 @@ Login by using user email and password</p>
 <dl>
 <dt><code>Access Token</code></dt>
 <dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and environment
+client = Client(access_token='', domain='sandbox')
+authentication = client.authentication()
+
+# Call login method to login
+login = authentication.login(user_email='', password='')
+print_api_response(login)
+</code></pre>
 </dl></div>
 <details class="source">
 <summary>
