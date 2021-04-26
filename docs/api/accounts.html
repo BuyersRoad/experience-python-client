@@ -522,6 +522,45 @@ Creates a new account in the organization.</p>
 <dl>
 <dt><code>account creation response</code></dt>
 <dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_business_category method to get vertical_id
+vertical_id = core_api.get_business_category()
+# To print vertical id
+print_api_response(vertical_id)
+
+# Call get_blueprint_id method to get blueprint_id
+blueprint_id = core_api.get_blueprint_id()
+# To print blueprint id
+print_api_response(blueprint_id)
+
+# Call the create_account method to create account by passing required params
+result = account_api.create_account(name='test', blueprint_id=1, vertical_id=1)
+# To print create account response
+print_api_response(result)
+</code></pre>
 </dl></div>
 <details class="source">
 <summary>
@@ -569,6 +608,40 @@ Returns an account based on a single ID</p>
 <dl>
 <dt><code>account response</code></dt>
 <dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_all_account_id_and_name method to get all account id with name
+account_id = core_api.get_all_account_id_and_name()
+# To print account id
+print_api_response(account_id)
+print_api_response(result)
+
+# Call the get_account method to get account by passing required params
+result = account_api.get_account(account_id=10108)
+# To print the get account response
+print_api_response(result)</code></pre>
 </dl></div>
 <details class="source">
 <summary>
@@ -610,8 +683,41 @@ Returns account settings.</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>Account response</code></dt>
+<dt><code>Account settings response</code></dt>
 <dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_all_account_id_and_name method to get all account id with name
+account_id = core_api.get_all_account_id_and_name()
+# To print account id
+print_api_response(account_id)
+
+# Call the get_account_settings method to get account settings by passing required params
+result = account_api.get_account_settings(account_id=10108)
+# To print the account settings
+print_api_response(result)</code></pre>
 </dl></div>
 <details class="source">
 <summary>
@@ -661,6 +767,49 @@ Update an account in the organization.</p>
 <dl>
 <dt><code>account update response</code></dt>
 <dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_business_category method to get vertical_id
+vertical_id = core_api.get_business_category()
+# To print vertical id
+print_api_response(vertical_id)
+
+# Call get_blueprint_id method to get blueprint_id
+blueprint_id = core_api.get_blueprint_id()
+# To print blueprint id
+print_api_response(blueprint_id)
+
+# Call get_all_account_id_and_name method to get all account id with name
+account_id = core_api.get_all_account_id_and_name()
+# To print account id
+print_api_response(account_id)
+
+# Call the update_account method to update account by passing required params
+result = account_api.update_account(id=10108, blueprint_id=1, vertical_id=1, name='test_account')
+    print_api_response(result)</code></pre>
+
 </dl></div>
 <details class="source">
 <summary>
@@ -711,9 +860,63 @@ account_setting : dict, mandatory
 account settings</p>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>account update response</code></dt>
+<dt><code>account settings update response</code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_all_account_id_and_name method to get all account id with name
+account_id = core_api.get_all_account_id_and_name()
+# To print account id
+print_api_response(account_id)
+
+# Call the update_account_settings method to update account settings by passing required params
+settings = {
+    "account_settings": {
+        "pp_enable_tiers": True,
+        "pp_enable_agents": True,
+        "pp_agents_opt_out": True,
+        "pp_hierarchy": True,
+        "pp_enable_contact_form": True,
+        "pp_send_contact_form_to": {
+            "agent": True,
+            "manager": True,
+            "account_manager": True
+        },
+        "pp_sort_reviews_by": "string",
+        "sm_auto_post_min_threshold": 0,
+        "sm_max_post_per_day": 0,
+        "sm_min_duration_btw_posts": 0,
+        "agent_email_notify_threshold": 0,
+        "agent_sms_notify_threshold": 0
+    }
+}
+result = account_api.update_account_settings(account_id=10108, settings=settings)
+# To print update account settings response
+print_api_response(result)
+</code></pre>
+    </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>

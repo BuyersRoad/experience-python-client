@@ -157,7 +157,7 @@ class AccountsAPI:
 
         Returns
         -------
-        Account response
+        Account settings response
         """
         if 'account_id' in kwargs:
             account_id = kwargs['account_id']
