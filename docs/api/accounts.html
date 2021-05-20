@@ -1,0 +1,990 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>api.accounts API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>api.accounts</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import json
+import logging
+import requests
+
+from experience.http.api_response import ApiResponse
+from experience.configuration import error_response
+
+logger = logging.getLogger(__name__)
+
+
+class AccountsAPI:
+    &#34;&#34;&#34;
+    A class to represent a Accounts API.
+
+    Attributes
+    ----------
+    access_token : str
+        access_token of a user
+    base_url : str
+        Base url of the API
+    user_details : dict
+        user details of the user
+    &#34;&#34;&#34;
+    def __init__(self, access_token, base_url, user_details):
+        &#34;&#34;&#34;
+        Constructs all the necessary attributes for the AccountsAPI object
+
+        Parameters
+        ----------
+        access_token : str
+            access_token of a user
+        base_url : str
+            Base url of the API
+        user_details : dict
+            user details of the user
+        &#34;&#34;&#34;
+        self.access_token = access_token
+        self.base_url = base_url
+        self.user_details = user_details
+
+    def call_get_api(self, url, params):
+        url = self.base_url + url
+        header = {
+            &#34;Authorization&#34;: self.access_token
+        }
+        payload = {name: params[name] for name in params if params[name] is not None}
+        response = requests.get(url, headers=header, params=payload)
+        result = ApiResponse(response)
+        return result
+
+    def call_post_api(self, url, data):
+        url = self.base_url + url
+        header = {
+            &#34;Authorization&#34;: self.access_token
+        }
+        response = requests.post(url, headers=header, json=data)
+        result = ApiResponse(response)
+        return result
+
+    def call_update_api(self, url, data):
+        url = self.base_url + url
+        header = {
+            &#34;Authorization&#34;: self.access_token
+        }
+        response = requests.put(url, headers=header, json=data)
+        result = ApiResponse(response)
+        return result
+
+    def create_account(self, **kwargs):
+        &#34;&#34;&#34;
+        Makes a POST request to the create_account API
+        Creates a new account in the organization.
+
+        Other Parameters
+        ----------
+        vertical_id : integer, mandatory
+            ID of the business category
+        blueprint_id : integer, mandatory
+            ID of the blueprint
+        name : string, mandatory
+            Name of the Account
+        Returns
+        -------
+        account creation response
+        &#34;&#34;&#34;
+        url = &#39;/v2/core/accounts&#39;
+        logger.info(&#34;Initialising API Call&#34;)
+        payload = {&#39;account&#39;: {name: kwargs[name] for name in kwargs if kwargs[name] is not None}}
+        user_details = str(self.user_details).split(&#39;ApiResponse&#39;, 1)[1]
+        org_id = json.loads(user_details)
+        payload[&#39;account&#39;].update({&#39;organization_id&#39;: org_id[&#39;organization_id&#39;]})
+        result = self.call_post_api(url, payload)
+        return result
+
+    def get_account(self, **kwargs):
+        &#34;&#34;&#34;
+        Makes a GET request to the get_account API
+        Returns an account based on a single ID
+
+        Other Parameters
+        ----------
+        account_id : integer, mandatory
+            ID of account
+
+        Returns
+        -------
+        account response
+        &#34;&#34;&#34;
+        if &#39;account_id&#39; in kwargs:
+            account_id = kwargs[&#39;account_id&#39;]
+            url = f&#39;/v2/core/accounts/{account_id}&#39;
+            logger.info(&#34;Initialising API Call&#34;)
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
+
+    def update_account(self, **kwargs):
+        &#34;&#34;&#34;
+        Makes a PUT request to the update_account API
+        Update an account in the organization.
+
+        Other Parameters
+        ----------------
+        id : integer, mandatory
+            ID of account
+        vertical_id : integer, optional
+            ID of the business category
+        blueprint_id : integer, optional
+            ID of the blueprint
+        name : string, optional
+            Name of the Account
+
+        Returns
+        -------
+        account update response
+        &#34;&#34;&#34;
+        if &#39;id&#39; in kwargs:
+            account_id = kwargs[&#39;id&#39;]
+            url = f&#39;/v2/core/accounts/{account_id}&#39;
+            logger.info(&#34;Initialising API Call&#34;)
+            payload = {&#39;account&#39;: {name: kwargs[name] for name in kwargs if kwargs[name] is not None and
+                                   kwargs[name] != kwargs[&#39;id&#39;]}}
+            payload[&#39;account&#39;].update({&#34;status&#34;: 0, &#34;is_registration_complete&#34;: True})
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response
+
+    def get_account_settings(self, **kwargs):
+        &#34;&#34;&#34;
+        Makes a GET request to the account_settings API
+        Returns account settings.
+
+        Other Parameters
+        ----------
+        account_id : integer, mandatory
+            ID of account
+
+        Returns
+        -------
+        Account response
+        &#34;&#34;&#34;
+        if &#39;account_id&#39; in kwargs:
+            account_id = kwargs[&#39;account_id&#39;]
+            url = f&#39;/v2/core/accounts/{account_id}/settings&#39;
+            logger.info(&#34;Initialising API Call&#34;)
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
+
+    def update_account_settings(self, **kwargs):
+        &#34;&#34;&#34;
+        Makes a PUT request to the account_settings API
+        Update a account in the organization.
+
+        Other Parameter
+        ----------
+        account_id : integer, mandatory
+            ID of account
+        account_setting : dict, mandatory
+            account settings
+
+        Returns
+        -------
+        account update response
+        &#34;&#34;&#34;
+        if &#39;id&#39; in kwargs:
+            account_id = kwargs[&#39;id&#39;]
+            url = f&#39;/v2/core/accounts/{account_id}/settings&#39;
+            logger.info(&#34;Initialising API Call&#34;)
+            payload = {&#34;account_settings&#34;: kwargs[&#39;account_setting&#39;]}
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="api.accounts.AccountsAPI"><code class="flex name class">
+<span>class <span class="ident">AccountsAPI</span></span>
+<span>(</span><span>access_token, base_url, user_details)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class to represent a Accounts API.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>access_token</code></strong> :&ensp;<code>str</code></dt>
+<dd>access_token of a user</dd>
+<dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>Base url of the API</dd>
+<dt><strong><code>user_details</code></strong> :&ensp;<code>dict</code></dt>
+<dd>user details of the user</dd>
+</dl>
+<p>Constructs all the necessary attributes for the AccountsAPI object</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>access_token</code></strong> :&ensp;<code>str</code></dt>
+<dd>access_token of a user</dd>
+<dt><strong><code>base_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>Base url of the API</dd>
+<dt><strong><code>user_details</code></strong> :&ensp;<code>dict</code></dt>
+<dd>user details of the user</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccountsAPI:
+    &#34;&#34;&#34;
+    A class to represent a Accounts API.
+
+    Attributes
+    ----------
+    access_token : str
+        access_token of a user
+    base_url : str
+        Base url of the API
+    user_details : dict
+        user details of the user
+    &#34;&#34;&#34;
+    def __init__(self, access_token, base_url, user_details):
+        &#34;&#34;&#34;
+        Constructs all the necessary attributes for the AccountsAPI object
+
+        Parameters
+        ----------
+        access_token : str
+            access_token of a user
+        base_url : str
+            Base url of the API
+        user_details : dict
+            user details of the user
+        &#34;&#34;&#34;
+        self.access_token = access_token
+        self.base_url = base_url
+        self.user_details = user_details
+
+    def call_get_api(self, url, params):
+        url = self.base_url + url
+        header = {
+            &#34;Authorization&#34;: self.access_token
+        }
+        payload = {name: params[name] for name in params if params[name] is not None}
+        response = requests.get(url, headers=header, params=payload)
+        result = ApiResponse(response)
+        return result
+
+    def call_post_api(self, url, data):
+        url = self.base_url + url
+        header = {
+            &#34;Authorization&#34;: self.access_token
+        }
+        response = requests.post(url, headers=header, json=data)
+        result = ApiResponse(response)
+        return result
+
+    def call_update_api(self, url, data):
+        url = self.base_url + url
+        header = {
+            &#34;Authorization&#34;: self.access_token
+        }
+        response = requests.put(url, headers=header, json=data)
+        result = ApiResponse(response)
+        return result
+
+    def create_account(self, **kwargs):
+        &#34;&#34;&#34;
+        Makes a POST request to the create_account API
+        Creates a new account in the organization.
+
+        Other Parameters
+        ----------
+        vertical_id : integer, mandatory
+            ID of the business category
+        blueprint_id : integer, mandatory
+            ID of the blueprint
+        name : string, mandatory
+            Name of the Account
+        Returns
+        -------
+        account creation response
+        &#34;&#34;&#34;
+        url = &#39;/v2/core/accounts&#39;
+        logger.info(&#34;Initialising API Call&#34;)
+        payload = {&#39;account&#39;: {name: kwargs[name] for name in kwargs if kwargs[name] is not None}}
+        user_details = str(self.user_details).split(&#39;ApiResponse&#39;, 1)[1]
+        org_id = json.loads(user_details)
+        payload[&#39;account&#39;].update({&#39;organization_id&#39;: org_id[&#39;organization_id&#39;]})
+        result = self.call_post_api(url, payload)
+        return result
+
+    def get_account(self, **kwargs):
+        &#34;&#34;&#34;
+        Makes a GET request to the get_account API
+        Returns an account based on a single ID
+
+        Other Parameters
+        ----------
+        account_id : integer, mandatory
+            ID of account
+
+        Returns
+        -------
+        account response
+        &#34;&#34;&#34;
+        if &#39;account_id&#39; in kwargs:
+            account_id = kwargs[&#39;account_id&#39;]
+            url = f&#39;/v2/core/accounts/{account_id}&#39;
+            logger.info(&#34;Initialising API Call&#34;)
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
+
+    def update_account(self, **kwargs):
+        &#34;&#34;&#34;
+        Makes a PUT request to the update_account API
+        Update an account in the organization.
+
+        Other Parameters
+        ----------------
+        id : integer, mandatory
+            ID of account
+        vertical_id : integer, optional
+            ID of the business category
+        blueprint_id : integer, optional
+            ID of the blueprint
+        name : string, optional
+            Name of the Account
+
+        Returns
+        -------
+        account update response
+        &#34;&#34;&#34;
+        if &#39;id&#39; in kwargs:
+            account_id = kwargs[&#39;id&#39;]
+            url = f&#39;/v2/core/accounts/{account_id}&#39;
+            logger.info(&#34;Initialising API Call&#34;)
+            payload = {&#39;account&#39;: {name: kwargs[name] for name in kwargs if kwargs[name] is not None and
+                                   kwargs[name] != kwargs[&#39;id&#39;]}}
+            payload[&#39;account&#39;].update({&#34;status&#34;: 0, &#34;is_registration_complete&#34;: True})
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response
+
+    def get_account_settings(self, **kwargs):
+        &#34;&#34;&#34;
+        Makes a GET request to the account_settings API
+        Returns account settings.
+
+        Other Parameters
+        ----------
+        account_id : integer, mandatory
+            ID of account
+
+        Returns
+        -------
+        Account response
+        &#34;&#34;&#34;
+        if &#39;account_id&#39; in kwargs:
+            account_id = kwargs[&#39;account_id&#39;]
+            url = f&#39;/v2/core/accounts/{account_id}/settings&#39;
+            logger.info(&#34;Initialising API Call&#34;)
+            result = self.call_get_api(url, kwargs)
+            return result
+        return error_response
+
+    def update_account_settings(self, **kwargs):
+        &#34;&#34;&#34;
+        Makes a PUT request to the account_settings API
+        Update a account in the organization.
+
+        Other Parameter
+        ----------
+        account_id : integer, mandatory
+            ID of account
+        account_setting : dict, mandatory
+            account settings
+
+        Returns
+        -------
+        account update response
+        &#34;&#34;&#34;
+        if &#39;id&#39; in kwargs:
+            account_id = kwargs[&#39;id&#39;]
+            url = f&#39;/v2/core/accounts/{account_id}/settings&#39;
+            logger.info(&#34;Initialising API Call&#34;)
+            payload = {&#34;account_settings&#34;: kwargs[&#39;account_setting&#39;]}
+            result = self.call_update_api(url, payload)
+            return result
+        return error_response</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="api.accounts.AccountsAPI.call_get_api"><code class="name flex">
+<span>def <span class="ident">call_get_api</span></span>(<span>self, url, params)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def call_get_api(self, url, params):
+    url = self.base_url + url
+    header = {
+        &#34;Authorization&#34;: self.access_token
+    }
+    payload = {name: params[name] for name in params if params[name] is not None}
+    response = requests.get(url, headers=header, params=payload)
+    result = ApiResponse(response)
+    return result</code></pre>
+</details>
+</dd>
+<dt id="api.accounts.AccountsAPI.call_post_api"><code class="name flex">
+<span>def <span class="ident">call_post_api</span></span>(<span>self, url, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def call_post_api(self, url, data):
+    url = self.base_url + url
+    header = {
+        &#34;Authorization&#34;: self.access_token
+    }
+    response = requests.post(url, headers=header, json=data)
+    result = ApiResponse(response)
+    return result</code></pre>
+</details>
+</dd>
+<dt id="api.accounts.AccountsAPI.call_update_api"><code class="name flex">
+<span>def <span class="ident">call_update_api</span></span>(<span>self, url, data)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def call_update_api(self, url, data):
+    url = self.base_url + url
+    header = {
+        &#34;Authorization&#34;: self.access_token
+    }
+    response = requests.put(url, headers=header, json=data)
+    result = ApiResponse(response)
+    return result</code></pre>
+</details>
+</dd>
+<dt id="api.accounts.AccountsAPI.create_account"><code class="name flex">
+<span>def <span class="ident">create_account</span></span>(<span>self, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Makes a POST request to the create_account API
+Creates a new account in the organization.</p>
+<h2 id="other-parameters">Other Parameters</h2>
+<dl>
+<dt><strong><code>vertical_id</code></strong> :&ensp;<code>integer, mandatory</code></dt>
+<dd>ID of the business category</dd>
+<dt><strong><code>blueprint_id</code></strong> :&ensp;<code>integer, mandatory</code></dt>
+<dd>ID of the blueprint</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>string, mandatory</code></dt>
+<dd>Name of the Account</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>account creation response</code></dt>
+<dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_business_category method to get vertical_id
+vertical_id = core_api.get_business_category()
+# To print vertical id
+print_api_response(vertical_id)
+
+# Call get_blueprint_id method to get blueprint_id
+blueprint_id = core_api.get_blueprint_id()
+# To print blueprint id
+print_api_response(blueprint_id)
+
+# Call the create_account method to create account by passing required params
+result = account_api.create_account(name='test', blueprint_id=1, vertical_id=1)
+# To print create account response
+print_api_response(result)
+</code></pre>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_account(self, **kwargs):
+    &#34;&#34;&#34;
+    Makes a POST request to the create_account API
+    Creates a new account in the organization.
+
+    Other Parameters
+    ----------
+    vertical_id : integer, mandatory
+        ID of the business category
+    blueprint_id : integer, mandatory
+        ID of the blueprint
+    name : string, mandatory
+        Name of the Account
+    Returns
+    -------
+    account creation response
+    &#34;&#34;&#34;
+    url = &#39;/v2/core/accounts&#39;
+    logger.info(&#34;Initialising API Call&#34;)
+    payload = {&#39;account&#39;: {name: kwargs[name] for name in kwargs if kwargs[name] is not None}}
+    user_details = str(self.user_details).split(&#39;ApiResponse&#39;, 1)[1]
+    org_id = json.loads(user_details)
+    payload[&#39;account&#39;].update({&#39;organization_id&#39;: org_id[&#39;organization_id&#39;]})
+    result = self.call_post_api(url, payload)
+    return result</code></pre>
+</details>
+</dd>
+<dt id="api.accounts.AccountsAPI.get_account"><code class="name flex">
+<span>def <span class="ident">get_account</span></span>(<span>self, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Makes a GET request to the get_account API
+Returns an account based on a single ID</p>
+<h2 id="other-parameters">Other Parameters</h2>
+<dl>
+<dt><strong><code>account_id</code></strong> :&ensp;<code>integer, mandatory</code></dt>
+<dd>ID of account</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>account response</code></dt>
+<dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_all_account_id_and_name method to get all account id with name
+account_id = core_api.get_all_account_id_and_name()
+# To print account id
+print_api_response(account_id)
+print_api_response(result)
+
+# Call the get_account method to get account by passing required params
+result = account_api.get_account(account_id=10108)
+# To print the get account response
+print_api_response(result)</code></pre>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_account(self, **kwargs):
+    &#34;&#34;&#34;
+    Makes a GET request to the get_account API
+    Returns an account based on a single ID
+
+    Other Parameters
+    ----------
+    account_id : integer, mandatory
+        ID of account
+
+    Returns
+    -------
+    account response
+    &#34;&#34;&#34;
+    if &#39;account_id&#39; in kwargs:
+        account_id = kwargs[&#39;account_id&#39;]
+        url = f&#39;/v2/core/accounts/{account_id}&#39;
+        logger.info(&#34;Initialising API Call&#34;)
+        result = self.call_get_api(url, kwargs)
+        return result
+    return error_response</code></pre>
+</details>
+</dd>
+<dt id="api.accounts.AccountsAPI.get_account_settings"><code class="name flex">
+<span>def <span class="ident">get_account_settings</span></span>(<span>self, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Makes a GET request to the account_settings API
+Returns account settings.</p>
+<h2 id="other-parameters">Other Parameters</h2>
+<dl>
+<dt><strong><code>account_id</code></strong> :&ensp;<code>integer, mandatory</code></dt>
+<dd>ID of account</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Account settings response</code></dt>
+<dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_all_account_id_and_name method to get all account id with name
+account_id = core_api.get_all_account_id_and_name()
+# To print account id
+print_api_response(account_id)
+
+# Call the get_account_settings method to get account settings by passing required params
+result = account_api.get_account_settings(account_id=10108)
+# To print the account settings
+print_api_response(result)</code></pre>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_account_settings(self, **kwargs):
+    &#34;&#34;&#34;
+    Makes a GET request to the account_settings API
+    Returns account settings.
+
+    Other Parameters
+    ----------
+    account_id : integer, mandatory
+        ID of account
+
+    Returns
+    -------
+    Account response
+    &#34;&#34;&#34;
+    if &#39;account_id&#39; in kwargs:
+        account_id = kwargs[&#39;account_id&#39;]
+        url = f&#39;/v2/core/accounts/{account_id}/settings&#39;
+        logger.info(&#34;Initialising API Call&#34;)
+        result = self.call_get_api(url, kwargs)
+        return result
+    return error_response</code></pre>
+</details>
+</dd>
+<dt id="api.accounts.AccountsAPI.update_account"><code class="name flex">
+<span>def <span class="ident">update_account</span></span>(<span>self, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Makes a PUT request to the update_account API
+Update an account in the organization.</p>
+<h2 id="other-parameters">Other Parameters</h2>
+<dl>
+<dt><strong><code>id</code></strong> :&ensp;<code>integer, mandatory</code></dt>
+<dd>ID of account</dd>
+<dt><strong><code>vertical_id</code></strong> :&ensp;<code>integer</code>, optional</dt>
+<dd>ID of the business category</dd>
+<dt><strong><code>blueprint_id</code></strong> :&ensp;<code>integer</code>, optional</dt>
+<dd>ID of the blueprint</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>string</code>, optional</dt>
+<dd>Name of the Account</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>account update response</code></dt>
+<dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_business_category method to get vertical_id
+vertical_id = core_api.get_business_category()
+# To print vertical id
+print_api_response(vertical_id)
+
+# Call get_blueprint_id method to get blueprint_id
+blueprint_id = core_api.get_blueprint_id()
+# To print blueprint id
+print_api_response(blueprint_id)
+
+# Call get_all_account_id_and_name method to get all account id with name
+account_id = core_api.get_all_account_id_and_name()
+# To print account id
+print_api_response(account_id)
+
+# Call the update_account method to update account by passing required params
+result = account_api.update_account(id=10108, blueprint_id=1, vertical_id=1, name='test_account')
+    print_api_response(result)</code></pre>
+
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_account(self, **kwargs):
+    &#34;&#34;&#34;
+    Makes a PUT request to the update_account API
+    Update an account in the organization.
+
+    Other Parameters
+    ----------------
+    id : integer, mandatory
+        ID of account
+    vertical_id : integer, optional
+        ID of the business category
+    blueprint_id : integer, optional
+        ID of the blueprint
+    name : string, optional
+        Name of the Account
+
+    Returns
+    -------
+    account update response
+    &#34;&#34;&#34;
+    if &#39;id&#39; in kwargs:
+        account_id = kwargs[&#39;id&#39;]
+        url = f&#39;/v2/core/accounts/{account_id}&#39;
+        logger.info(&#34;Initialising API Call&#34;)
+        payload = {&#39;account&#39;: {name: kwargs[name] for name in kwargs if kwargs[name] is not None and
+                               kwargs[name] != kwargs[&#39;id&#39;]}}
+        payload[&#39;account&#39;].update({&#34;status&#34;: 0, &#34;is_registration_complete&#34;: True})
+        result = self.call_update_api(url, payload)
+        return result
+    return error_response</code></pre>
+</details>
+</dd>
+<dt id="api.accounts.AccountsAPI.update_account_settings"><code class="name flex">
+<span>def <span class="ident">update_account_settings</span></span>(<span>self, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Makes a PUT request to the account_settings API
+Update a account in the organization.</p>
+<h2 id="other-parameter">Other Parameter</h2>
+<p>account_id : integer, mandatory
+ID of account
+account_setting : dict, mandatory
+account settings</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>account settings update response</code></dt>
+<dd>&nbsp;</dd>
+    <h3 id="returns">Example Usage</h3>
+<pre><code class="python">from experience.client import Client
+
+
+def print_api_response(data):
+    try:
+        # Call the success method to see if the call succeeded
+        if data.is_success():
+            print(data)
+
+        # Call the error method to see if the call failed
+        elif data.is_error():
+            errors = data.errors
+            print(errors)
+    except Exception as e:
+        print("Error", e)
+        print(data)
+
+
+# Invoking the Client class by passing access token or (user_email ,password) and  environment
+client = Client(access_token='', domain='sandbox')
+account_api = client.accounts()
+core_api = client.core()
+
+# Call get_all_account_id_and_name method to get all account id with name
+account_id = core_api.get_all_account_id_and_name()
+# To print account id
+print_api_response(account_id)
+
+# Call the update_account_settings method to update account settings by passing required params
+settings = {
+    "account_settings": {
+        "pp_enable_tiers": True,
+        "pp_enable_agents": True,
+        "pp_agents_opt_out": True,
+        "pp_hierarchy": True,
+        "pp_enable_contact_form": True,
+        "pp_send_contact_form_to": {
+            "agent": True,
+            "manager": True,
+            "account_manager": True
+        },
+        "pp_sort_reviews_by": "string",
+        "sm_auto_post_min_threshold": 0,
+        "sm_max_post_per_day": 0,
+        "sm_min_duration_btw_posts": 0,
+        "agent_email_notify_threshold": 0,
+        "agent_sms_notify_threshold": 0
+    }
+}
+result = account_api.update_account_settings(account_id=10108, settings=settings)
+# To print update account settings response
+print_api_response(result)
+</code></pre>
+    </dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_account_settings(self, **kwargs):
+    &#34;&#34;&#34;
+    Makes a PUT request to the account_settings API
+    Update a account in the organization.
+
+    Other Parameter
+    ----------
+    account_id : integer, mandatory
+        ID of account
+    account_setting : dict, mandatory
+        account settings
+
+    Returns
+    -------
+    account update response
+    &#34;&#34;&#34;
+    if &#39;id&#39; in kwargs:
+        account_id = kwargs[&#39;id&#39;]
+        url = f&#39;/v2/core/accounts/{account_id}/settings&#39;
+        logger.info(&#34;Initialising API Call&#34;)
+        payload = {&#34;account_settings&#34;: kwargs[&#39;account_setting&#39;]}
+        result = self.call_update_api(url, payload)
+        return result
+    return error_response</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="api" href="index.html">api</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="api.accounts.AccountsAPI" href="#api.accounts.AccountsAPI">AccountsAPI</a></code></h4>
+<ul class="">
+<li><code><a title="api.accounts.AccountsAPI.call_get_api" href="#api.accounts.AccountsAPI.call_get_api">call_get_api</a></code></li>
+<li><code><a title="api.accounts.AccountsAPI.call_post_api" href="#api.accounts.AccountsAPI.call_post_api">call_post_api</a></code></li>
+<li><code><a title="api.accounts.AccountsAPI.call_update_api" href="#api.accounts.AccountsAPI.call_update_api">call_update_api</a></code></li>
+<li><code><a title="api.accounts.AccountsAPI.create_account" href="#api.accounts.AccountsAPI.create_account">create_account</a></code></li>
+<li><code><a title="api.accounts.AccountsAPI.get_account" href="#api.accounts.AccountsAPI.get_account">get_account</a></code></li>
+<li><code><a title="api.accounts.AccountsAPI.get_account_settings" href="#api.accounts.AccountsAPI.get_account_settings">get_account_settings</a></code></li>
+<li><code><a title="api.accounts.AccountsAPI.update_account" href="#api.accounts.AccountsAPI.update_account">update_account</a></code></li>
+<li><code><a title="api.accounts.AccountsAPI.update_account_settings" href="#api.accounts.AccountsAPI.update_account_settings">update_account_settings</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
