@@ -22,14 +22,16 @@ class PowerBI_Data_ingestion:
         try:
             for k, v in constants.reports_names.items():
                 data, filename = get_report_data(report, v)
-                print("fil", filename)
                 if data and filename:
                     convert_into_csv(data, filename)
                 else:
                     print(f"There is no data for {k}")
             for k, v in constants.v2_reports.items():
                 data = get_report_data(v2_report, v)
-                print(data)
+                if data and filename:
+                    convert_into_csv(data, filename)
+                else:
+                    print(f"There is no data for {k}")
         except Exception as e:
             print(e)
             raise

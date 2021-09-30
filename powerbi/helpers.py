@@ -91,7 +91,7 @@ def get_report_data(report, v):
                                                  {"label": "All Tier", "value": config.account_id}])
         data_json = json.loads(data.text)
         result = data_json.get("agent_details")
-        filename = f"{v}.csv"
+        filename = f"{v}_all_time.csv"
         return result, filename
     elif v == "hierarchydetails":
         data = report.hierarchy_details_report(report_name="Hierarchy Details",
@@ -100,7 +100,7 @@ def get_report_data(report, v):
                                                action="Download", report_format="json", period=config.month)
         data_json = json.loads(data.text)
         result = data_json.get("hierarchy_user_details")
-        filename = f"{v}_january.csv"
+        filename = f"{v}_{config.month}.csv"
         return result, filename
     elif v == "verifiedusers":
         data = report.verified_users_report(report_name="Verified Users",
@@ -110,16 +110,16 @@ def get_report_data(report, v):
                                             tier_data=[{"label": "All Tier", "value": config.account_id}])
         data_json = json.loads(data.text)
         result = data_json.get("verified_user_details")
-        filename = f"{v}.csv"
+        filename = f"{v}_all_time.csv"
         return result, filename
     elif v == "npstrend":
         data = report.nps_trend_report(report_name="NPS Trend Report",
                                        account_id=config.account_id,
                                        account_name=config.account_name,
-                                       action="Download", report_format="json", period="January")
+                                       action="Download", report_format="json", period=config.month)
         data_json = json.loads(data.text)
         result = data_json.get("loading test-Tier")
-        filename = f"{v}_january.csv"
+        filename = f"{v}_{config.month}.csv"
         return result, filename
     elif v == "accountstatistics":
         data = report.account_statistics_report(report_name="Account Statistics Report",
@@ -128,7 +128,7 @@ def get_report_data(report, v):
                                                 action="Download", report_format="json")
         data_json = json.loads(data.text)
         result = data_json.get("accounts")
-        filename = f"{v}.csv"
+        filename = f"{v}_all_time.csv"
         return result, filename
     elif v == "smsdelivery":
         data = report.sms_delivery_report(report_name="SMS Delivery Statistics",
@@ -171,7 +171,7 @@ def get_report_data(report, v):
                                           campaign_id=config.campaign_id)
         data_json = json.loads(data.text)
         result = data_json.get("tier_ranking_details")
-        filename = f"{v}_2021_january.csv"
+        filename = f"{v}_{config.year}_{config.month}.csv"
         return result, filename
     elif v == "incompletesurvey":
         data = report.incomplete_survey_report(report_name="Survey Delivery Statistics",
