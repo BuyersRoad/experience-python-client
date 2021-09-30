@@ -7,3 +7,8 @@ account_id = '' #account id from which account need to generate reports
 account_name = '' #account name
 
 base_dir = r'' #Base dir refers to In which path data need to be downloaded
+period = ""
+data_range = ''
+campaign_id = ''
+year = ''
+month = ''

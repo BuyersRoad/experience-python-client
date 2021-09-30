@@ -68,7 +68,7 @@ class ReportsAPI:
 
     def reviews_management_report(self, **kwargs):
         """Generates the reviews management  report for a given account/tier for a given date range"""
-        url = "/generate/publish/history/report"
+        url = "/generate/reviews/management/report"
         logger.info("Initialising API Call")
         result = self.call_api(url, kwargs)
         return result
@@ -89,7 +89,7 @@ class ReportsAPI:
 
     def ranking_report_tier(self, **kwargs):
         """Generates the survey statistics report for a given account for a given range period"""
-        url = 'generate/tier/ranking/report'
+        url = '/generate/tier/ranking/report'
         logger.info("Initialising API Call")
         result = self.call_api(url, kwargs)
         return result

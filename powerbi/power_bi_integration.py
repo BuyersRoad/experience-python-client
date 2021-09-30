@@ -3,13 +3,11 @@ import constants
 from experience.api.authentication import AuthenticationAPI
 from helpers import PowerBI_Reports
 from helpers import get_report_data
-
-
-
+from helpers import convert_into_csv
+import json
 
 
 class PowerBI_Data_ingestion:
-
 
     def __init__(self, v2_url, report_url):
         self.v2_url = v2_url
@@ -18,37 +16,28 @@ class PowerBI_Data_ingestion:
         self.access_token = self.authentication.login(config.username, config.password)
 
     def generate_data(self):
-        print("access_token", self.access_token)
-        print(type(self.access_token))
-        print("reporturl", report_url)
-        report = PowerBI_Reports(self.access_token.get('auth_token'), report_url)
-        for k,v in constants.reports_names.items():
-            data = get_report_data(report, v)
-            print(data)
+        token_json = (json.loads(self.access_token))
+        report = PowerBI_Reports(token_json.get('auth_token'), report_url)
+        v2_report = PowerBI_Reports(token_json.get('auth_token'), v2_url)
+        try:
+            for k, v in constants.reports_names.items():
+                data, filename = get_report_data(report, v)
+                print("fil", filename)
+                if data and filename:
+                    convert_into_csv(data, filename)
+                else:
+                    print(f"There is no data for {k}")
+            for k, v in constants.v2_reports.items():
+                data = get_report_data(v2_report, v)
+                print(data)
+        except Exception as e:
+            print(e)
+            raise
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if __name__=="__main__":
+if __name__ == "__main__":
     v2_url = constants.v2_api.get(config.env)
     report_url = constants.report_api.get(config.env)
-    powerbi = PowerBI_Data_ingestion(v2_url,report_url)
+    powerbi = PowerBI_Data_ingestion(v2_url, report_url)
     powerbi.generate_data()
-
-
