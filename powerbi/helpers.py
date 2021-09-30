@@ -1,3 +1,5 @@
+import os
+
 from experience.api.reports import ReportsAPI
 import json
 import pandas as pd
@@ -59,7 +61,13 @@ def get_date_range(date):
     return [start_date, end_date]
 
 
-def get_report_data(report, v):
+def get_report_data(report, v, k):
+    account_dir = f'{config.base_dir}/{config.account_name}'
+    if not os.path.exists(account_dir):
+        os.mkdir(account_dir)
+    path = f"{account_dir}/{k}"
+    if not (os.path.exists(path)):
+        os.mkdir(path)
     date_range = get_date_range(config.data_range)
     cur_date_time = ("{:%Y_%m_%d}".format(dt.now()))
     if v == "surveyresults":
@@ -67,20 +75,20 @@ def get_report_data(report, v):
                                             range_period=json.dumps(date_range))
         data_json = json.loads(data.text)
         result = data_json.get("survey_results")
-        filename = f"{v}_{cur_date_time}.csv"
+        filename = f"{path}_{v}_{cur_date_time}.csv"
         return result, filename
     elif v == "reviewsmanagement":
         data = report.reviews_management_report(account_id=config.account_id, report_format='json',
                                                 range_period=json.dumps(date_range))
         data_json = json.loads(data.text)
         result = data_json.get("reviews_management_tier_details")
-        filename = f"{v}_{cur_date_time}.csv"
+        filename = f"{path}_{v}_{cur_date_time}.csv"
         return result, filename
     elif v == "surveystatistics":
         data = report.survey_statistics_report(account_id=config.account_id, report_format='json',
                                                range_period=json.dumps(date_range))
         data_json = json.loads(data.text)
-        filename = f"{v}_{cur_date_time}.csv"
+        filename = f"{path}_{v}_{cur_date_time}.csv"
         return data_json, filename
     elif v == "publishhistory":
         data = report.publish_history_report(report_name="Publish History",
@@ -91,7 +99,7 @@ def get_report_data(report, v):
                                                  {"label": "All Tier", "value": config.account_id}])
         data_json = json.loads(data.text)
         result = data_json.get("agent_details")
-        filename = f"{v}_all_time.csv"
+        filename = f"{path}_{v}_all_time.csv"
         return result, filename
     elif v == "hierarchydetails":
         data = report.hierarchy_details_report(report_name="Hierarchy Details",
@@ -100,7 +108,7 @@ def get_report_data(report, v):
                                                action="Download", report_format="json", period=config.month)
         data_json = json.loads(data.text)
         result = data_json.get("hierarchy_user_details")
-        filename = f"{v}_{config.month}.csv"
+        filename = f"{path}_{v}_{config.month}.csv"
         return result, filename
     elif v == "verifiedusers":
         data = report.verified_users_report(report_name="Verified Users",
@@ -110,7 +118,7 @@ def get_report_data(report, v):
                                             tier_data=[{"label": "All Tier", "value": config.account_id}])
         data_json = json.loads(data.text)
         result = data_json.get("verified_user_details")
-        filename = f"{v}_all_time.csv"
+        filename = f"{path}_{v}_all_time.csv"
         return result, filename
     elif v == "npstrend":
         data = report.nps_trend_report(report_name="NPS Trend Report",
@@ -119,7 +127,7 @@ def get_report_data(report, v):
                                        action="Download", report_format="json", period=config.month)
         data_json = json.loads(data.text)
         result = data_json.get("loading test-Tier")
-        filename = f"{v}_{config.month}.csv"
+        filename = f"{path}_{v}_{config.month}.csv"
         return result, filename
     elif v == "accountstatistics":
         data = report.account_statistics_report(report_name="Account Statistics Report",
@@ -128,7 +136,7 @@ def get_report_data(report, v):
                                                 action="Download", report_format="json")
         data_json = json.loads(data.text)
         result = data_json.get("accounts")
-        filename = f"{v}_all_time.csv"
+        filename = f"{path}_{v}_all_time.csv"
         return result, filename
     elif v == "smsdelivery":
         data = report.sms_delivery_report(report_name="SMS Delivery Statistics",
@@ -139,7 +147,7 @@ def get_report_data(report, v):
                                           campaign_id=config.campaign_id)
         data_json = json.loads(data.text)
         result = data_json.get("sms_delivery_statistics")
-        filename = f"{v}_{cur_date_time}.csv"
+        filename = f"{path}_{v}_{cur_date_time}.csv"
         return result, filename
     elif v == "surveyemail":
         data = report.survey_email_report(report_name="Survey Email Delivery Status Report",
@@ -150,7 +158,7 @@ def get_report_data(report, v):
                                           campaign_id=config.campaign_id)
         data_json = json.loads(data.text)
         result = data_json.get("survey_delivery_statistics")
-        filename = f"{v}_{cur_date_time}.csv"
+        filename = f"{path}_{v}_{cur_date_time}.csv"
         return result, filename
     elif v == "npsreport":
         data = report.nps_report(report_name="Survey Delivery Statistics",
@@ -160,7 +168,7 @@ def get_report_data(report, v):
                                  period="All Time")
         data_json = json.loads(data.text)
         result = data_json.get("API call test-Tier")
-        filename = f"{v}_all_time.csv"
+        filename = f"{path}_{v}_all_time.csv"
         return result, filename
     elif v == "tierranking":
         data = report.ranking_report_tier(report_name="Survey Delivery Statistics",
@@ -171,7 +179,7 @@ def get_report_data(report, v):
                                           campaign_id=config.campaign_id)
         data_json = json.loads(data.text)
         result = data_json.get("tier_ranking_details")
-        filename = f"{v}_{config.year}_{config.month}.csv"
+        filename = f"{path}_{v}_{config.year}_{config.month}.csv"
         return result, filename
     elif v == "incompletesurvey":
         data = report.incomplete_survey_report(report_name="Survey Delivery Statistics",
@@ -182,7 +190,7 @@ def get_report_data(report, v):
                                                range_period=json.dumps(date_range))
         data_json = json.loads(data.text)
         result = data_json.get("incomplete_survey_details")
-        filename = f"{v}_{cur_date_time}.csv"
+        filename = f"{path}_{v}_{cur_date_time}.csv"
         return result, filename
 
 

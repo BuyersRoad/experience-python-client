@@ -21,13 +21,13 @@ class PowerBI_Data_ingestion:
         v2_report = PowerBI_Reports(token_json.get('auth_token'), v2_url)
         try:
             for k, v in constants.reports_names.items():
-                data, filename = get_report_data(report, v)
+                data, filename = get_report_data(report, v, k)
                 if data and filename:
                     convert_into_csv(data, filename)
                 else:
                     print(f"There is no data for {k}")
             for k, v in constants.v2_reports.items():
-                data = get_report_data(v2_report, v)
+                data, filename = get_report_data(v2_report, v, k)
                 if data and filename:
                     convert_into_csv(data, filename)
                 else:
