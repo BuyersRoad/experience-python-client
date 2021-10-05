@@ -61,7 +61,7 @@ def get_date_range(date):
     return [start_date, end_date]
 
 
-def get_report_data(report, v, k):
+def get_report_data(report, v, k, account_id, campaign_data=None):
     account_dir = f'{config.base_dir}/{config.account_name}'
     if not os.path.exists(account_dir):
         os.mkdir(account_dir)
@@ -72,39 +72,39 @@ def get_report_data(report, v, k):
     cur_date_time = ("{:%Y_%m_%d}".format(dt.now()))
     try:
         if v == "surveyresults":
-            data = report.survey_results_report(account_id=config.account_id, report_format='json',
+            data = report.survey_results_report(account_id=f"{account_id}", report_format='json',
                                                 range_period=json.dumps(date_range))
             data_json = json.loads(data.text)
             result = data_json.get("survey_results")
             filename = f"{path}/{v}_{cur_date_time}.csv"
             return result, filename
         elif v == "reviewsmanagement":
-            data = report.reviews_management_report(account_id=config.account_id, report_format='json',
+            data = report.reviews_management_report(account_id=f"{account_id}", report_format='json',
                                                     range_period=json.dumps(date_range))
             data_json = json.loads(data.text)
             result = data_json.get("reviews_management_tier_details")
             filename = f"{path}/{v}_{cur_date_time}.csv"
             return result, filename
         elif v == "surveystatistics":
-            data = report.survey_statistics_report(account_id=config.account_id, report_format='json',
+            data = report.survey_statistics_report(account_id=f"{account_id}", report_format='json',
                                                    range_period=json.dumps(date_range))
             data_json = json.loads(data.text)
             filename = f"{path}/{v}_{cur_date_time}.csv"
             return data_json, filename
         elif v == "publishhistory":
             data = report.publish_history_report(report_name="Publish History",
-                                                 account_id=config.account_id,
+                                                 account_id=f"{account_id}",
                                                  account_name=config.account_name,
                                                  action="Download", report_format="json",
                                                  tier_data=[
-                                                     {"label": "All Tier", "value": config.account_id}])
+                                                     {"label": "All Tier", "value": f"{account_id}"}])
             data_json = json.loads(data.text)
             result = data_json.get("agent_details")
             filename = f"{path}/{v}_all_time.csv"
             return result, filename
         elif v == "hierarchydetails":
             data = report.hierarchy_details_report(report_name="Hierarchy Details",
-                                                   account_id=config.account_id,
+                                                   account_id=f"{account_id}",
                                                    account_name=config.account_name,
                                                    action="Download", report_format="json", period=config.month)
             data_json = json.loads(data.text)
@@ -113,17 +113,17 @@ def get_report_data(report, v, k):
             return result, filename
         elif v == "verifiedusers":
             data = report.verified_users_report(report_name="Verified Users",
-                                                account_id=config.account_id,
+                                                account_id=f"{account_id}",
                                                 account_name=config.account_name,
                                                 action="Download", report_format="json",
-                                                tier_data=[{"label": "All Tier", "value": config.account_id}])
+                                                tier_data=[{"label": "All Tier", "value": f"{account_id}"}])
             data_json = json.loads(data.text)
             result = data_json.get("verified_user_details")
             filename = f"{path}/{v}_all_time.csv"
             return result, filename
         elif v == "npstrend":
             data = report.nps_trend_report(report_name="NPS Trend Report",
-                                           account_id=config.account_id,
+                                           account_id=f"{account_id}",
                                            account_name=config.account_name,
                                            action="Download", report_format="json", period=config.month)
             data_json = json.loads(data.text)
@@ -132,7 +132,7 @@ def get_report_data(report, v, k):
             return result, filename
         elif v == "accountstatistics":
             data = report.account_statistics_report(report_name="Account Statistics Report",
-                                                    account_id=config.account_id,
+                                                    account_id=f"{account_id}",
                                                     account_name=config.account_name,
                                                     action="Download", report_format="json")
             data_json = json.loads(data.text)
@@ -140,54 +140,60 @@ def get_report_data(report, v, k):
             filename = f"{path}/{v}_all_time.csv"
             return result, filename
         elif v == "smsdelivery":
+            id = campaign_data.get('value')
+            name = campaign_data.get('title')
             data = report.sms_delivery_report(report_name="SMS Delivery Statistics",
-                                              account_id=config.account_id,
+                                              account_id=f"{account_id}",
                                               account_name=config.account_name,
                                               action="Download", report_format="json",
                                               range_period=json.dumps(date_range),
-                                              campaign_id=config.campaign_id)
+                                              campaign_id=f"{id}")
             data_json = json.loads(data.text)
             result = data_json.get("sms_delivery_statistics")
-            filename = f"{path}/{v}_{cur_date_time}.csv"
+            filename = f"{path}/{v}_{cur_date_time}_{name}.csv"
             return result, filename
+
         elif v == "surveyemail":
+            id = campaign_data.get('value')
+            name = campaign_data.get('title')
             data = report.survey_email_report(report_name="Survey Email Delivery Status Report",
-                                              account_id=config.account_id,
+                                              account_id=f"{account_id}",
                                               account_name=config.account_name,
                                               action="Download", report_format="json",
                                               range_period=json.dumps(date_range),
-                                              campaign_id=config.campaign_id)
+                                              campaign_id=id)
             data_json = json.loads(data.text)
             result = data_json.get("survey_delivery_statistics")
-            filename = f"{path}/{v}_{cur_date_time}.csv"
+            filename = f"{path}/{v}_{cur_date_time}_{name}.csv"
             return result, filename
         elif v == "npsreport":
             data = report.nps_report(report_name="Survey Delivery Statistics",
-                                     account_id=config.account_id,
+                                     account_id=f"{account_id}",
                                      account_name=config.account_name,
                                      action="Download", report_format="json",
                                      period="All Time")
             data_json = json.loads(data.text)
-            result = data_json.get("API call test-Tier")
+            result = data_json.get("COPY Default-Tier")
             filename = f"{path}/{v}_all_time.csv"
             return result, filename
         elif v == "tierranking":
+            id = campaign_data.get('value')
+            name = campaign_data.get('title')
             data = report.ranking_report_tier(report_name="Survey Delivery Statistics",
-                                              account_id=config.account_id,
+                                              account_id=f"{account_id}",
                                               account_name=config.account_name,
                                               action="Download", report_format="json",
                                               year=config.year, month=config.month_tier,
-                                              campaign_id=config.campaign_id)
+                                              campaign_id=id)
             data_json = json.loads(data.text)
             result = data_json.get("tier_ranking_details")
-            filename = f"{path}/{v}_{config.year}_{config.month}.csv"
+            filename = f"{path}/{v}_{config.year}_{config.month}_{name}.csv"
             return result, filename
         elif v == "incompletesurvey":
             data = report.incomplete_survey_report(report_name="Survey Delivery Statistics",
-                                                   account_id=config.account_id,
+                                                   account_id=f"{account_id}",
                                                    account_name=config.account_name,
                                                    action="Download", report_format="json",
-                                                   campaign_id=config.campaign_id,
                                                    range_period=json.dumps(date_range))
             data_json = json.loads(data.text)
             result = data_json.get("incomplete_survey_details")

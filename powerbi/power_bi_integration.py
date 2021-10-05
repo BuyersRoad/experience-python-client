@@ -1,5 +1,6 @@
 import config
 import constants
+import requests
 from experience.api.authentication import AuthenticationAPI
 from helpers import PowerBI_Reports
 from helpers import get_report_data
@@ -12,20 +13,49 @@ class PowerBI_Data_ingestion:
     def __init__(self, v2_url, report_url):
         self.v2_url = v2_url
         self.report_url = report_url
+        self.campaign_ids = []
         self.authentication = AuthenticationAPI(None, self.v2_url)
-        self.access_token = self.authentication.login(config.username, config.password)
+        self.access_token = (json.loads(self.authentication.login(config.username, config.password))).get("auth_token")
+
+    def get_account_id(self):
+        url = self.v2_url + "/v2/core/current_user"
+        data = requests.post(url=url, headers={"Authorization": self.access_token})
+        if data:
+            data_json = data.json()
+            account_id = data_json.get("account_id")
+            return account_id[0]
+        else:
+            return None
+
+    def get_campaign_id(self, account_id):
+        par = {"account_id": {account_id}}
+        url = self.report_url + "/fetch/campaign/details"
+        campaign_data = requests.get(url=url, params=par, headers={"Authorization": self.access_token})
+        if campaign_data:
+            return campaign_data.json()
+        else:
+            return None
 
     def generate_data(self):
-        token_json = (json.loads(self.access_token))
-        report = PowerBI_Reports(token_json.get('auth_token'), report_url)
-        v2_report = PowerBI_Reports(token_json.get('auth_token'), v2_url)
+        report = PowerBI_Reports(self.access_token, report_url)
+        v2_report = PowerBI_Reports(self.access_token, v2_url)
+        account_id = self.get_account_id()
+        campaign_data = self.get_campaign_id(account_id)
         try:
             for k, v in constants.reports_names.items():
-                data, filename = get_report_data(report, v, k)
-                if data and filename:
-                    convert_into_csv(data, filename)
+                if v in ("smsdelivery","surveyemail","tierranking"):
+                    for d in campaign_data:
+                        data, filename = get_report_data(report, v, k, account_id, d)
+                        if data and filename:
+                            convert_into_csv(data, filename)
+                        else:
+                            print(f"There is no data on {k} for <{d.get('title')}> campaign")
                 else:
-                    print(f"There is no data for {k}")
+                    data, filename = get_report_data(report, v, k, account_id)
+                    if data and filename:
+                        convert_into_csv(data, filename)
+                    else:
+                        print(f"There is no data for {k}")
             # for k, v in constants.v2_reports.items():
             #     data, filename = get_report_data(v2_report, v, k)
             #     if data and filename:
