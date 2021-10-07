@@ -15,7 +15,7 @@ from datetime import datetime
 screen = tk.Tk()
 screen.geometry("700x700")
 screen.resizable(False, False)
-screen.title("PowerBI auth form")
+screen.title("Experience.com reports form")
 error_window = False
 start_date = None
 end_date = None
@@ -178,10 +178,10 @@ def dateentry_view_end_date():
     Button(top, text="OK", command=lambda: [print_sel(), cal.destroy(), top.destroy()]).pack()
 
 
-heading = Label(text="PowerBI authorization form", fg="black", bg="grey", width="500", height="3").pack()
+heading = Label(text="PowerBI report generation form", fg="black", bg="light blue", width="500", height="3", font=("times new roman", 15, "bold")).pack()
 
-Label(text= "Username * ").place(x=15, y=70)
-Label(text= "Password * ").place(x=17, y=125)
+Label(text= "Username *", fg='magenta', font=("times new roman", 15, "bold")).place(x=15, y=70)
+Label(text= "Password *", fg='magenta', font=("times new roman", 15, "bold")).place(x=17, y=125)
 
 username = StringVar()
 password = StringVar()
@@ -203,37 +203,37 @@ survey_statistics = IntVar()
 sandbox = IntVar()
 production = IntVar()
 
-Entry(screen, textvariable=username).place(x=15, y=95)
-Entry(screen, textvariable=password, show="*").place(x=15, y=145)
+Entry(screen, textvariable=username, show="*", bg="lightgray", font=("times new roman", 15, "bold")).place(x=15, y=95, width=240)
+Entry(screen, textvariable=password, show="*", bg="lightgray", font=("times new roman", 15, "bold")).place(x=15, y=145, width=240)
 
 
 # checkboxes
-Label(text= "Choose Report/Reports * ").place(x=15, y=180)
-Checkbutton(screen, text = "Survey Results", variable=survey_results).place(x=15, y=205)
-Checkbutton(screen, text = "Reviews_Management", variable=reviews_management).place(x=15, y=225)
-Checkbutton(screen, text = "Publish History", variable=publish_history).place(x=15, y=245)
-Checkbutton(screen, text = "Hierarchy Details", variable=hierarchy_details).place(x=15, y=265)
-Checkbutton(screen, text = "NPS Trend", variable=nps_trend).place(x=15, y=285)
-Checkbutton(screen, text = "Account Statistics", variable=account_statistics).place(x=15, y=305)
-Checkbutton(screen, text = "SMS Delivery", variable=sms_delivery).place(x=15, y=325)
-Checkbutton(screen, text = "Survey Email", variable=survey_email).place(x=15, y=345)
-Checkbutton(screen, text = "Verified Users", variable=verified_users).place(x=15, y=365)
-Checkbutton(screen, text = "NPS", variable=nps).place(x=15, y=385)
-Checkbutton(screen, text = "Ranking Tier", variable=ranking_tier).place(x=15, y=405)
-Checkbutton(screen, text = "Incomplete Survey", variable=incomplete_survey).place(x=15, y=425)
-Checkbutton(screen, text = "Survey Statistics", variable=survey_statistics).place(x=15, y=445)
+Label(text= "Choose Report/Reports *", fg='magenta', font=("times new roman", 15, "bold")).place(x=15, y=180)
+Checkbutton(screen, text = "Survey Results", variable=survey_results, font=("times new roman", 15, "bold")).place(x=15, y=205)
+Checkbutton(screen, text = "Reviews_Management", variable=reviews_management, font=("times new roman", 15, "bold")).place(x=15, y=225)
+Checkbutton(screen, text = "Publish History", variable=publish_history, font=("times new roman", 15, "bold")).place(x=15, y=245)
+Checkbutton(screen, text = "Hierarchy Details", variable=hierarchy_details, font=("times new roman", 15, "bold")).place(x=15, y=265)
+Checkbutton(screen, text = "NPS Trend", variable=nps_trend, font=("times new roman", 15, "bold")).place(x=15, y=285)
+Checkbutton(screen, text = "Account Statistics", variable=account_statistics, font=("times new roman", 15, "bold")).place(x=15, y=305)
+Checkbutton(screen, text = "SMS Delivery", variable=sms_delivery, font=("times new roman", 15, "bold")).place(x=15, y=325)
+Checkbutton(screen, text = "Survey Email", variable=survey_email, font=("times new roman", 15, "bold")).place(x=15, y=345)
+Checkbutton(screen, text = "Verified Users", variable=verified_users, font=("times new roman", 15, "bold")).place(x=15, y=365)
+Checkbutton(screen, text = "NPS", variable=nps, font=("times new roman", 15, "bold")).place(x=15, y=385)
+Checkbutton(screen, text = "Ranking Tier", variable=ranking_tier, font=("times new roman", 15, "bold")).place(x=15, y=405)
+Checkbutton(screen, text = "Incomplete Survey", variable=incomplete_survey, font=("times new roman", 15, "bold")).place(x=15, y=425)
+Checkbutton(screen, text = "Survey Statistics", variable=survey_statistics, font=("times new roman", 15, "bold")).place(x=15, y=445)
 
 
 # Button(screen, text='Calendar', command=calendar_view).place(x=15, y=220)
-Label(text= "Report start date").place(x=15, y=480)
-Button(screen, text='Start date', command=dateentry_view_start_date).place(x=15, y=500)
-Label(text= "Report end date").place(x=15, y=535)
-Button(screen, text='End date', command=dateentry_view_end_date).place(x=15, y=555)
+Label(text= "Report start date", fg='magenta', font=("times new roman", 15, "bold")).place(x=15, y=480)
+Button(screen, text='Start date', command=dateentry_view_start_date,  highlightbackground='#e0ffff',  font=("times new roman", 15, "bold")).place(x=15, y=500)
+Label(text= "Report end date", fg='magenta', font=("times new roman", 15, "bold")).place(x=15, y=535)
+Button(screen, text='End date', command=dateentry_view_end_date, highlightbackground='#e0ffff', font=("times new roman", 15, "bold")).place(x=15, y=555)
 
-Label(text="Choose environment..").place(x=15, y=590)
-Checkbutton(screen, text = "Sandbox", variable=sandbox).place(x=15, y=615)
-Checkbutton(screen, text = "Production", variable=production).place(x=100, y=615)
+Label(text="Choose environment *", fg='magenta', font=("times new roman", 15, "bold")).place(x=15, y=590)
+Checkbutton(screen, text = "Sandbox", variable=sandbox, font=("times new roman", 15, "bold")).place(x=15, y=615)
+Checkbutton(screen, text = "Production", variable=production, font=("times new roman", 15, "bold")).place(x=100, y=615)
 
 
-Button(screen, text="Submit", width="14", bg="grey", command=register_user).place(x=15, y=650)
+Button(screen, text="Submit", width="14", bg="white", highlightbackground="#98fb98", command=register_user, font=("times new roman", 15, "bold")).place(x=15, y=650)
 screen.mainloop()
