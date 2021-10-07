@@ -79,8 +79,7 @@ def register_user():
     reports_check = [survey_results.get(), reviews_management.get(), survey_statistics.get(), publish_history.get(), hierarchy_details.get(), verified_users.get(), nps_trend.get(), account_statistics.get(),
                     sms_delivery.get(), survey_email.get(), nps.get(), ranking_tier.get(), incomplete_survey.get()]
     
-    sandbox_environ = sandbox.get()
-    prod_environ = production.get()
+    environemnt_check = [sandbox.get(), production.get()]
     
     # user_exists = None
 
@@ -91,7 +90,7 @@ def register_user():
     elif not any(reports_check):
         if not error_window:
             error_window_screen("220x100", "please select a report.")
-    elif not sandbox_environ or not prod_environ:
+    elif not any(environemnt_check):
         if not error_window:
             error_window_screen("280x100", "please select a environment to get report.")  
     else:
@@ -203,7 +202,7 @@ survey_statistics = IntVar()
 sandbox = IntVar()
 production = IntVar()
 
-Entry(screen, textvariable=username, show="*", bg="lightgray", font=("times new roman", 15, "bold")).place(x=15, y=95, width=240)
+Entry(screen, textvariable=username, bg="lightgray", font=("times new roman", 15, "bold")).place(x=15, y=95, width=240)
 Entry(screen, textvariable=password, show="*", bg="lightgray", font=("times new roman", 15, "bold")).place(x=15, y=145, width=240)
 
 
