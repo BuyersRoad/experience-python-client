@@ -13,7 +13,7 @@ from datetime import datetime
 
 
 screen = tk.Tk()
-screen.geometry("650x650")
+screen.geometry("700x700")
 screen.resizable(False, False)
 screen.title("PowerBI auth form")
 error_window = False
@@ -23,7 +23,7 @@ end_date = None
 def database():
     conn = sqlite3.connect('database.db')
     connection = conn.cursor()
-    connection.execute("CREATE TABLE IF NOT EXISTS powertbl(id integer primary key autoincrement, name TEXT, password TEXT, start_date TEXT, end_date TEXT, reports TEXT, created_at DATETIME NOT NULL)")
+    connection.execute("CREATE TABLE IF NOT EXISTS powertbl(id integer primary key autoincrement, name TEXT, password TEXT, start_date TEXT, end_date TEXT, reports TEXT, environment TEXT, created_at DATETIME NOT NULL)")
     conn.commit()
 
 database()
@@ -70,44 +70,41 @@ def success():
 
 
 def register_user():
-    # import pdb; pdb.set_trace()
     """after successfull verification saving the user"""
-    global error_window
+    global error_window, username, password, survey_results, reviews_management, survey_statistics, publish_history, hierarchy_details
+    global verified_users, nps_trend, account_statistics, sms_delivery, survey_email, nps, ranking_tier, incomplete_survey, sandbox, production
     username_text = username.get()
     password_text = password.get()
-    user_exists = None
+
+    reports_check = [survey_results.get(), reviews_management.get(), survey_statistics.get(), publish_history.get(), hierarchy_details.get(), verified_users.get(), nps_trend.get(), account_statistics.get(),
+                    sms_delivery.get(), survey_email.get(), nps.get(), ranking_tier.get(), incomplete_survey.get()]
+    
+    sandbox_environ = sandbox.get()
+    prod_environ = production.get()
+    
+    # user_exists = None
 
     if not username_text or not password_text:
         if not error_window:
-            error_window_screen("190x120", "All fields are required")
-    elif username_text and len(username_text) < 4:
+            # width and height for err win
+            error_window_screen("280x100", "username and password fields are required.")
+    elif not any(reports_check):
         if not error_window:
-            error_window_screen("290x120", "username must be at least 4 characters")        
+            error_window_screen("220x100", "please select a report.")
+    elif not sandbox_environ or not prod_environ:
+        if not error_window:
+            error_window_screen("280x100", "please select a environment to get report.")  
     else:
-        user_exists = user_name_check()
-        if not user_exists:
-            if not error_window:
-                error_window_screen("190x120", "username already exists")  
-        if len(password_text) < 6:
-            if not error_window:
-                error_window_screen("290x120", "password must be at least 6 characters")
-        elif re.search('[0-9]', password_text) is None:
-            if not error_window:
-                error_window_screen("340x120", "make sure password, has at least a number in it")
-        elif re.search('[A-Z]', password_text) is None:
-            if not error_window:
-                error_window_screen("340x120", "make sure password, has at least a capital letter in it")
-        else:
-            hashed_password = password_hash(password_text)
-            save_data(hashed_password)
-
-
+        hashed_password = password_hash(password_text)
+        save_data(hashed_password)
 
 
 def save_data(hashed_password):
+    """adding user details to the database"""
     global start_date
     global end_date
     total_reports = {}
+    environment = {}
     if survey_results.get():
         total_reports["survey_results_report"] = "surveyresults"
     if reviews_management.get():
@@ -134,7 +131,11 @@ def save_data(hashed_password):
         total_reports["ranking_report_tier"] = "tierranking"
     if incomplete_survey.get():
         total_reports["incomplete_survey_report"] = "incompletesurvey"
-    """adding user details to the database"""
+    
+    if sandbox.get():
+        environment['sandbox'] = "sandbox_reports"
+    if production.get():
+        environment['production'] = "production_reports"
     try:
         conn = sqlite3.connect("database.db")
         connection = conn.cursor()
@@ -143,27 +144,12 @@ def save_data(hashed_password):
         created_at = datetime.strftime(utc_date_time, "%Y-%m-%d %H:%M:%S")
         start_date = start_date if start_date else current_date
         end_date = end_date if end_date else current_date
-        connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, created_at) VALUES(?,?,?,?,?,?)', (username.get(), hashed_password, start_date, end_date, json.dumps(total_reports), created_at))
+        connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, created_at) VALUES(?,?,?,?,?,?,?)', (username.get(), hashed_password, start_date, end_date, json.dumps(total_reports), json.dumps(environment), created_at))
         conn.commit()
         success()
     except Exception as err:
         pass
 
-
-# def get_date():
-#     start_date.config(text=start_calender.get_date())
-
-# def calendar_view():
-#     def print_sel():
-#         print(cal.selection_get())
-
-#     top = tk.Toplevel(screen)
-
-#     cal = Calendar(top,
-#                    font="Arial 14", selectmode='day',
-#                    cursor="hand1", year=2018, month=2, day=5)
-#     cal.pack(fill="both", expand=True)
-#     Button(top, text="ok", command=lambda: print_sel).pack()
 
 def dateentry_view_start_date():
     def print_sel():
@@ -214,13 +200,12 @@ ranking_tier = IntVar()
 incomplete_survey = IntVar()
 survey_statistics = IntVar()
 
+sandbox = IntVar()
+production = IntVar()
+
 Entry(screen, textvariable=username).place(x=15, y=95)
 Entry(screen, textvariable=password, show="*").place(x=15, y=145)
 
-# start_date = Button(screen, text="Choose start date", command=get_date).place(x=15, y=200)
-# Label(screen, text="").place(x=15, y=140)
-# start_calender = Calendar(screen, selectmode="day", year=2021, month=10, day=22)
-# start_calender.pack(pady=20)
 
 # checkboxes
 Label(text= "Choose Report/Reports * ").place(x=15, y=180)
@@ -245,6 +230,10 @@ Button(screen, text='Start date', command=dateentry_view_start_date).place(x=15,
 Label(text= "Report end date").place(x=15, y=535)
 Button(screen, text='End date', command=dateentry_view_end_date).place(x=15, y=555)
 
+Label(text="Choose environment..").place(x=15, y=590)
+Checkbutton(screen, text = "Sandbox", variable=sandbox).place(x=15, y=615)
+Checkbutton(screen, text = "Production", variable=production).place(x=100, y=615)
 
-Button(screen, text="Submit", width="14", bg="grey", command=register_user).place(x=15, y=600)
+
+Button(screen, text="Submit", width="14", bg="grey", command=register_user).place(x=15, y=650)
 screen.mainloop()
