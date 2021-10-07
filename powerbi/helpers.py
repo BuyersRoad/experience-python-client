@@ -1,4 +1,5 @@
 import os
+import sqlite3
 
 from experience.api.reports import ReportsAPI
 import json
@@ -6,6 +7,7 @@ import pandas as pd
 from datetime import datetime as dt
 from datetime import timedelta
 import config
+
 
 class PowerBI_Reports(ReportsAPI):
 
@@ -199,6 +201,28 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
             result = data_json.get("incomplete_survey_details")
             filename = f"{path}/{v}_{cur_date_time}.csv"
             return result, filename
+        elif v == "agentranking":
+            id = campaign_data.get('value')
+            name = campaign_data.get('title')
+            data = report.agent_ranking_report(report_name="Agent Ranking",
+                                               account_id=f"{account_id}",
+                                               action="Download", report_format="json",
+                                               year=config.year, month=config.month_tier,
+                                               campaign_id=id)
+            data_json = json.loads(data.text)
+            result = data_json.get("agent_ranking_details")
+            filename = f"{path}/{v}_{config.year}_{config.month}_{name}.csv"
+            return result, filename
+        elif v == "userranking":
+            data = report.incomplete_survey_report(report_name="User Ranking",
+                                                   account_id=f"{account_id}",
+                                                   account_name=config.account_name,
+                                                   action="Download", report_format="json",
+                                                   period=config.period)
+            data_json = json.loads(data.text)
+            result = data_json.get("user_details")
+            filename = f"{path}/{v}_{config.period}.csv"
+            return result, filename
     except Exception as e:
         return None, None
 
@@ -206,3 +230,13 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
 def convert_into_csv(data, filename):
     df = pd.DataFrame.from_dict(data)
     df.to_csv(filename)
+
+
+def get_user_data():
+    connection = sqlite3.connect('database.db')
+    cursor = connection.cursor()
+    data = """SELECT * FROM powertbl;"""
+    data_values = cursor.execute(data)
+    rows = data_values.fetchall()
+    for r in rows:
+        return r

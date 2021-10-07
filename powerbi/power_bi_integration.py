@@ -5,17 +5,23 @@ from experience.api.authentication import AuthenticationAPI
 from helpers import PowerBI_Reports
 from helpers import get_report_data
 from helpers import convert_into_csv
+from helpers import get_user_data
 import json
+
 
 
 class PowerBI_Data_ingestion:
 
-    def __init__(self, v2_url, report_url):
+    def __init__(self, v2_url, report_url,username = None):
         self.v2_url = v2_url
         self.report_url = report_url
         self.campaign_ids = []
-        self.authentication = AuthenticationAPI(None, self.v2_url)
-        self.access_token = (json.loads(self.authentication.login(config.username, config.password))).get("auth_token")
+        if not username:
+            self.results = get_user_data()
+        else:
+            self.results = username
+        self.get_user_details()
+
 
     def get_account_id(self):
         url = self.v2_url + "/v2/core/current_user"
@@ -26,6 +32,12 @@ class PowerBI_Data_ingestion:
             return account_id[0]
         else:
             return None
+
+    def get_user_details(self):
+        result = self.results
+        self.authentication = AuthenticationAPI(None, self.v2_url)
+        self.access_token = (json.loads(self.authentication.login(result[0], result[1]))).get("auth_token")
+        self.reports = json.loads(result[5])
 
     def get_campaign_id(self, account_id):
         par = {"account_id": {account_id}}
@@ -42,7 +54,7 @@ class PowerBI_Data_ingestion:
         account_id = self.get_account_id()
         campaign_data = self.get_campaign_id(account_id)
         try:
-            for k, v in constants.reports_names.items():
+            for k, v in self.reports.items():
                 if v in ("smsdelivery","surveyemail","tierranking"):
                     for d in campaign_data:
                         data, filename = get_report_data(report, v, k, account_id, d)
