@@ -7,9 +7,11 @@ import hashlib, binascii, os
 import re
 import tkinter.messagebox as msgbox
 import json
-
+from powerbi.power_bi_integration import PowerBI_Data_ingestion
+from powerbi import constants
 from tkcalendar import dateentry
 from datetime import datetime
+
 
 
 root = tk.Tk()
@@ -146,9 +148,9 @@ def save_data(hashed_password):
         total_reports["incomplete_survey_report"] = "incompletesurvey"
     
     if sandbox.get():
-        environment['sandbox'] = "sandbox_reports"
+        environment =  "SANDBOX"
     if production.get():
-        environment['production'] = "production_reports"
+        environment = "PRODUCTION"
     try:
         conn = sqlite3.connect("database.db")
         connection = conn.cursor()
@@ -160,8 +162,11 @@ def save_data(hashed_password):
         created_at = datetime.strftime(utc_date_time, "%Y-%m-%d %H:%M:%S")
         start_date = start_date if start_date else current_date
         end_date = end_date if end_date else current_date
+        reports_data = (None, username.get(), password.get(), start_date, end_date, total_reports)
+        powerbi_ingestion = PowerBI_Data_ingestion(constants.v2_api.get(environment), constants.report_api.get(environment), reports_data)
+        powerbi_ingestion.generate_data()
 
-        connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, created_at) VALUES(?,?,?,?,?,?,?)', (username.get(), hashed_password, start_date, end_date, json.dumps(total_reports), json.dumps(environment), created_at))
+        connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, created_at) VALUES(?,?,?,?,?,?,?)', (username.get(), hashed_password, start_date, end_date, json.dumps(total_reports), environment, created_at))
         conn.commit()
         success()
     except Exception as err:

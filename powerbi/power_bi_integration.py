@@ -16,7 +16,7 @@ class PowerBI_Data_ingestion:
         self.v2_url = v2_url
         self.report_url = report_url
         self.campaign_ids = []
-        if not username:
+        if username is None:
             self.results = get_user_data()
         else:
             self.results = username
@@ -37,7 +37,7 @@ class PowerBI_Data_ingestion:
         result = self.results
         self.authentication = AuthenticationAPI(None, self.v2_url)
         self.access_token = (json.loads(self.authentication.login(result[0], result[1]))).get("auth_token")
-        self.reports = json.loads(result[5])
+        self.reports = result[5]
 
     def get_campaign_id(self, account_id):
         par = {"account_id": {account_id}}
