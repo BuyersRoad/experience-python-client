@@ -180,6 +180,7 @@ def dateentry_view_end_date():
 heading = Label(text="PowerBI report generation form", fg="black", bg="light blue", width="500", height="3", font=("times new roman", 15, "bold")).pack()
 
 Label(text= "Username *", fg='magenta', font=("times new roman", 15, "bold")).place(x=15, y=70)
+# Label(text= "Username *", fg='magenta', font=("times new roman", 15, "bold")).grid(row=2, column=3)
 Label(text= "Password *", fg='magenta', font=("times new roman", 15, "bold")).place(x=17, y=125)
 
 username = StringVar()
