@@ -9,7 +9,7 @@ import hashlib, binascii, os
 import tkinter.messagebox as msgbox
 import json
 
-from powerbi.power_bi_integration import PowerBI_Data_ingestion
+from powerbi.power_bi_integration import PowerBIDataIngestion
 from powerbi import constants
 
 from tkcalendar import dateentry
@@ -197,7 +197,7 @@ def save_data(hashed_password):
         start_date = start_date if start_date else current_date
         end_date = end_date if end_date else current_date
         reports_data = (None, username.get(), password.get(), start_date, end_date, total_reports, report_path)
-        # powerbi_ingestion = PowerBI_Data_ingestion(constants.v2_api.get(environment), constants.report_api.get(environment), reports_data)
+        # powerbi_ingestion = PowerBIDataIngestion(constants.v2_api.get(environment), constants.report_api.get(environment), reports_data)
         # powerbi_ingestion.generate_data()
 
         connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, report_path, created_at) VALUES(?,?,?,?,?,?,?,?)', (username.get(), hashed_password, start_date, end_date, json.dumps(total_reports), environment, report_path, created_at))

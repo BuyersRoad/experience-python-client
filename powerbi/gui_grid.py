@@ -9,7 +9,7 @@ import re
 import tkinter.messagebox as msgbox
 from tkinter import filedialog
 import json
-from powerbi.power_bi_integration import PowerBI_Data_ingestion
+from powerbi.power_bi_integration import PowerBIDataIngestion
 from powerbi import crypto
 from powerbi import constants
 from tkcalendar import dateentry
@@ -176,19 +176,12 @@ def save_data(hashed_password):
         created_at = datetime.strftime(utc_date_time, "%Y-%m-%d %H:%M:%S")
         start_date = start_date if start_date else current_date
         end_date = end_date if end_date else current_date
-        reports_data = (None, username.get(), password.get(), start_date, end_date, total_reports, report_path)
-        # powerbi_ingestion = PowerBI_Data_ingestion(constants.v2_api.get(environment), constants.report_api.get(environment), reports_data)
-        # powerbi_ingestion.generate_data()
         encryption_obj = crypto.EncryptDecrypt()
         encryped_password, decrypt_key  = encryption_obj.encryption(password.get())
-        # decrypt_key = Fernet.generate_key()
-        # def my_encrypt(key, data):
-        #     f = Fernet(key)
-        #     return f.encrypt(data)
-        # passw = password.get()
-        # encryped_password = my_encrypt(decrypt_key, passw.encode())
-        # fernet_obj = Fernet(decrypt_key)
-        # encryped_password = fernet_obj.encrypt(passw.encode())
+        import pdb;pdb.set_trace()
+        reports_data = (None, username.get(), str(encryped_password, 'UTF-8'), str(decrypt_key, 'UTF-8'), start_date, end_date, total_reports, report_path)
+        # powerbi_ingestion = PowerBIDataIngestion(constants.v2_api.get(environment), constants.report_api.get(environment), reports_data)
+        # powerbi_ingestion.generate_data()
         connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, report_path, api_key, created_at) VALUES(?,?,?,?,?,?,?,?,?)', (username.get(), encryped_password, start_date, end_date, json.dumps(total_reports), environment, report_path, decrypt_key, created_at))
         conn.commit()
         success()
@@ -202,7 +195,7 @@ Entry(root, textvariable=password, bg="lightgray", width=25, show="*").grid(row=
 
 # ttk.Separator(root, orient='vertical').grid(row=5, sticky='ew')
 
-Label(root, text= "Select report/reports *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=6, sticky='w')
+Label(root, text= "Select report/reports *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=5, sticky='w')
 Checkbutton(root, text = "Survey Results", variable=survey_results, font=("times new roman", 15, "bold")).grid(row=6, column=0, sticky='w')
 Checkbutton(root, text = "Reviews_Management", variable=reviews_management, font=("times new roman", 15, "bold")).grid(row=6, column=1, sticky='w')
 Checkbutton(root, text = "Publish History", variable=publish_history, font=("times new roman", 15, "bold")).grid(row=7, column=0, sticky='w')

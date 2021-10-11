@@ -10,7 +10,7 @@ import json
 
 
 
-class PowerBI_Data_ingestion:
+class PowerBIDataIngestion:
 
     def __init__(self, v2_url, report_url,username = None):
         self.v2_url = v2_url
