@@ -15,12 +15,14 @@ from datetime import datetime
 from cryptography.fernet import Fernet
 
 
-
+# tkinter obj configs
 root = tk.Tk()
 root.geometry("600x600")
 root.resizable(False, False)
 # root.geometry("700x500")
 root.title("Experience.com reports form")
+
+# variables for reports
 error_window = False
 
 report_path = "/"
@@ -56,6 +58,7 @@ def database():
 
 database()
 
+
 def delete(window):
     global error_window
     window.destroy()
@@ -65,6 +68,7 @@ def delete(window):
 def success():
     msgbox.showinfo(title='success!', message='Thank You, if provided detail are valid, requested report will be generated')
     root.destroy()
+
 
 def error_window_screen(dimension, text_field):
     global error_window
@@ -76,13 +80,16 @@ def error_window_screen(dimension, text_field):
     Label(error_window, text=text_field, fg="red").pack()
     Button(error_window, text="OK", command= lambda: delete(error_window)).pack()
 
+
 def open_dialog():
     global report_path
     report_path =  filedialog.askdirectory(initialdir='/', title='select the location for report to be downloaded')
     Label(root, text=f"reports will reside in directory: {report_path}", foreground="red", font=("times new roman", 15)).grid(row=22, sticky='w')
 
+
 def get_start_date():
     return start_date.get()
+
 
 def get_end_date():
     return end_date.get()
@@ -99,8 +106,6 @@ def register_user():
                     sms_delivery.get(), survey_email.get(), nps.get(), ranking_tier.get(), incomplete_survey.get()]
     
     environment_check = [sandbox.get(), production.get()]
-    
-    # user_exists = None
 
     if not username_text or not password_text:
         if not error_window:
@@ -114,7 +119,6 @@ def register_user():
             error_window_screen("300x100", "please select a environment to generate report.")  
     else:
         ingest_data()
-
 
 
 def ingest_data():
@@ -176,12 +180,12 @@ def ingest_data():
     except Exception as err:
         print(str(err))
 
+# layout design
 Label(root, text="Username *", fg="DodgerBlue", font=("times new roman", 15, "bold")).grid(row=0, sticky='w')
 Entry(root, textvariable=username, bg="lightgray", width=25).grid(row=1, sticky='w')
 Label(root, text= "Password *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=3, sticky='w')
 Entry(root, textvariable=password, bg="lightgray", width=25, show="*").grid(row=4, sticky='w')
 
-# ttk.Separator(root, orient='vertical').grid(row=5, sticky='ew')
 
 Label(root, text= "Select report/reports *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=5, sticky='w')
 Checkbutton(root, text = "Survey Results", variable=survey_results, font=("times new roman", 15, "bold")).grid(row=6, column=0, sticky='w')
