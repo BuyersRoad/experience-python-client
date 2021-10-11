@@ -1,28 +1,34 @@
+
+import tkinter as tk                    
+from tkinter import ttk
 TK_SILENCE_DEPRECATION=1
-import tkinter as tk
 from tkinter import *
 from tkcalendar import *
-from tkinter import ttk
+from tkinter import filedialog
 import sqlite3
 import hashlib, binascii, os
-import re
 import tkinter.messagebox as msgbox
-from tkinter import filedialog
 import json
+
 from powerbi.power_bi_integration import PowerBI_Data_ingestion
-from powerbi import crypto
 from powerbi import constants
+
 from tkcalendar import dateentry
 from datetime import datetime
-from cryptography.fernet import Fernet
-
-
-
+  
 root = tk.Tk()
+root.title("Experience.com")
 root.geometry("600x600")
 root.resizable(False, False)
-# root.geometry("700x500")
-root.title("Experience.com reports form")
+tabControl = ttk.Notebook(root)
+  
+tab1 = ttk.Frame(tabControl)
+tab2 = ttk.Frame(tabControl)
+  
+tabControl.add(tab1, text ='User details')
+tabControl.add(tab2, text ='Report details')
+tabControl.pack(fill='both', expand=1)
+  
 error_window = False
 
 report_path = "/"
@@ -49,14 +55,18 @@ survey_statistics = IntVar()
 
 sandbox = IntVar()
 production = IntVar()
+report_path = "/"
 
 def database():
     conn = sqlite3.connect('database.db')
     connection = conn.cursor()
-    connection.execute("CREATE TABLE IF NOT EXISTS powertbl(id integer primary key autoincrement, name TEXT, password TEXT, start_date TEXT, end_date TEXT, reports TEXT, environment TEXT, report_path TEXT, api_key BLOB, created_at DATETIME NOT NULL)")
+    connection.execute("CREATE TABLE IF NOT EXISTS powertbl(id integer primary key autoincrement, name TEXT, password TEXT, start_date TEXT, end_date TEXT, reports TEXT, environment TEXT, report_path TEXT, created_at DATETIME NOT NULL)")
     conn.commit()
 
 database()
+
+def select_tab():
+    tabControl.select(1)
 
 def delete(window):
     global error_window
@@ -78,10 +88,22 @@ def error_window_screen(dimension, text_field):
     Label(error_window, text=text_field, fg="red").pack()
     Button(error_window, text="OK", command= lambda: delete(error_window)).pack()
 
+def error_window_screen_username_password(dimension, text_field):
+    global error_window
+    error_window = True
+    error_window = Toplevel(root)
+    error_window.attributes('-topmost', 'true')
+    error_window.geometry(dimension)
+    error_window.title("Warning!")
+    tabControl.select(0)
+    Label(error_window, text=text_field, fg="red").pack()
+    Button(error_window, text="OK", command= lambda: delete(error_window)).pack()
+
 def open_dialog():
     global report_path
     report_path =  filedialog.askdirectory(initialdir='/', title='select the location for report to be downloaded')
-    Label(root, text=f"reports will reside in directory: {report_path}", foreground="red", font=("times new roman", 15)).grid(row=22, sticky='w')
+    Label(tab2, text=f"reports will reside in directory: {report_path}", foreground="red", font=("times new roman", 15)).grid(row=18, sticky='w')
+
 
 def get_start_date():
     return start_date.get()
@@ -115,7 +137,7 @@ def register_user():
     if not username_text or not password_text:
         if not error_window:
             # width and height for err win
-            error_window_screen("280x100", "username and password fields are required.")
+            error_window_screen_username_password("280x100", "username and password fields are required.")
     elif not any(reports_check):
         if not error_window:
             error_window_screen("220x100", "please select a report.")
@@ -125,7 +147,6 @@ def register_user():
     else:
         hashed_password = password_hash(password_text)
         save_data(hashed_password)
-
 
 
 def save_data(hashed_password):
@@ -179,55 +200,45 @@ def save_data(hashed_password):
         reports_data = (None, username.get(), password.get(), start_date, end_date, total_reports, report_path)
         # powerbi_ingestion = PowerBI_Data_ingestion(constants.v2_api.get(environment), constants.report_api.get(environment), reports_data)
         # powerbi_ingestion.generate_data()
-        encryption_obj = crypto.EncryptDecrypt()
-        encryped_password, decrypt_key  = encryption_obj.encryption(password.get())
-        # decrypt_key = Fernet.generate_key()
-        # def my_encrypt(key, data):
-        #     f = Fernet(key)
-        #     return f.encrypt(data)
-        # passw = password.get()
-        # encryped_password = my_encrypt(decrypt_key, passw.encode())
-        # fernet_obj = Fernet(decrypt_key)
-        # encryped_password = fernet_obj.encrypt(passw.encode())
-        connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, report_path, api_key, created_at) VALUES(?,?,?,?,?,?,?,?,?)', (username.get(), encryped_password, start_date, end_date, json.dumps(total_reports), environment, report_path, decrypt_key, created_at))
+
+        connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, report_path, created_at) VALUES(?,?,?,?,?,?,?,?)', (username.get(), hashed_password, start_date, end_date, json.dumps(total_reports), environment, report_path, created_at))
         conn.commit()
         success()
     except Exception as err:
         print(str(err))
 
-Label(root, text="Username *", fg="DodgerBlue", font=("times new roman", 15, "bold")).grid(row=0, sticky='w')
-Entry(root, textvariable=username, bg="lightgray", width=25).grid(row=1, sticky='w')
-Label(root, text= "Password *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=3, sticky='w')
-Entry(root, textvariable=password, bg="lightgray", width=25, show="*").grid(row=4, sticky='w')
+Label(tab1, text="Username *", fg="DodgerBlue", font=("times new roman", 15, "bold")).grid(row=0, sticky='w')
+Entry(tab1, textvariable=username, bg="lightgray", width=25).grid(row=1, sticky='w')
+Label(tab1, text= "Password *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=3, sticky='w')
+Entry(tab1, textvariable=password, bg="lightgray", width=25, show="*").grid(row=4, sticky='w')
+Button(tab1, text='Switch to reports', command=select_tab, font=("times new roman", 15, "bold")).grid(row=5, sticky='w')
 
-# ttk.Separator(root, orient='vertical').grid(row=5, sticky='ew')
+Label(tab2, text= "Select report/reports *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=1, sticky='w')
+Checkbutton(tab2, text = "Survey Results", variable=survey_results, font=("times new roman", 15, "bold")).grid(row=2, column=0, sticky='w')
+Checkbutton(tab2, text = "Reviews_Management", variable=reviews_management, font=("times new roman", 15, "bold")).grid(row=2, column=1, sticky='w')
+Checkbutton(tab2, text = "Publish History", variable=publish_history, font=("times new roman", 15, "bold")).grid(row=3, column=0, sticky='w')
+Checkbutton(tab2, text = "Hierarchy Details", variable=hierarchy_details, font=("times new roman", 15, "bold")).grid(row=3, column=1, sticky='w')
+Checkbutton(tab2, text = "NPS Trend", variable=nps_trend, font=("times new roman", 15, "bold")).grid(row=4, column=0, sticky='w')
+Checkbutton(tab2, text = "Account Statistics", variable=account_statistics, font=("times new roman", 15, "bold")).grid(row=4, column=1, sticky='w')
+Checkbutton(tab2, text = "SMS Delivery", variable=sms_delivery, font=("times new roman", 15, "bold")).grid(row=5, column=0, sticky='w')
+Checkbutton(tab2, text = "Survey Email", variable=survey_email, font=("times new roman", 15, "bold")).grid(row=5, column=1, sticky='w')
+Checkbutton(tab2, text = "Verified Users", variable=verified_users, font=("times new roman", 15, "bold")).grid(row=6, column=0, sticky='w')
+Checkbutton(tab2, text = "NPS", variable=nps, font=("times new roman", 15, "bold")).grid(row=6, column=1, sticky='w')
+Checkbutton(tab2, text = "Ranking Tier", variable=ranking_tier, font=("times new roman", 15, "bold")).grid(row=7, column=0, sticky='w')
+Checkbutton(tab2, text = "Incomplete Survey", variable=incomplete_survey, font=("times new roman", 15, "bold")).grid(row=7, column=1, sticky='w')
+Checkbutton(tab2, text = "Survey Statistics", variable=survey_statistics, font=("times new roman", 15, "bold")).grid(row=8, sticky='w')
+Label(tab2, text= "Report start date", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=9, sticky='w')
+DateEntry(tab2, width= 16, background= "DodgerBlue3", textvariable=start_date, foreground= "darkblue", bd=2).grid(row=10, sticky="w")
+Label(tab2, text= "Report end date", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=11, sticky='w')
+DateEntry(tab2, width= 16, background= "DodgerBlue3", textvariable=end_date,  foreground= "darkblue", bd=2).grid(row=12, sticky="w")
+# Label(tab2, foreground="red", text="Note: If start and end dates are not selected, present date will be taken.").grid(row=13, sticky='w')
 
-Label(root, text= "Select report/reports *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=6, sticky='w')
-Checkbutton(root, text = "Survey Results", variable=survey_results, font=("times new roman", 15, "bold")).grid(row=6, column=0, sticky='w')
-Checkbutton(root, text = "Reviews_Management", variable=reviews_management, font=("times new roman", 15, "bold")).grid(row=6, column=1, sticky='w')
-Checkbutton(root, text = "Publish History", variable=publish_history, font=("times new roman", 15, "bold")).grid(row=7, column=0, sticky='w')
-Checkbutton(root, text = "Hierarchy Details", variable=hierarchy_details, font=("times new roman", 15, "bold")).grid(row=7, column=1, sticky='w')
-Checkbutton(root, text = "NPS Trend", variable=nps_trend, font=("times new roman", 15, "bold")).grid(row=8, column=0, sticky='w')
-Checkbutton(root, text = "Account Statistics", variable=account_statistics, font=("times new roman", 15, "bold")).grid(row=8, column=1, sticky='w')
-Checkbutton(root, text = "SMS Delivery", variable=sms_delivery, font=("times new roman", 15, "bold")).grid(row=9, column=0, sticky='w')
-Checkbutton(root, text = "Survey Email", variable=survey_email, font=("times new roman", 15, "bold")).grid(row=9, column=1, sticky='w')
-Checkbutton(root, text = "Verified Users", variable=verified_users, font=("times new roman", 15, "bold")).grid(row=10, column=0, sticky='w')
-Checkbutton(root, text = "NPS", variable=nps, font=("times new roman", 15, "bold")).grid(row=10, column=1, sticky='w')
-Checkbutton(root, text = "Ranking Tier", variable=ranking_tier, font=("times new roman", 15, "bold")).grid(row=11, column=0, sticky='w')
-Checkbutton(root, text = "Incomplete Survey", variable=incomplete_survey, font=("times new roman", 15, "bold")).grid(row=11, column=1, sticky='w')
-Checkbutton(root, text = "Survey Statistics", variable=survey_statistics, font=("times new roman", 15, "bold")).grid(row=12, sticky='w')
-Label(root, text= "Report start date", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=13, sticky='w')
-DateEntry(root, width= 16, background= "DodgerBlue3", textvariable=start_date, foreground= "darkblue", bd=2).grid(row=14, sticky="w")
-Label(root, text= "Report end date", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=15, sticky='w')
-DateEntry(root, width= 16, background= "DodgerBlue3", textvariable=end_date,  foreground= "darkblue", bd=2).grid(row=16, sticky="w")
-# Label(root, foreground="red", text="Note: If start and end dates are not selected, present date will be taken.").grid(row=17, sticky='w')
+Label(tab2, text="Select environment *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=14, sticky='w')
+Checkbutton(tab2, text = "Sandbox", variable=sandbox, font=("times new roman", 15, "bold")).grid(row=15, sticky='w')
+Checkbutton(tab2, text = "Production", variable=production, font=("times new roman", 15, "bold")).grid(row=15, column=1, sticky='w')
+Button(tab2, text="Select path", width=20, font=("times new roman", 15, "bold"), command=open_dialog).grid(row=17, sticky='w')
+Button(tab2, text="Submit", width="18", bg="white", highlightbackground="#98fb98", command=register_user, font=("times new roman", 15, "bold")).grid(row=20, sticky='w')  
 
-Label(root, text="Select environment *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=18, sticky='w')
-Checkbutton(root, text = "Sandbox", variable=sandbox, font=("times new roman", 15, "bold")).grid(row=19, sticky='w')
-Checkbutton(root, text = "Production", variable=production, font=("times new roman", 15, "bold")).grid(row=19, column=1, sticky='w')
-Button(root, text="Select path", width=20, font=("times new roman", 15, "bold"), command=open_dialog).grid(row=21, sticky='w')
-
-
-Button(root, text="Submit", width="18", bg="white", highlightbackground="#98fb98", command=register_user, font=("times new roman", 15, "bold")).grid(row=24, sticky='w')
-
+# Label(tab2, text ="Lets dive into the world of computers").grid(column = 0, row = 0, padx = 30, pady = 30)
+  
 root.mainloop()
