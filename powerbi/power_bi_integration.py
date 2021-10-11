@@ -83,5 +83,5 @@ class PowerBIDataIngestion:
 if __name__ == "__main__":
     v2_url = constants.v2_api.get(config.env)
     report_url = constants.report_api.get(config.env)
-    powerbi = PowerBI_Data_ingestion(v2_url, report_url)
+    powerbi = PowerBIDataIngestion(v2_url, report_url)
     powerbi.generate_data()
