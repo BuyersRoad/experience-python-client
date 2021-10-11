@@ -63,8 +63,9 @@ def get_date_range(date):
     return [start_date, end_date]
 
 
-def get_report_data(report, v, k, account_id, campaign_data=None):
-    account_dir = f'{config.base_dir}/{config.account_name}'
+def get_report_data(report, v, k, account_id, account_name, logger, base_dir, campaign_data=None):
+    logger.info(f"Generating report for {k}")
+    account_dir = f'{base_dir}/{account_name}'
     if not os.path.exists(account_dir):
         os.mkdir(account_dir)
     path = f"{account_dir}/{k}"
@@ -96,7 +97,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
         elif v == "publishhistory":
             data = report.publish_history_report(report_name="Publish History",
                                                  account_id=f"{account_id}",
-                                                 account_name=config.account_name,
+                                                 account_name=f"{account_name}",
                                                  action="Download", report_format="json",
                                                  tier_data=[
                                                      {"label": "All Tier", "value": f"{account_id}"}])
@@ -107,7 +108,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
         elif v == "hierarchydetails":
             data = report.hierarchy_details_report(report_name="Hierarchy Details",
                                                    account_id=f"{account_id}",
-                                                   account_name=config.account_name,
+                                                   account_name=f"{account_name}",
                                                    action="Download", report_format="json", period=config.month)
             data_json = json.loads(data.text)
             result = data_json.get("hierarchy_user_details")
@@ -116,7 +117,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
         elif v == "verifiedusers":
             data = report.verified_users_report(report_name="Verified Users",
                                                 account_id=f"{account_id}",
-                                                account_name=config.account_name,
+                                                account_name=f"{account_name}",
                                                 action="Download", report_format="json",
                                                 tier_data=[{"label": "All Tier", "value": f"{account_id}"}])
             data_json = json.loads(data.text)
@@ -126,7 +127,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
         elif v == "npstrend":
             data = report.nps_trend_report(report_name="NPS Trend Report",
                                            account_id=f"{account_id}",
-                                           account_name=config.account_name,
+                                           account_name=f"{account_name}",
                                            action="Download", report_format="json", period=config.month)
             data_json = json.loads(data.text)
             result = data_json.get("loading test-Tier")
@@ -135,7 +136,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
         elif v == "accountstatistics":
             data = report.account_statistics_report(report_name="Account Statistics Report",
                                                     account_id=f"{account_id}",
-                                                    account_name=config.account_name,
+                                                    account_name=f"{account_name}",
                                                     action="Download", report_format="json")
             data_json = json.loads(data.text)
             result = data_json.get("accounts")
@@ -146,7 +147,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
             name = campaign_data.get('title')
             data = report.sms_delivery_report(report_name="SMS Delivery Statistics",
                                               account_id=f"{account_id}",
-                                              account_name=config.account_name,
+                                              account_name=f"{account_name}",
                                               action="Download", report_format="json",
                                               range_period=json.dumps(date_range),
                                               campaign_id=f"{id}")
@@ -160,7 +161,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
             name = campaign_data.get('title')
             data = report.survey_email_report(report_name="Survey Email Delivery Status Report",
                                               account_id=f"{account_id}",
-                                              account_name=config.account_name,
+                                              account_name=f"{account_name}",
                                               action="Download", report_format="json",
                                               range_period=json.dumps(date_range),
                                               campaign_id=id)
@@ -171,7 +172,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
         elif v == "npsreport":
             data = report.nps_report(report_name="Survey Delivery Statistics",
                                      account_id=f"{account_id}",
-                                     account_name=config.account_name,
+                                     account_name=f"{account_name}",
                                      action="Download", report_format="json",
                                      period="All Time")
             data_json = json.loads(data.text)
@@ -183,7 +184,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
             name = campaign_data.get('title')
             data = report.ranking_report_tier(report_name="Survey Delivery Statistics",
                                               account_id=f"{account_id}",
-                                              account_name=config.account_name,
+                                              account_name=f"{account_name}",
                                               action="Download", report_format="json",
                                               year=config.year, month=config.month_tier,
                                               campaign_id=id)
@@ -194,7 +195,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
         elif v == "incompletesurvey":
             data = report.incomplete_survey_report(report_name="Survey Delivery Statistics",
                                                    account_id=f"{account_id}",
-                                                   account_name=config.account_name,
+                                                   account_name=f"{account_name}",
                                                    action="Download", report_format="json",
                                                    range_period=json.dumps(date_range))
             data_json = json.loads(data.text)
@@ -216,7 +217,7 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
         elif v == "userranking":
             data = report.incomplete_survey_report(report_name="User Ranking",
                                                    account_id=f"{account_id}",
-                                                   account_name=config.account_name,
+                                                   account_name=f"{account_name}",
                                                    action="Download", report_format="json",
                                                    period=config.period)
             data_json = json.loads(data.text)
@@ -224,19 +225,30 @@ def get_report_data(report, v, k, account_id, campaign_data=None):
             filename = f"{path}/{v}_{config.period}.csv"
             return result, filename
     except Exception as e:
+        logger.error(f"Failed to generate {k}")
+        logger.exception(e)
         return None, None
 
 
-def convert_into_csv(data, filename):
+def convert_into_csv(data, filename, logger):
+    logger.info(f"Initialising the file conversion into CSV")
     df = pd.DataFrame.from_dict(data)
     df.to_csv(filename)
 
 
-def get_user_data():
-    connection = sqlite3.connect('database.db')
-    cursor = connection.cursor()
-    data = """SELECT * FROM powertbl;"""
-    data_values = cursor.execute(data)
-    rows = data_values.fetchall()
-    for r in rows:
-        return r
+def get_user_data(logger):
+    try:
+        connection = sqlite3.connect('database.db')
+        logger.info("Initializing connection for db")
+        cursor = connection.cursor()
+        data = """SELECT * FROM powertbl;"""
+        if data:
+            data_values = cursor.execute(data)
+            rows = data_values.fetchall()
+            for r in rows:
+                return r
+        else:
+            logger.error("This DB doesn't have proper Data")
+    except Exception as e:
+        logger.error("Can't able to make a proper connection")
+        return None
