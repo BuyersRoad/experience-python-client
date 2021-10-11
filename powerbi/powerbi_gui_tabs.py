@@ -1,26 +1,28 @@
-import tkinter as tk                    
+from datetime import datetime
+from tkcalendar import dateentry
+import tkinter as tk              
 from tkinter import ttk
 TK_SILENCE_DEPRECATION=1
 from tkinter import *
 from tkcalendar import *
 from tkinter import filedialog
 import sqlite3
-import hashlib, binascii, os
 import tkinter.messagebox as msgbox
 import json
 
 from powerbi.power_bi_integration import PowerBIDataIngestion
 from powerbi import constants
+from powerbi import crypto
 
-from tkcalendar import dateentry
-from datetime import datetime
-  
+
+# tkinter obj configs
 root = tk.Tk()
 root.title("Experience.com")
 root.geometry("600x600")
 root.resizable(False, False)
+
+# tab widgets
 tabControl = ttk.Notebook(root)
-  
 tab1 = ttk.Frame(tabControl)
 tab2 = ttk.Frame(tabControl)
   
@@ -28,6 +30,7 @@ tabControl.add(tab1, text ='User details')
 tabControl.add(tab2, text ='Report details')
 tabControl.pack(fill='both', expand=1)
   
+# variables for reports
 error_window = False
 
 report_path = "/"
@@ -64,8 +67,10 @@ def database():
 
 database()
 
+
 def select_tab():
     tabControl.select(1)
+
 
 def delete(window):
     global error_window
@@ -77,6 +82,7 @@ def success():
     msgbox.showinfo(title='success!', message='Thank You, if provided detail are valid, requested report will be generated')
     root.destroy()
 
+
 def error_window_screen(dimension, text_field):
     global error_window
     error_window = True
@@ -86,6 +92,7 @@ def error_window_screen(dimension, text_field):
     error_window.title("Warning!")
     Label(error_window, text=text_field, fg="red").pack()
     Button(error_window, text="OK", command= lambda: delete(error_window)).pack()
+
 
 def error_window_screen_username_password(dimension, text_field):
     global error_window
@@ -97,6 +104,7 @@ def error_window_screen_username_password(dimension, text_field):
     tabControl.select(0)
     Label(error_window, text=text_field, fg="red").pack()
     Button(error_window, text="OK", command= lambda: delete(error_window)).pack()
+
 
 def open_dialog():
     global report_path
@@ -124,7 +132,6 @@ def register_user():
     
     environment_check = [sandbox.get(), production.get()]
     
-    # user_exists = None
 
     if not username_text or not password_text:
         if not error_window:
@@ -188,16 +195,18 @@ def ingest_data():
         created_at = datetime.strftime(utc_date_time, "%Y-%m-%d %H:%M:%S")
         start_date = start_date if start_date else current_date
         end_date = end_date if end_date else current_date
-        reports_data = (None, username.get(), password.get(), start_date, end_date, total_reports, report_path)
+        encryption_obj = crypto.EncryptDecrypt()
+        encryped_password, decrypt_key  = encryption_obj.encryption(password.get())
+        reports_data = (None, username.get(), str(encryped_password, 'UTF-8'), str(decrypt_key, 'UTF-8'), start_date, end_date, total_reports, report_path)
         # powerbi_ingestion = PowerBIDataIngestion(constants.v2_api.get(environment), constants.report_api.get(environment), reports_data)
         # powerbi_ingestion.generate_data()
-
-        connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, report_path, created_at) VALUES(?,?,?,?,?,?,?,?)', (username.get(), hashed_password, start_date, end_date, json.dumps(total_reports), environment, report_path, created_at))
+        connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, report_path, created_at) VALUES(?,?,?,?,?,?,?,?)', (username.get(), encryped_password, start_date, end_date, json.dumps(total_reports), environment, report_path, decrypt_key, created_at))
         conn.commit()
         success()
     except Exception as err:
         print(str(err))
 
+# design layout
 Label(tab1, text="Username *", fg="DodgerBlue", font=("times new roman", 15, "bold")).grid(row=0, sticky='w')
 Entry(tab1, textvariable=username, bg="lightgray", width=25).grid(row=1, sticky='w')
 Label(tab1, text= "Password *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=3, sticky='w')
@@ -228,8 +237,6 @@ Label(tab2, text="Select environment *", fg='DodgerBlue', font=("times new roman
 Checkbutton(tab2, text = "Sandbox", variable=sandbox, font=("times new roman", 15, "bold")).grid(row=15, sticky='w')
 Checkbutton(tab2, text = "Production", variable=production, font=("times new roman", 15, "bold")).grid(row=15, column=1, sticky='w')
 Button(tab2, text="Select path", width=20, font=("times new roman", 15, "bold"), command=open_dialog).grid(row=17, sticky='w')
-Button(tab2, text="Submit", width="18", bg="white", highlightbackground="#98fb98", command=register_user, font=("times new roman", 15, "bold")).grid(row=20, sticky='w')  
-
-# Label(tab2, text ="Lets dive into the world of computers").grid(column = 0, row = 0, padx = 30, pady = 30)
+Button(tab2, text="Submit", width="18", bg="white", highlightbackground="#98fb98", command=register_user, font=("times new roman", 15, "bold")).grid(row=20, sticky='w')
   
 root.mainloop()
