@@ -200,7 +200,7 @@ def ingest_data():
         reports_data = (None, username.get(), str(encryped_password, 'UTF-8'), str(decrypt_key, 'UTF-8'), start_date, end_date, total_reports, report_path)
         # powerbi_ingestion = PowerBIDataIngestion(constants.v2_api.get(environment), constants.report_api.get(environment), reports_data)
         # powerbi_ingestion.generate_data()
-        connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, report_path, created_at) VALUES(?,?,?,?,?,?,?,?)', (username.get(), encryped_password, start_date, end_date, json.dumps(total_reports), environment, report_path, decrypt_key, created_at))
+        connection.execute('INSERT INTO powertbl(name, password, start_date, end_date, reports, environment, report_path, api_key, created_at) VALUES(?,?,?,?,?,?,?,?,?)', (username.get(), encryped_password, start_date, end_date, json.dumps(total_reports), environment, report_path, decrypt_key, created_at))
         conn.commit()
         success()
     except Exception as err:
