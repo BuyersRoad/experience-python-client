@@ -107,16 +107,9 @@ def open_dialog():
 def get_start_date():
     return start_date.get()
 
+
 def get_end_date():
     return end_date.get()
-
-def password_hash(password):
-    """hashing the password"""
-    salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
-    pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), 
-                                salt, 100000)
-    pwdhash = binascii.hexlify(pwdhash)
-    return (salt + pwdhash).decode('ascii')
 
 
 def register_user():
@@ -144,11 +137,10 @@ def register_user():
         if not error_window:
             error_window_screen("300x100", "please select a environment to generate report.")  
     else:
-        hashed_password = password_hash(password_text)
-        save_data(hashed_password)
+        ingest_data()
 
 
-def save_data(hashed_password):
+def ingest_data():
     """adding user details to the database"""
     global report_path
     total_reports = {}

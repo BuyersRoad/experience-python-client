@@ -4,8 +4,6 @@ from tkinter import *
 from tkcalendar import *
 from tkinter import ttk
 import sqlite3
-import hashlib, binascii, os
-import re
 import tkinter.messagebox as msgbox
 from tkinter import filedialog
 import json
@@ -89,14 +87,6 @@ def get_start_date():
 def get_end_date():
     return end_date.get()
 
-def password_hash(password):
-    """hashing the password"""
-    salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
-    pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'), 
-                                salt, 100000)
-    pwdhash = binascii.hexlify(pwdhash)
-    return (salt + pwdhash).decode('ascii')
-
 
 def register_user():
     """after successfull verification saving the user"""
@@ -123,12 +113,11 @@ def register_user():
         if not error_window:
             error_window_screen("300x100", "please select a environment to generate report.")  
     else:
-        hashed_password = password_hash(password_text)
-        save_data(hashed_password)
+        ingest_data()
 
 
 
-def save_data(hashed_password):
+def ingest_data():
     """adding user details to the database"""
     global report_path
     total_reports = {}
@@ -178,7 +167,6 @@ def save_data(hashed_password):
         end_date = end_date if end_date else current_date
         encryption_obj = crypto.EncryptDecrypt()
         encryped_password, decrypt_key  = encryption_obj.encryption(password.get())
-        import pdb;pdb.set_trace()
         reports_data = (None, username.get(), str(encryped_password, 'UTF-8'), str(decrypt_key, 'UTF-8'), start_date, end_date, total_reports, report_path)
         # powerbi_ingestion = PowerBIDataIngestion(constants.v2_api.get(environment), constants.report_api.get(environment), reports_data)
         # powerbi_ingestion.generate_data()
