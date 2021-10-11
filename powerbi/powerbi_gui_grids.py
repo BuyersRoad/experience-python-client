@@ -84,7 +84,7 @@ def error_window_screen(dimension, text_field):
 def open_dialog():
     global report_path
     report_path =  filedialog.askdirectory(initialdir='/', title='select the location for report to be downloaded')
-    Label(root, text=f"reports will reside in directory: {report_path}", foreground="red", font=("times new roman", 15)).grid(row=22, sticky='w')
+    Label(root, text=f"reports will reside in directory: {report_path}", foreground="red", font=constants.WIDGET_FONT_COLOR).grid(row=22, sticky=constants.WIDGET_REGION)
 
 
 def get_start_date():
@@ -181,38 +181,38 @@ def ingest_data():
         print(str(err))
 
 # layout design
-Label(root, text="Username *", fg="DodgerBlue", font=("times new roman", 15, "bold")).grid(row=0, sticky='w')
-Entry(root, textvariable=username, bg="lightgray", width=25).grid(row=1, sticky='w')
-Label(root, text= "Password *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=3, sticky='w')
-Entry(root, textvariable=password, bg="lightgray", width=25, show="*").grid(row=4, sticky='w')
+Label(root, text="Username *", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR).grid(row=0, sticky=constants.WIDGET_REGION)
+Entry(root, textvariable=username, bg="lightgray", width=25).grid(row=1, sticky=constants.WIDGET_REGION)
+Label(root, text= "Password *", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR).grid(row=3, sticky=constants.WIDGET_REGION)
+Entry(root, textvariable=password, bg="lightgray", width=25, show="*").grid(row=4, sticky=constants.WIDGET_REGION)
 
 
-Label(root, text= "Select report/reports *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=5, sticky='w')
-Checkbutton(root, text = "Survey Results", variable=survey_results, font=("times new roman", 15, "bold")).grid(row=6, column=0, sticky='w')
-Checkbutton(root, text = "Reviews_Management", variable=reviews_management, font=("times new roman", 15, "bold")).grid(row=6, column=1, sticky='w')
-Checkbutton(root, text = "Publish History", variable=publish_history, font=("times new roman", 15, "bold")).grid(row=7, column=0, sticky='w')
-Checkbutton(root, text = "Hierarchy Details", variable=hierarchy_details, font=("times new roman", 15, "bold")).grid(row=7, column=1, sticky='w')
-Checkbutton(root, text = "NPS Trend", variable=nps_trend, font=("times new roman", 15, "bold")).grid(row=8, column=0, sticky='w')
-Checkbutton(root, text = "Account Statistics", variable=account_statistics, font=("times new roman", 15, "bold")).grid(row=8, column=1, sticky='w')
-Checkbutton(root, text = "SMS Delivery", variable=sms_delivery, font=("times new roman", 15, "bold")).grid(row=9, column=0, sticky='w')
-Checkbutton(root, text = "Survey Email", variable=survey_email, font=("times new roman", 15, "bold")).grid(row=9, column=1, sticky='w')
-Checkbutton(root, text = "Verified Users", variable=verified_users, font=("times new roman", 15, "bold")).grid(row=10, column=0, sticky='w')
-Checkbutton(root, text = "NPS", variable=nps, font=("times new roman", 15, "bold")).grid(row=10, column=1, sticky='w')
-Checkbutton(root, text = "Ranking Tier", variable=ranking_tier, font=("times new roman", 15, "bold")).grid(row=11, column=0, sticky='w')
-Checkbutton(root, text = "Incomplete Survey", variable=incomplete_survey, font=("times new roman", 15, "bold")).grid(row=11, column=1, sticky='w')
-Checkbutton(root, text = "Survey Statistics", variable=survey_statistics, font=("times new roman", 15, "bold")).grid(row=12, sticky='w')
-Label(root, text= "Report start date", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=13, sticky='w')
-DateEntry(root, width= 16, background= "DodgerBlue3", textvariable=start_date, foreground= "darkblue", bd=2).grid(row=14, sticky="w")
-Label(root, text= "Report end date", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=15, sticky='w')
-DateEntry(root, width= 16, background= "DodgerBlue3", textvariable=end_date,  foreground= "darkblue", bd=2).grid(row=16, sticky="w")
-# Label(root, foreground="red", text="Note: If start and end dates are not selected, present date will be taken.").grid(row=17, sticky='w')
+Label(root, text= "Select report/reports *", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR).grid(row=5, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Survey Results", variable=survey_results, font=constants.WIDGET_FONT_COLOR).grid(row=6, column=0, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Reviews_Management", variable=reviews_management, font=constants.WIDGET_FONT_COLOR).grid(row=6, column=1, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Publish History", variable=publish_history, font=constants.WIDGET_FONT_COLOR).grid(row=7, column=0, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Hierarchy Details", variable=hierarchy_details, font=constants.WIDGET_FONT_COLOR).grid(row=7, column=1, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "NPS Trend", variable=nps_trend, font=constants.WIDGET_FONT_COLOR).grid(row=8, column=0, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Account Statistics", variable=account_statistics, font=constants.WIDGET_FONT_COLOR).grid(row=8, column=1, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "SMS Delivery", variable=sms_delivery, font=constants.WIDGET_FONT_COLOR).grid(row=9, column=0, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Survey Email", variable=survey_email, font=constants.WIDGET_FONT_COLOR).grid(row=9, column=1, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Verified Users", variable=verified_users, font=constants.WIDGET_FONT_COLOR).grid(row=10, column=0, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "NPS", variable=nps, font=constants.WIDGET_FONT_COLOR).grid(row=10, column=1, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Ranking Tier", variable=ranking_tier, font=constants.WIDGET_FONT_COLOR).grid(row=11, column=0, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Incomplete Survey", variable=incomplete_survey, font=constants.WIDGET_FONT_COLOR).grid(row=11, column=1, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Survey Statistics", variable=survey_statistics, font=constants.WIDGET_FONT_COLOR).grid(row=12, sticky=constants.WIDGET_REGION)
+Label(root, text= "Report start date", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR).grid(row=13, sticky=constants.WIDGET_REGION)
+DateEntry(root, width= 16, background= constants.FOREGOUND_COLOR_BLUE, textvariable=start_date, foreground= constants.FOREGOUND_COLOR_DARK, bd=2).grid(row=14, sticky="w")
+Label(root, text= "Report end date", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR).grid(row=15, sticky=constants.WIDGET_REGION)
+DateEntry(root, width= 16, background= constants.FOREGOUND_COLOR_BLUE, textvariable=end_date,  foreground= constants.FOREGOUND_COLOR_DARK, bd=2).grid(row=16, sticky="w")
+# Label(root, foreground="red", text="Note: If start and end dates are not selected, present date will be taken.").grid(row=17, sticky=constants.WIDGET_REGION)
 
-Label(root, text="Select environment *", fg='DodgerBlue', font=("times new roman", 15, "bold")).grid(row=18, sticky='w')
-Checkbutton(root, text = "Sandbox", variable=sandbox, font=("times new roman", 15, "bold")).grid(row=19, sticky='w')
-Checkbutton(root, text = "Production", variable=production, font=("times new roman", 15, "bold")).grid(row=19, column=1, sticky='w')
-Button(root, text="Select path", width=20, font=("times new roman", 15, "bold"), command=open_dialog).grid(row=21, sticky='w')
+Label(root, text="Select environment *", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR).grid(row=18, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Sandbox", variable=sandbox, font=constants.WIDGET_FONT_COLOR).grid(row=19, sticky=constants.WIDGET_REGION)
+Checkbutton(root, text = "Production", variable=production, font=constants.WIDGET_FONT_COLOR).grid(row=19, column=1, sticky=constants.WIDGET_REGION)
+Button(root, text="Select path", width=20, font=constants.WIDGET_FONT_COLOR, command=open_dialog).grid(row=21, sticky=constants.WIDGET_REGION)
 
 
-Button(root, text="Submit", width="18", bg="white", highlightbackground="#98fb98", command=register_user, font=("times new roman", 15, "bold")).grid(row=24, sticky='w')
+Button(root, text="Submit", width="18", bg="white", highlightbackground="#98fb98", command=register_user, font=constants.WIDGET_FONT_COLOR).grid(row=24, sticky=constants.WIDGET_REGION)
 
 root.mainloop()

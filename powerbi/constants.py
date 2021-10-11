@@ -29,3 +29,8 @@ v2_reports = {"mismatch_transactions_report": "mismatch",
               "uncollected_transactions_report": "uncollected",
               "user_ranking_report": "userranking",
               "company_user_report": "companyuser"}
+
+WIDGET_FONT_COLOR = ("times new roman", 15, "bold")
+WIDGET_REGION = 'w'
+FOREGOUND_COLOR_BLUE = "DodgerBlue"
+FOREGOUND_COLOR_DARK = "darkblue"
