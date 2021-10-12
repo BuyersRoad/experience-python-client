@@ -207,7 +207,7 @@ Label(root, text= "Report end date", fg=constants.FOREGOUND_COLOR_BLUE, font=con
 DateEntry(root, width= 16, background= constants.FOREGOUND_COLOR_BLUE, textvariable=end_date,  foreground= constants.FOREGOUND_COLOR_DARK, bd=2).grid(row=16, sticky="w")
 # Label(root, foreground="red", text="Note: If start and end dates are not selected, present date will be taken.").grid(row=17, sticky=constants.WIDGET_REGION)
 
-Label(root, text="Select environment *", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR).grid(row=18, sticky=constants.WIDGET_REGION)
+Label(root, text="Select Environment *", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR).grid(row=18, sticky=constants.WIDGET_REGION)
 Checkbutton(root, text = "Sandbox", variable=sandbox, font=constants.WIDGET_FONT_COLOR).grid(row=19, sticky=constants.WIDGET_REGION)
 Checkbutton(root, text = "Production", variable=production, font=constants.WIDGET_FONT_COLOR).grid(row=19, column=1, sticky=constants.WIDGET_REGION)
 Button(root, text="Select path", width=20, font=constants.WIDGET_FONT_COLOR, command=open_dialog).grid(row=21, sticky=constants.WIDGET_REGION)
