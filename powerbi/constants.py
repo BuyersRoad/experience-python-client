@@ -37,3 +37,4 @@ WIDGET_REGION = 'w'
 FOREGOUND_COLOR_BLUE = "DodgerBlue"
 FOREGOUND_COLOR_DARK = "darkblue"
 PS1_SCRIPT_PATH = ".\pshell.ps1"
+POWERBI_SCRIPT_PATH = "/power_bi_integration.py"

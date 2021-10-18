@@ -11,6 +11,7 @@ from experience.api.authentication import AuthenticationAPI
 from powerbi import crypto
 from datetime import datetime, time
 import time as t
+import os
 import subprocess, sys
 import random
 
@@ -461,11 +462,18 @@ def ingest_data(report_type):
             else:
                 period_format = 'am'
             log.info(f'Scheduled report is selected by user {username.get()}, {str(decrypt_key)}')
+            is_scheduler_exist = connection.execute('SELECT id FROM powertbl WHERE report_type=?', ('scheduler',))
+            id_value = is_scheduler_exist.fetchone()
+            if id_value:
+                connection.execute(f'''DELETE FROM powertbl where id ={id_value[0]}''')
+                conn.commit()
             connection.execute('INSERT INTO powertbl(name, password, api_key, start_date, end_date, reports, report_path, created_at, report_type, environment) VALUES(?,?,?,?,?,?,?,?,?,?)', (username.get(), encryped_password, decrypt_key, start_date, end_date, json.dumps(total_reports), report_path, created_at, report_type, environment))
             conn.commit()
             scheduled_time = time_entered + period_format
             task_name = "Task"+str(random.randint(1,10000))
-            task_schedule = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH, scheduled_time, task_name], stdout=sys.stdout)
+            directory_location = os.getcwd()
+            powerbi_script_path = directory_location + constants.POWERBI_SCRIPT_PATH
+            task_schedule = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH, scheduled_time, task_name, directory_location, powerbi_script_path], stdout=sys.stdout)
             task_schedule.communicate()
             schedule_success()
     except Exception as err:
