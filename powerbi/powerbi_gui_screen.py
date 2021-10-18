@@ -56,6 +56,9 @@ def login(form):
     forget_login_window()
     next_window(form)
 
+def quit():
+    root.destroy()
+
 def authenticate_user():
     environment_checker = None
     if sandbox.get():
