@@ -367,7 +367,6 @@ def register_user():
                 report_type_format = "scheduler"
             else:
                 report_type_format = "custom"
-            print('correct')
             ingest_data(report_type_format)
 
 def ingest_data(report_type):
@@ -446,7 +445,6 @@ def ingest_data(report_type):
                 conn.commit()
         else:
             time_entered = input_time.get() if input_time.get() else "10:00"
-            print(time_entered)
             period_format = None
             format_entered = [period_format_am.get(), period_format_pm.get()]
             if any(format_entered):
@@ -463,7 +461,7 @@ def ingest_data(report_type):
             connection.execute('INSERT INTO powertbl(name, password, api_key, start_date, end_date, reports, report_path, created_at, report_type, environment) VALUES(?,?,?,?,?,?,?,?,?,?)', (username.get(), encryped_password, decrypt_key, start_date, end_date, json.dumps(total_reports), report_path, created_at, report_type, environment))
             conn.commit()
             scheduled_time = time_entered + period_format
-            task_name = "Task"+random.randint(1,10000)
+            task_name = "Task"+str(random.randint(1,10000))
             task_schedule = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH, scheduled_time, task_name], stdout=sys.stdout)
             task_schedule.communicate()
             schedule_success()
