@@ -13,3 +13,15 @@ def powerBI_log():
         logger.handlers.clear()
     logger.addHandler(file_handler)
     return logger
+
+def gui_log():
+    LOG_PATH = 'reports_gui.log'
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
+    file_handler = logging.FileHandler(LOG_PATH)
+    file_handler.setFormatter(formatter)
+    if logger.hasHandlers():
+        logger.handlers.clear()
+    logger.addHandler(file_handler)
+    return logger

@@ -1,13 +1,15 @@
 v2_api = {
     'DEV': 'https://api.devtest.experience.com',
     'PREPROD': 'https://api.preprod.experience.com',
-    'PROD': 'https://api.experience.com'
+    'PROD': 'https://api.experience.com',
+    'SANDBOX': 'https://api.preprod.experience.com'
 }
 
 report_api = {
     'DEV': "https://reports.devtest.experience.com",
     'PREPROD': "https://reports.preprod.experience.com",
-    "PROD": "https://reports.experience.com"
+    "PROD": "https://reports.experience.com",
+    "SANDBOX": "https://reports.preprod.experience.com"
 }
 
 
@@ -34,3 +36,4 @@ WIDGET_FONT_COLOR = ("times new roman", 15, "bold")
 WIDGET_REGION = 'w'
 FOREGOUND_COLOR_BLUE = "DodgerBlue"
 FOREGOUND_COLOR_DARK = "darkblue"
+PS1_SCRIPT_PATH = ".\pshell.ps1"

@@ -71,7 +71,8 @@ def get_report_data(report, v, k, account_id, account_name, logger, base_dir, ca
     path = f"{account_dir}/{k}"
     if not (os.path.exists(path)):
         os.mkdir(path)
-    date_range = get_date_range(config.data_range)
+    # date_range = get_date_range(config.data_range)
+    date_range = ["2021-06-01","2021-09-28"]
     cur_date_time = ("{:%Y_%m_%d}".format(dt.now()))
     try:
         if v == "surveyresults":
@@ -234,7 +235,7 @@ def convert_into_csv(data, filename, logger):
     logger.info(f"Initialising the file conversion into CSV")
     df = pd.DataFrame.from_dict(data)
     df.to_csv(filename)
-
+    logger.info(f"File successfully generated")
 
 def get_user_data(logger):
     try:

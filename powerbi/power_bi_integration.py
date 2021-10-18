@@ -20,7 +20,7 @@ class PowerBIDataIngestion:
         self.report_url = report_url
         self.campaign_ids = []
         if username is None:
-            self.results = get_user_data()
+            self.results = get_user_data(logger)
         else:
             self.results = username
         self.get_user_details()
@@ -41,11 +41,29 @@ class PowerBIDataIngestion:
 
     def get_user_details(self):
         result = self.results
-        password = crypto.EncryptDecrypt().decryption(result[3],result[2])
+        if result[9] == "scheduler":
+            password = crypto.EncryptDecrypt().decryption(str(result[3], 'UTF-8'), str(result[2], 'UTF-8'))
+        else:
+            password = crypto.EncryptDecrypt().decryption(result[3],result[2])
         self.authentication = AuthenticationAPI(None, self.v2_url)
+        # self.access_token = "eyJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uX2tleSI6ImVIQ0RNM3RRMlhiQ3NlWXJlWXNDOFFGNmtGd2xvMUtJek1OVXhLUUZHR0ZzTllMaDZpbEJOZ1NKNEFENHY4RUdzTkVkekVneHR3T0lTMW9oIiwiZXhwaXJlc19hdCI6IjIwMjEtMTEtMTAgMDQ6Mzk6MTQgVVRDIn0.SZktptcwBxoh8B1VyXNApDp8E8L75vB79w4Q0mU2M8Q"
         self.access_token = (json.loads(self.authentication.login(result[1], password))).get("auth_token")
-        self.reports = result[6]
+        self.report_type = result[9]
+        if self.report_type == "scheduler":
+            self.reports = json.loads(result[6])
+        else:
+            self.reports = result[6]
         self.base_dir = result[7]
+    
+    
+    def get_access_token_value(self, username, password, v2_url):
+        import pdb; pdb.set_trace()
+        self.authentication = AuthenticationAPI(None, v2_url)
+        self.access_token = (json.loads(self.authentication.login(username, password))).get('auth_token')
+        if self.access_token:
+            return True
+        return False
+
 
     def get_campaign_id(self, account_id):
         logger.info(f'Trying to get the campaign_ids for {account_id}')
@@ -61,12 +79,12 @@ class PowerBIDataIngestion:
     def generate_data(self):
         logger.info(f'Initialising the data generation')
         base_dir = self.base_dir
-        report = PowerBI_Reports(self.access_token, report_url)
+        report = PowerBI_Reports(self.access_token, self.report_url)
         account_id, account_name= self.get_account_data()
         campaign_data = self.get_campaign_id(account_id)
         try:
             for k, v in self.reports.items():
-                if v in ("smsdelivery","surveyemail","tierranking"):
+                if v in ("smsdelivery","surveyemail","tierranking","agentranking"):
                     logger.info("Initializing report generation with campaign_ids")
                     for d in campaign_data:
                         data, filename = get_report_data(report, v, k, account_id, account_name, logger, base_dir, d)
@@ -90,7 +108,7 @@ class PowerBIDataIngestion:
 
 
 if __name__ == "__main__":
-    v2_url = constants.v2_api.get(config.env)
-    report_url = constants.report_api.get(config.env)
+    v2_url = constants.v2_api.get("PREPROD")
+    report_url = constants.report_api.get("PREPROD")
     powerbi = PowerBIDataIngestion(v2_url, report_url)
     powerbi.generate_data()
