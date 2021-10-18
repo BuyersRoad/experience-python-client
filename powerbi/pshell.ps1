@@ -1,4 +1,5 @@
-$path = '/Users/danielj/Documents/experience-python-client/powerbi/power_bi_integration.py'
+# $path = '/Users/danielj/Documents/experience-python-client/powerbi/power_bi_integration.py'
+$path  = 'C:/Users/Administrator/Downloads/experience-python-client/powerbi/power_bi_integration.py'
 $script_type = 'Powershell.exe'
 $schedule_time = $args[0]
 $task_name = $args[1]
