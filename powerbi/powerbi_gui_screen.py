@@ -1,20 +1,21 @@
-from logging import basicConfig
 from tkinter import *
 from tkcalendar import *
-from powerbi import constants
 from tkinter import filedialog
 import tkinter.messagebox as msgbox
-import sqlite3
-import json
-from powerbi.power_bi_integration import PowerBIDataIngestion
-from experience.api.authentication import AuthenticationAPI
-from powerbi import crypto
+import babel.numbers
+
 from datetime import datetime, time
+import json
+import sqlite3
 import time as t
 import os
 import subprocess, sys
 import random
 
+from experience.api.authentication import AuthenticationAPI
+from powerbi import constants
+from powerbi.power_bi_integration import PowerBIDataIngestion
+from powerbi import crypto
 from powerbi.logger_config import gui_log
 log = gui_log()
 
