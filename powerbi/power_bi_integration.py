@@ -55,15 +55,6 @@ class PowerBIDataIngestion:
             self.reports = result[6]
         self.base_dir = result[7]
     
-    
-    def get_access_token_value(self, username, password, v2_url):
-        import pdb; pdb.set_trace()
-        self.authentication = AuthenticationAPI(None, v2_url)
-        self.access_token = (json.loads(self.authentication.login(username, password))).get('auth_token')
-        if self.access_token:
-            return True
-        return False
-
 
     def get_campaign_id(self, account_id):
         logger.info(f'Trying to get the campaign_ids for {account_id}')

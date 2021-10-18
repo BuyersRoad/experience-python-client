@@ -158,8 +158,8 @@ end_date = StringVar()
 
 input_time = StringVar()
 time_entered = None
-period_format_am = StringVar()
-period_format_pm = StringVar()
+period_format_am = IntVar()
+period_format_pm = IntVar()
 period_format = None
 
 report_path = ""
@@ -263,8 +263,6 @@ def delete(window):
 def delete_sch(roo):
     roo.destroy()
 
-period_format_am = IntVar()
-period_format_pm = IntVar()
 
 def schedule_success():
     global time_entered, period_format
