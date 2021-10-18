@@ -18,7 +18,7 @@ from powerbi.logger_config import gui_log
 log = gui_log()
 
 root = Tk()
-root.geometry("400x300")
+# root.geometry("400x300")
 root.resizable(False, False)
 root.title("User Details")
 
@@ -121,7 +121,7 @@ def forget_login_window():
     env_label.grid_forget()
     check_sand.grid_forget()
     check_prod.grid_forget()
-    root.geometry("600x500")
+    # root.geometry("600x500")
 
     # root.geometry(600*600)
 
