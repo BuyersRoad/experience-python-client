@@ -435,7 +435,7 @@ def ingest_data(report_type):
                 reports_data = (None, username.get(), str(encryped_password, 'UTF-8'), str(decrypt_key, 'UTF-8'), start_date, end_date, total_reports, report_path, created_at, report_type, environment)
                 log.info(f'custom report is selected by user {username}, {str(decrypt_key)} and requested data is {reports_data}')
                 # success()
-                powerbi_ingestion = PowerBIDataIngestion(constants.v2_api.get('PREPROD'), constants.report_api.get('PREPROD'), reports_data)
+                powerbi_ingestion = PowerBIDataIngestion(reports_data)
                 # thread = threading.Thread(target=report_generation, args=(powerbi_ingestion, ))
                 # thread.start()
                 custom_success()

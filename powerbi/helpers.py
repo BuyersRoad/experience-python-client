@@ -56,23 +56,48 @@ class PowerBI_Reports(ReportsAPI):
         return result
 
 
-def get_date_range(date):
-    today_date = dt.now()
-    end_date = dt.now().strftime("%Y-%m-%d")
-    start_date = (today_date - timedelta(days=int(date))).strftime("%Y-%m-%d")
-    return [start_date, end_date]
+def get_date_range(start, end):
+    start_date = f"{start}"
+    end_date = f"{end}"
+    dae = dt.strptime(start_date, '%Y-%m-%d')
+    end = dt.strptime(end_date, '%Y-%m-%d')
+    day = dae.replace(day=1)
+    y = int(dae.strftime("%Y"))
+    ey = int(end.strftime("%Y"))
+    date_period = []
+    while True:
+        if y <= ey:
+            eny = end if y == ey else end.replace(year=y)
+            while True:
+                try:
+                    if day < end:
+                        month = day.strftime("%B")
+                        m = int(day.strftime("%m"))
+                        date_period.append({'year': y, 'month': month})
+                    else:
+                        break
+                    day = day.replace(month=m + 1)
+                except:
+                    break
+        else:
+            break
+        y += 1
+        day = day.replace(year=y, month=1, day=1)
+    return date_period
 
 
-def get_report_data(report, v, k, account_id, account_name, logger, base_dir, campaign_data=None):
+def get_report_data(report, v, k, account_id, account_name, logger, result, campaign_data=None, month=None, year=None):
     logger.info(f"Generating report for {k}")
+    base_dir = result[7]
+    start_date = result[4]
+    end_date = result[5]
     account_dir = f'{base_dir}/{account_name}'
     if not os.path.exists(account_dir):
         os.mkdir(account_dir)
     path = f"{account_dir}/{k}"
     if not (os.path.exists(path)):
         os.mkdir(path)
-    # date_range = get_date_range(config.data_range)
-    date_range = ["2021-06-01","2021-09-28"]
+    date_range = [f"{start_date}", f"{end_date}"]
     cur_date_time = ("{:%Y_%m_%d}".format(dt.now()))
     try:
         if v == "surveyresults":
@@ -110,10 +135,11 @@ def get_report_data(report, v, k, account_id, account_name, logger, base_dir, ca
             data = report.hierarchy_details_report(report_name="Hierarchy Details",
                                                    account_id=f"{account_id}",
                                                    account_name=f"{account_name}",
-                                                   action="Download", report_format="json", period=config.month)
+                                                   action="Download", report_format="json", period=month)
             data_json = json.loads(data.text)
             result = data_json.get("hierarchy_user_details")
-            filename = f"{path}/{v}_{config.month}.csv"
+            filename = f"{path}/{v}_{month}.csv"
+            convert_into_csv(result, filename, logger)
             return result, filename
         elif v == "verifiedusers":
             data = report.verified_users_report(report_name="Verified Users",
@@ -129,10 +155,10 @@ def get_report_data(report, v, k, account_id, account_name, logger, base_dir, ca
             data = report.nps_trend_report(report_name="NPS Trend Report",
                                            account_id=f"{account_id}",
                                            account_name=f"{account_name}",
-                                           action="Download", report_format="json", period=config.month)
+                                           action="Download", report_format="json", period=month)
             data_json = json.loads(data.text)
             result = data_json.get("loading test-Tier")
-            filename = f"{path}/{v}_{config.month}.csv"
+            filename = f"{path}/{v}_{month}.csv"
             return result, filename
         elif v == "accountstatistics":
             data = report.account_statistics_report(report_name="Account Statistics Report",
@@ -187,11 +213,11 @@ def get_report_data(report, v, k, account_id, account_name, logger, base_dir, ca
                                               account_id=f"{account_id}",
                                               account_name=f"{account_name}",
                                               action="Download", report_format="json",
-                                              year=config.year, month=config.month_tier,
+                                              year=year, month=month,
                                               campaign_id=id)
             data_json = json.loads(data.text)
             result = data_json.get("tier_ranking_details")
-            filename = f"{path}/{v}_{config.year}_{config.month}_{name}.csv"
+            filename = f"{path}/{v}_{year}_{month}_{name}.csv"
             return result, filename
         elif v == "incompletesurvey":
             data = report.incomplete_survey_report(report_name="Survey Delivery Statistics",
@@ -209,21 +235,21 @@ def get_report_data(report, v, k, account_id, account_name, logger, base_dir, ca
             data = report.agent_ranking_report(report_name="Agent Ranking",
                                                account_id=f"{account_id}",
                                                action="Download", report_format="json",
-                                               year=config.year, month=config.month_tier,
+                                               year=year, month=month,
                                                campaign_id=id)
             data_json = json.loads(data.text)
             result = data_json.get("agent_ranking_details")
-            filename = f"{path}/{v}_{config.year}_{config.month}_{name}.csv"
+            filename = f"{path}/{v}_{year}_{month}_{name}.csv"
             return result, filename
         elif v == "userranking":
             data = report.incomplete_survey_report(report_name="User Ranking",
                                                    account_id=f"{account_id}",
                                                    account_name=f"{account_name}",
                                                    action="Download", report_format="json",
-                                                   period=config.period)
+                                                   period=month)
             data_json = json.loads(data.text)
             result = data_json.get("user_details")
-            filename = f"{path}/{v}_{config.period}.csv"
+            filename = f"{path}/{v}_{month}.csv"
             return result, filename
     except Exception as e:
         logger.error(f"Failed to generate {k}")
@@ -235,7 +261,7 @@ def convert_into_csv(data, filename, logger):
     logger.info(f"Initialising the file conversion into CSV")
     df = pd.DataFrame.from_dict(data)
     df.to_csv(filename)
-    logger.info(f"File successfully generated")
+
 
 def get_user_data(logger):
     try:
