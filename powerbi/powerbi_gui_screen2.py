@@ -498,69 +498,69 @@ def ingest_data(report_type):
             for report_key, _ in total_reports.items():
                 if report_key == "survey_results_report": # daily report
                     daily_report = True
-                    survey_results_message = f" Survey results report is scheduled to run daily at {time_entered}{period_format}"
+                    survey_results_message = f" Survey results report is scheduled to run daily at {time_entered} {period_format}"
                     reports_display_message.append(survey_results_message)
                 if report_key == "reviews_management_report": # daily report
                     daily_report = True
-                    reviews_management_message = f" Reviews management report is scheduled to run daily at {time_entered}{period_format}"
+                    reviews_management_message = f" Reviews management report is scheduled to run daily at {time_entered} {period_format}"
                     reports_display_message.append(reviews_management_message)
                 if report_key == "survey_statistics_report": # daily report
                     daily_report = True
-                    survey_statistics_message = f" Survey statistics report is scheduled to run daily at {time_entered}{period_format}"
+                    survey_statistics_message = f" Survey statistics report is scheduled to run daily at {time_entered} {period_format}"
                     reports_display_message.append(survey_statistics_message)
                 if report_key == "sms_delivery_report": # daily report
                     daily_report = True
-                    sms_delivery_message = f" SMS delivery report is scheduled to run daily at {time_entered}{period_format}"
+                    sms_delivery_message = f" SMS delivery report is scheduled to run daily at {time_entered} {period_format}"
                     reports_display_message.append(sms_delivery_message)
                 if report_key == "survey_email_report": # daily report
                     daily_report = True
-                    survey_email_message = f" Survey email report is scheduled to run daily at {time_entered}{period_format}"
+                    survey_email_message = f" Survey email report is scheduled to run daily at {time_entered} {period_format}"
                     reports_display_message.append(survey_email_message)
                 if report_key == "incomplete_survey_report": # daily report
                     daily_report = True
-                    incomplete_survey_message = f" Incomplete survey report is scheduled to run daily at {time_entered}{period_format}"
+                    incomplete_survey_message = f" Incomplete survey report is scheduled to run daily at {time_entered} {period_format}"
                     reports_display_message.append(incomplete_survey_message)
                 
 
                 if report_key == "publish_history_report": # all-time(monthly)
                     monthly_report = True
-                    publish_history_message = f" Publish history report is scheduled to run 1st of every month at {time_entered}{period_format}"
+                    publish_history_message = f" Publish history report is scheduled to run every four week's Monday at {time_entered} {period_format}"
                     reports_display_message.append(publish_history_message)
                 if report_key == "verified_users_report": # all-time(monthly)
                     monthly_report = True
-                    verified_users_message = f" Verified users report is scheduled to run 1st of every month at {time_entered}{period_format}"
+                    verified_users_message = f" Verified users report is scheduled to run every four week's Monday at {time_entered} {period_format}"
                     reports_display_message.append(verified_users_message)
                 if report_key == "account_statistics_report":  # all-time (monthly)
                     monthly_report = True
-                    account_statistics_message = f" Account statistics report is scheduled to run 1st of every month at {time_entered}{period_format}"
+                    account_statistics_message = f" Account statistics report is scheduled to run every four week's Monday at {time_entered} {period_format}"
                     reports_display_message.append(account_statistics_message)
                 if report_key == "hierarchy_details_report":
                     monthly_report = True
-                    hierarchy_details_message = f" Hierarchy details report is scheduled to run 1st of every month at {time_entered}{period_format}"
+                    hierarchy_details_message = f" Hierarchy details report is scheduled to run every four week's Monday at {time_entered} {period_format}"
                     reports_display_message.append(hierarchy_details_message) # monthly report
                 if report_key == "company_user_report":
                     monthly_report = True
-                    company_user_message = f" Company user report is scheduled to run 1st of every month at {time_entered}{period_format}"
+                    company_user_message = f" Company user report is scheduled to run every four week's Monday at {time_entered} {period_format}"
                     reports_display_message.append(company_user_message) # monthly report
                 if report_key == "digest_report":
                     monthly_report = True
-                    digest_message = f" Digest report is scheduled to run 1st of every month at {time_entered}{period_format}"
+                    digest_message = f" Digest report is scheduled to run every four week's Monday at {time_entered} {period_format}"
                     reports_display_message.append(digest_message) # monthly report
                 if report_key == "nps_trend_report": #month report
                     monthly_report = True
-                    nps_trend_message = f" NPS trend report is scheduled to run 1st of every month at {time_entered}{period_format}"
+                    nps_trend_message = f" NPS trend report is scheduled to run every four week's Monday at {time_entered} {period_format}"
                     reports_display_message.append(nps_trend_message)
                 if report_key == "nps_report": #all-time(monthly)
                     monthly_report = True
-                    nps_message = f" NPS report is scheduled to run 1st of every month at {time_entered}{period_format}"
+                    nps_message = f" NPS report is scheduled to run every four week's Monday at {time_entered} {period_format}"
                     reports_display_message.append(nps_message)
                 if report_key == "ranking_report_tier": # monthly and year
                     monthly_report = True
-                    ranking_tier_message = f" Ranking tier report is scheduled to run 1st of every month at {time_entered}{period_format}"
+                    ranking_tier_message = f" Ranking tier report is scheduled to run every four week's Monday at {time_entered} {period_format}"
                     reports_display_message.append(ranking_tier_message)   
                 if report_key == "user_ranking_report": # monthly and year -> user_ranking
                     monthly_report = True
-                    user_ranking_message = f" Users ranking report is scheduled to run 1st of every month at {time_entered}{period_format}"
+                    user_ranking_message = f" Users ranking report is scheduled to run every four week's Monday at {time_entered} {period_format}"
                     reports_display_message.append(user_ranking_message)
 
 
