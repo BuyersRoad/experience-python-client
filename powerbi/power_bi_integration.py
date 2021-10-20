@@ -15,12 +15,12 @@ logger = powerBI_log()
 
 class PowerBIDataIngestion:
 
-    def __init__(self, username=None):
+    def __init__(self, scheduler=None):
         self.campaign_ids = []
-        if username is None:
+        if scheduler is None:
             self.results = get_user_data(logger)
         else:
-            self.results = username
+            self.results = scheduler
         self.v2_url = constants.v2_api.get(self.results[10])
         self.report_url = constants.report_api.get(self.results[10])
         self.get_user_details()
@@ -102,7 +102,7 @@ class PowerBIDataIngestion:
                                 logger.error(
                                     f"There is no data on {k} for <{d.get('title')}> campaign on {month} {year}")
                                 print(f"There is no data on {k} for <{d.get('title')}> campaign")
-                elif v in ("hierarchydetails", "npstrend","userranking"):
+                elif v in ("hierarchydetails", "npstrend","companyuser"):
                     logger.info(f"Initializing report generation with specific month period only")
                     for month_year in date_period:
                         year = month_year.get("year")

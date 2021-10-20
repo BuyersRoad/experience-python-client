@@ -2,14 +2,14 @@ v2_api = {
     'DEV': 'https://api.devtest.experience.com',
     'PREPROD': 'https://api.preprod.experience.com',
     'PROD': 'https://api.experience.com',
-    'SANDBOX': 'https://api.preprod.experience.com'
+    'SANDBOX': 'https://api.sandbox.experience.com'
 }
 
 report_api = {
     'DEV': "https://reports.devtest.experience.com",
     'PREPROD': "https://reports.preprod.experience.com",
     "PROD": "https://reports.experience.com",
-    "SANDBOX": "https://reports.preprod.experience.com"
+    "SANDBOX": "https://reports.sandbox.experience.com"
 }
 
 

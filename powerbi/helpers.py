@@ -241,8 +241,8 @@ def get_report_data(report, v, k, account_id, account_name, logger, result, camp
             result = data_json.get("agent_ranking_details")
             filename = f"{path}/{v}_{year}_{month}_{name}.csv"
             return result, filename
-        elif v == "userranking":
-            data = report.incomplete_survey_report(report_name="User Ranking",
+        elif v == "companyuser":
+            data = report.user_details_report(report_name="User Ranking",
                                                    account_id=f"{account_id}",
                                                    account_name=f"{account_name}",
                                                    action="Download", report_format="json",
