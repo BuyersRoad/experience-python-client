@@ -99,7 +99,7 @@ class PowerBIDataIngestion:
 
 
 if __name__ == "__main__":
-    v2_url = constants.v2_api.get("PREPROD")
-    report_url = constants.report_api.get("PREPROD")
+    v2_url = constants.v2_api.get("SANDBOX")
+    report_url = constants.report_api.get("SANDBOX")
     powerbi = PowerBIDataIngestion(v2_url, report_url)
     powerbi.generate_data()

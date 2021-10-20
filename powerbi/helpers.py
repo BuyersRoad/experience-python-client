@@ -73,7 +73,7 @@ def get_report_data(report, v, k, account_id, account_name, logger, base_dir, ca
     if not (os.path.exists(path)):
         os.mkdir(path)
     # date_range = get_date_range(config.data_range)
-    date_range = ["2021-01-03", "2021-10-01"]
+    date_range = ["2021-06-03", "2021-10-01"]
     cur_date_time = ("{:%Y_%m_%d}".format(dt.now()))
     try:
         if v == "surveyresults":
