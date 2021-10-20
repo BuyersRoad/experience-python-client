@@ -288,7 +288,7 @@ def schedule_success(reports_display_message):
         if count < message_length:
             count = count + 1
             show_message.append(f"{count}."+message)
-    msgbox.showinfo('success!', "\n\n".join(show_message))
+    msgbox.showinfo('Success!', "\n\n".join(show_message))
     root.destroy()
 
 
@@ -298,9 +298,9 @@ def custom_success():
                     user_ranking.get(), uncollected.get(), digest.get()]
     report_occurance = reports_check.count(1)
     if report_occurance > 1:
-        msgbox.showinfo(title='success!', message='Thank You, requested reports will be generated')
+        msgbox.showinfo(title='Success!', message='Thank You, requested reports will be generated')
     else:
-        msgbox.showinfo(title='success!', message='Thank You, requested report will be generated')   
+        msgbox.showinfo(title='Success!', message='Thank You, requested report will be generated')   
     root.destroy()
 
 def report_generation(obj):
