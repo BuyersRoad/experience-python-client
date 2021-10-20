@@ -581,14 +581,14 @@ def ingest_data(report_type):
             directory_location = os.getcwd()
             powerbi_script_path_daily = directory_location + constants.POWERBI_REPORT_SCRIPT_PATH_DAILY
             powerbi_script_path_monthly = directory_location + constants.POWERBI_REPORT_SCRIPT_PATH_MONTHLY
-            # if daily_report:
-            #     task_name_daily = "Task"+str(random.randint(1,10000))
-            #     task_schedule_daily = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH_DAILY, scheduled_time, task_name_daily, directory_location, powerbi_script_path_daily], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-            #     task_schedule_daily.communicate()
-            # if monthly_report:
-            #     task_name_weekly = "Task"+str(random.randint(1,10000))
-            #     task_schedule_monthly = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH_MONTHLY, scheduled_time, task_name_weekly, directory_location, powerbi_script_path_monthly], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-            #     task_schedule_monthly.communicate()
+            if daily_report:
+                task_name_daily = "Task"+str(random.randint(1,10000))
+                task_schedule_daily = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH_DAILY, scheduled_time, task_name_daily, directory_location, powerbi_script_path_daily], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                task_schedule_daily.communicate()
+            if monthly_report:
+                task_name_weekly = "Task"+str(random.randint(1,10000))
+                task_schedule_monthly = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH_MONTHLY, scheduled_time, task_name_weekly, directory_location, powerbi_script_path_monthly], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                task_schedule_monthly.communicate()
             schedule_success(reports_display_message)
     except Exception as err:
         log.error(f"issue occured for user {username.get()}, {str(decrypt_key)}: {str(err)}")
