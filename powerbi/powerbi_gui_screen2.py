@@ -288,7 +288,7 @@ def schedule_success(reports_display_message):
         if count < message_length:
             count = count + 1
             show_message.append(f"{count}."+message)
-    msgbox.showinfo('Text', "\n\n".join(show_message))
+    msgbox.showinfo('success!', "\n\n".join(show_message))
     root.destroy()
 
 
