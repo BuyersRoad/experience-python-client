@@ -1,3 +1,4 @@
+from logging import exception
 import os
 import sqlite3
 
@@ -72,7 +73,7 @@ def get_report_data(report, v, k, account_id, account_name, logger, base_dir, ca
     if not (os.path.exists(path)):
         os.mkdir(path)
     # date_range = get_date_range(config.data_range)
-    date_range = ["2021-06-01","2021-09-28"]
+    date_range = ["2021-01-03", "2021-10-01"]
     cur_date_time = ("{:%Y_%m_%d}".format(dt.now()))
     try:
         if v == "surveyresults":
@@ -232,10 +233,15 @@ def get_report_data(report, v, k, account_id, account_name, logger, base_dir, ca
 
 
 def convert_into_csv(data, filename, logger):
-    logger.info(f"Initialising the file conversion into CSV")
-    df = pd.DataFrame.from_dict(data)
-    df.to_csv(filename)
-    logger.info(f"File successfully generated")
+    try:
+        logger.info(f"Initialising the file conversion into CSV")
+        df = pd.DataFrame.from_dict(data)
+        df.to_csv(filename)
+        logger.info(f"File successfully generated")
+    except exception as err:
+        logger.error(str(err))
+        logger.exception(err)
+
 
 def get_user_data(logger):
     try:
