@@ -496,6 +496,7 @@ def ingest_data(report_type):
             monthly_report = False
             reports_display_message = []
             for report_key, _ in total_reports.items():
+                import pdb; pdb.set_trace()
                 if report_key == "survey_results_report": # daily report
                     daily_report = True
                     survey_results_message = f" Survey results report is scheduled to run daily at {time_entered}{period_format}"
@@ -541,12 +542,12 @@ def ingest_data(report_type):
                     hierarchy_details_message = f" Hierarchy details report is scheduled to run 1st of every month at {time_entered}{period_format}"
                     reports_display_message.append(hierarchy_details_message) # monthly report
 
-                if report_type == "company_user_report":
+                if report_key == "company_user_report":
                     monthly_report = True
                     company_user_message = f" Company user report is scheduled to run 1st of every month at {time_entered}{period_format}"
                     reports_display_message.append(company_user_message) # monthly report
                 
-                if report_type == "digest_report":
+                if report_key == "digest_report":
                     monthly_report = True
                     digest_message = f" Digest report is scheduled to run 1st of every month at {time_entered}{period_format}"
                     reports_display_message.append(digest_message) # monthly report
@@ -555,14 +556,17 @@ def ingest_data(report_type):
                     monthly_report = True
                     nps_trend_message = f" NPS trend report is scheduled to run 1st of every month at {time_entered}{period_format}"
                     reports_display_message.append(nps_trend_message)
+
                 if report_key == "nps_report": #all-time(monthly)
                     monthly_report = True
                     nps_message = f" NPS report is scheduled to run 1st of every month at {time_entered}{period_format}"
                     reports_display_message.append(nps_message)
+
                 if report_key == "ranking_report_tier": # monthly and year
                     monthly_report = True
                     ranking_tier_message = f" Ranking tier report is scheduled to run 1st of every month at {time_entered}{period_format}"
                     reports_display_message.append(ranking_tier_message)
+                    
                 if report_key == "user_ranking_report": # monthly and year -> user_ranking
                     monthly_report = True
                     user_ranking_message = f" Users ranking report is scheduled to run 1st of every month at {time_entered}{period_format}"
@@ -604,7 +608,7 @@ def next_window(obj):
 
     Label(root, text= "Select report/reports *", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR).grid(row=1, sticky=constants.WIDGET_REGION)
     Checkbutton(root, text = "Survey Results", variable=survey_results, font=constants.WIDGET_FONT_COLOR).grid(row=2, column=0, sticky=constants.WIDGET_REGION)
-    Checkbutton(root, text = "Reviews_Management", variable=reviews_management, font=constants.WIDGET_FONT_COLOR).grid(row=2, column=1, sticky=constants.WIDGET_REGION)
+    Checkbutton(root, text = "Reviews Management", variable=reviews_management, font=constants.WIDGET_FONT_COLOR).grid(row=2, column=1, sticky=constants.WIDGET_REGION)
     Checkbutton(root, text = "Publish History", variable=publish_history, font=constants.WIDGET_FONT_COLOR).grid(row=3, column=0, sticky=constants.WIDGET_REGION)
     Checkbutton(root, text = "Hierarchy Details", variable=hierarchy_details, font=constants.WIDGET_FONT_COLOR).grid(row=3, column=1, sticky=constants.WIDGET_REGION)
     Checkbutton(root, text = "NPS Trend", variable=nps_trend, font=constants.WIDGET_FONT_COLOR).grid(row=4, column=0, sticky=constants.WIDGET_REGION)
