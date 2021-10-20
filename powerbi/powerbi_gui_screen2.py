@@ -10,7 +10,6 @@ from tkinter import *
 from tkcalendar import *
 from tkinter import filedialog
 import tkinter.messagebox as msgbox
-from tkhtmlview import HTMLLabel
 import babel.numbers
 
 from experience.api.authentication import AuthenticationAPI
