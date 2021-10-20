@@ -578,16 +578,21 @@ def ingest_data(report_type):
             connection.execute('INSERT INTO powertbl(name, password, api_key, start_date, end_date, reports, report_path, created_at, report_type, environment) VALUES(?,?,?,?,?,?,?,?,?,?)', (username.get(), encryped_password, decrypt_key, start_date, end_date, json.dumps(total_reports), report_path, created_at, report_type, environment))
             conn.commit()
             scheduled_time = time_entered + period_format
-            directory_location = os.getcwd()
-            powerbi_script_path_daily = directory_location + constants.POWERBI_REPORT_SCRIPT_PATH_DAILY
-            powerbi_script_path_monthly = directory_location + constants.POWERBI_REPORT_SCRIPT_PATH_MONTHLY
+            # directory_location = os.getcwd()
+            # powerbi_script_path_daily = directory_location + constants.POWERBI_REPORT_SCRIPT_PATH_DAILY
+            # powerbi_script_path_monthly = directory_location + constants.POWERBI_REPORT_SCRIPT_PATH_MONTHLY
+            directory_location = constants.DIRECTORY_PATH
+            powerbi_script_path_daily = constants.SCRIPT_PATH
+            powerbi_script_path_monthly = constants.SCRIPT_PATH
             if daily_report:
                 task_name_daily = "Task"+str(random.randint(1,10000))
-                task_schedule_daily = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH_DAILY, scheduled_time, task_name_daily, directory_location, powerbi_script_path_daily], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                # task_schedule_daily = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH_DAILY, scheduled_time, task_name_daily, directory_location, powerbi_script_path_daily], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                task_schedule_daily = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', "C:\\Users\\Administrator\\Downloads\\experience-python-client\\powerbi\\pshell_daily.ps1", scheduled_time, task_name_daily, directory_location, powerbi_script_path_daily], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
                 task_schedule_daily.communicate()
             if monthly_report:
                 task_name_weekly = "Task"+str(random.randint(1,10000))
-                task_schedule_monthly = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH_MONTHLY, scheduled_time, task_name_weekly, directory_location, powerbi_script_path_monthly], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                # task_schedule_monthly = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', constants.PS1_SCRIPT_PATH_MONTHLY, scheduled_time, task_name_weekly, directory_location, powerbi_script_path_monthly], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                task_schedule_monthly = subprocess.Popen(['powershell.exe','-ExecutionPolicy', 'Unrestricted', "C:\\Users\\Administrator\\Downloads\\experience-python-client\\powerbi\\pshell_monthly.ps1", scheduled_time, task_name_weekly, directory_location, powerbi_script_path_monthly], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
                 task_schedule_monthly.communicate()
             schedule_success(reports_display_message)
     except Exception as err:

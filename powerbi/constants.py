@@ -37,6 +37,9 @@ WIDGET_REGION = 'w'
 FOREGOUND_COLOR_BLUE = "DodgerBlue"
 FOREGOUND_COLOR_DARK = "darkblue"
 PS1_SCRIPT_PATH_DAILY = ".\pshell_daily.ps1"
+# TODO -  needs to be changed after monthly script was made
 PS1_SCRIPT_PATH_MONTHLY = ".\pshell_monthly.ps1"
 POWERBI_REPORT_SCRIPT_PATH_DAILY = "/power_bi_integration.py"
 POWERBI_REPORT_SCRIPT_PATH_MONTHLY = "/power_bi_integration.py"
+DIRECTORY_PATH = "C:\\Users\\Administrator\\Downloads\\experience-python-client\\powerbi"
+SCRIPT_PATH = "C:\\Users\\Administrator\\Downloads\\experience-python-client\\powerbi\\power_bi_integration.py"
