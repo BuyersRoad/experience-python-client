@@ -1,16 +1,16 @@
+from datetime import datetime, time
+import json
+import time as t
+import os
+import subprocess, sys
+import random
+
+import sqlite3
 from tkinter import *
 from tkcalendar import *
 from tkinter import filedialog
 import tkinter.messagebox as msgbox
 import babel.numbers
-
-from datetime import datetime, time
-import json
-import sqlite3
-import time as t
-import os
-import subprocess, sys
-import random
 
 from experience.api.authentication import AuthenticationAPI
 from powerbi import constants
@@ -19,10 +19,25 @@ from powerbi import crypto
 from powerbi.logger_config import gui_log
 log = gui_log()
 
+
 root = Tk()
 # root.geometry("400x300")
 root.resizable(False, False)
 root.title("User Details")
+
+reports_selected = None
+
+def is_database_and_table_exists():
+    import pdb; pdb.set_trace()
+    global reports_selected
+    if os.path.exists('database.db'):
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        row_exists = cursor.execute('SELECT count(*) FROM powertbl')
+        if row_exists[0] > 0:
+            user_details = cursor.execute('SELECT logged_in, environment, reports FROM powertbl ORDER BY created_at DESC LIMIT 1')
+            if user_details[0]:
+                reports_selected = user_details[2]
 
 
 # StringVars
@@ -510,5 +525,5 @@ def next_window(obj):
     Button(root, text="Submit", width="18", bg="white", highlightbackground="#98fb98", command=register_user, font=constants.WIDGET_FONT_COLOR).grid(row=22, sticky=constants.WIDGET_REGION)
 
 
-
+is_database_and_table_exists()
 root.mainloop()
