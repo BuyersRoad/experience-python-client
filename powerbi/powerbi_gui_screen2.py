@@ -26,32 +26,154 @@ root.resizable(False, False)
 root.title("User Details")
 
 
-def is_database_and_table_exists():
-    if os.path.exists('database.db'):
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-        user_existence = cursor.execute('SELECT name, password, api_key FROM powertbl')
-        encryption_obj = crypto.EncryptDecrypt()
-        password = encryption_obj.decryption(str(user_existence[2], 'UTF-8'), str(user_existence[1], 'UTF-8'))
-        auth_obj = AuthenticationAPI(None, constants.v2_api.get('environment_checker'))
-        response = auth_obj.login(user_existence[0], password)
-    else:
-        pass
-
-
-# StringVars
+reports_selected = None
+report_type_selected = None
+report_path_selected = None
 username = StringVar()
 password = StringVar()
 error_window = False
 sandbox = IntVar()
 production = IntVar()
+survey_results = IntVar()
+reviews_management = IntVar()
+publish_history = IntVar()
+hierarchy_details = IntVar()
+nps_trend = IntVar()
+account_statistics = IntVar()
+sms_delivery = IntVar()
+survey_email = IntVar()
+verified_users = IntVar()
+nps = IntVar()
+ranking_tier = IntVar()
+incomplete_survey = IntVar()
+survey_statistics = IntVar()
+mismatch = IntVar()
+uncollected = IntVar()
+user_ranking = IntVar()
+company_user = IntVar()
+digest = IntVar()
+
+scheduled_report = IntVar()
+custom_report = IntVar()
+
+
+def check_login():
+    environment = [sandbox.get(), production.get()]
+    try:
+        if not username.get() and not password.get():
+            if any(environment):
+                no_env.grid_forget()
+            bad_pass.grid(row=4, column=0, sticky=constants.WIDGET_REGION)
+
+        if not any(environment) and not environment[0] and not environment[1]:
+            no_env.grid(row=8, column=0, sticky=constants.WIDGET_REGION)
+        
+        if environment[0] and environment[1]:
+            no_env.grid(row=8, column=0, sticky=constants.WIDGET_REGION)
+        else:
+            re = authenticate_user()
+            if re:
+                if not any(environment) and not environment[0] and not environment[1]:
+                    no_env.grid(row=8, column=0, sticky=constants.WIDGET_REGION)
+                    bad_pass.grid_forget()
+                elif environment[0] and environment[1]:
+                    no_env.grid(row=8, column=0, sticky=constants.WIDGET_REGION)
+                else:
+                    login('Reports Page')
+                    # bad_pass.grid(row=4, column=0, sticky=constants.WIDGET_REGION)
+            else:
+                if any(environment):
+                    no_env.grid_forget()
+                bad_pass.grid(row=4, column=0, sticky=constants.WIDGET_REGION)
+    except Exception as err:
+        bad_pass.grid(row=4, column=0, sticky=constants.WIDGET_REGION)
+        log.error(str(err))
 
 # Label Widget
+loginButton = Button(root, text="Login", width=18, bg="white", highlightbackground="#98fb98", font=constants.WIDGET_FONT_COLOR, command=check_login)
+cancelButton = Button(root, text="Cancel", width=15, bg="white", highlightbackground="red", font=constants.WIDGET_FONT_COLOR, command=quit)
 user_label = Label(root, text="Username *", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR)
 pass_label = Label(root, text="Password *", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR)
 env_label = Label(root, text="Select Environment *", fg=constants.FOREGOUND_COLOR_BLUE, font=constants.WIDGET_FONT_COLOR)
 check_sand = Checkbutton(root, text = "Sandbox", variable=sandbox, font=constants.WIDGET_FONT_COLOR)
 check_prod = Checkbutton(root, text = "Production", variable=production, font=constants.WIDGET_FONT_COLOR)
+
+# Entry fields
+username_obj = Entry(root, textvariable=username, bg="lightgray", width=25)
+password_obj = Entry(root, show='*', textvariable=password, bg="lightgray", width=25)
+
+logger_user_primary_id = None
+
+def logout_user():
+    global logger_user_primary_id
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute(f'UPDATE powertbl SET logged_in = 0 WHERE id = {logger_user_primary_id}')
+    conn.commit()
+    root.destroy()
+
+def is_database_and_table_exists():
+    # import pdb; pdb.set_trace()
+    global reports_selected, report_type_selected, logger_user_primary_id
+    if os.path.exists('database.db'):
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        row_exists = cursor.execute('SELECT count(*) FROM powertbl').fetchone()
+        if row_exists[0] > 0:
+            user_details = cursor.execute('SELECT logged_in, environment, reports, report_type, id FROM powertbl ORDER BY created_at DESC').fetchone()
+            if user_details[0]:
+                logger_user_primary_id = user_details[4]
+                reports_selected = json.loads(user_details[2])
+                loginButton.grid_forget()
+                cancelButton.grid_forget()
+                user_label.grid_forget()
+                pass_label.grid_forget()
+                env_label.grid_forget()
+                check_sand.grid_forget()
+                check_prod.grid_forget()
+                username_obj.grid_forget()
+                password_obj.grid_forget()
+                report_type_selected = user_details[3]
+                if report_type_selected == 'schedule':
+                    scheduled_report.set(1)
+                else:
+                    custom_report.set(1)
+                for report_key, _ in reports_selected.items():
+                    if report_key == "survey_results_report":
+                        survey_results.set(1)
+                    if report_key == "reviews_management_report":
+                        reviews_management.set(1)
+                    if report_key == "survey_statistics_report":
+                        survey_statistics.set(1)
+                    if report_key == "sms_delivery_report":
+                        sms_delivery.set(1)
+                    if report_key == "survey_email_report":
+                        survey_email.set(1)
+                    if report_key == "incomplete_survey_report":
+                        incomplete_survey.set(1)
+                    if report_key == "publish_history_report":
+                        publish_history.set(1)
+                    if report_key == "verified_users_report":
+                        verified_users.set(1)
+                    if report_key == "account_statistics_report":
+                        account_statistics.set(1)
+                    if report_key == "hierarchy_details_report":
+                        hierarchy_details.set(1)
+                    if report_key == "company_user_report":
+                        company_user.set(1)
+                    if report_key == "digest_report":
+                        digest.set()
+                    if report_key == "nps_trend_report":
+                        nps_trend.set()
+                    if report_key == "nps_report":
+                        nps.set()
+                    if report_key == "ranking_report_tier": 
+                        ranking_tier.set(1)
+                    if report_key == "user_ranking_report":
+                        user_ranking.set(1)
+                    Button(root, text="logout", width="18", bg="white", highlightbackground="#98fb98", command=logout_user, font=constants.WIDGET_FONT_COLOR).grid(row=1, column=1, sticky=constants.WIDGET_REGION)
+                    next_window('Reports Page')
+
 
 user_label.grid(row=0, column=0, sticky=constants.WIDGET_REGION)
 pass_label.grid(row=2, column=0, sticky=constants.WIDGET_REGION)
@@ -62,9 +184,7 @@ check_prod.grid(row=6, column=1, sticky=constants.WIDGET_REGION)
 bad_pass = Label(root, text="incorrect username or password", foreground="red")
 no_env = Label(root, text="please select one environment", foreground="red")
 
-# Entry fields
-username_obj = Entry(root, textvariable=username, bg="lightgray", width=25)
-password_obj = Entry(root, show='*', textvariable=password, bg="lightgray", width=25)
+
 username_obj.grid(row=1, column=0)
 password_obj.grid(row=3, column=0)
 
@@ -121,8 +241,6 @@ def check_login():
         log.error(str(err))
 
 
-loginButton = Button(root, text="Login", width=18, bg="white", highlightbackground="#98fb98", font=constants.WIDGET_FONT_COLOR, command=check_login)
-cancelButton = Button(root, text="Cancel", width=15, bg="white", highlightbackground="red", font=constants.WIDGET_FONT_COLOR, command=quit)
 loginButton.grid(row=9, column=0)
 cancelButton.grid(row=10, column=0)
 
@@ -183,7 +301,7 @@ report_path = ""
 def database():
     conn = sqlite3.connect('database.db')
     connection = conn.cursor()
-    connection.execute("CREATE TABLE IF NOT EXISTS powertbl(id integer primary key autoincrement, name TEXT, password TEXT, api_key TEXT, start_date TEXT, end_date TEXT, reports TEXT, report_path TEXT, created_at DATETIME NOT NULL, report_type TEXT, environment TEXT)")
+    connection.execute("CREATE TABLE IF NOT EXISTS powertbl(id integer primary key autoincrement, name TEXT, password TEXT, logged_in integer, api_key TEXT, start_date TEXT, end_date TEXT, reports TEXT, report_path TEXT, created_at DATETIME NOT NULL, report_type TEXT, environment TEXT)")
     conn.commit()
 
 database()
@@ -475,7 +593,7 @@ def ingest_data(report_type):
                 log.error(f'custom report selection failed for user {username.get()}, {str(decrypt_key)}: {str(err)}')
             finally:
                 log.info(f'reports data inserted for {username.get()}, {str(decrypt_key)}')
-                connection.execute('INSERT INTO powertbl(name, password, api_key, start_date, end_date, reports, report_path, created_at, report_type, environment) VALUES(?,?,?,?,?,?,?,?,?,?)', (username.get(), encryped_password, decrypt_key, start_date, end_date, json.dumps(total_reports), report_path, created_at, report_type, environment))
+                connection.execute('INSERT INTO powertbl(name, password, logged_in, api_key, start_date, end_date, reports, report_path, created_at, report_type, environment) VALUES(?,?,?,?,?,?,?,?,?,?,?)', (username.get(), encryped_password, 1, decrypt_key, start_date, end_date, json.dumps(total_reports), report_path, created_at, report_type, environment))
                 conn.commit()
         else:
             time_entered = input_time.get() if input_time.get() else "10:00"
@@ -570,7 +688,7 @@ def ingest_data(report_type):
             if id_value:
                 connection.execute(f'''DELETE FROM powertbl where id ={id_value[0]}''')
                 conn.commit()
-            connection.execute('INSERT INTO powertbl(name, password, api_key, start_date, end_date, reports, report_path, created_at, report_type, environment) VALUES(?,?,?,?,?,?,?,?,?,?)', (username.get(), encryped_password, decrypt_key, start_date, end_date, json.dumps(total_reports), report_path, created_at, report_type, environment))
+            connection.execute('INSERT INTO powertbl(name, password, logged_in, api_key, start_date, end_date, reports, report_path, created_at, report_type, environment) VALUES(?,?,?,?,?,?,?,?,?,?)', (username.get(), encryped_password, 1, decrypt_key, start_date, end_date, json.dumps(total_reports), report_path, created_at, report_type, environment))
             conn.commit()
             scheduled_time = time_entered + period_format
             # directory_location = os.getcwd()
@@ -626,5 +744,5 @@ def next_window(obj):
     Button(root, text="Submit", width="18", bg="white", highlightbackground="#98fb98", command=register_user, font=constants.WIDGET_FONT_COLOR).grid(row=22, sticky=constants.WIDGET_REGION)
 
 
-
+is_database_and_table_exists()
 root.mainloop()
