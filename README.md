@@ -26,4 +26,5 @@ core_api = client.core()
 account_id = core_api.get_all_account_id_and_name()
 # To print account id
 result_status(account_id)
+#
   
