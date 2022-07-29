@@ -1,0 +1,28 @@
+name: fullscan
+
+on:
+  pull_request:
+    branches: 
+      - '**'
+  push:
+    branches: 
+      - '**'
+
+jobs:
+  gitleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: gitleaks-action with defaults
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      - name: gitleaks-action with config
+        uses: actions/checkout@v2
+        with:
+          repository: GiriRaj249/gitleaks-actions
+          ref: main
+          path: ./action
+      - name: run git actions
+        uses: ./action
+      - name: run git actions
+        uses: ./action
